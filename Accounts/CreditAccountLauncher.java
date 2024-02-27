@@ -1,4 +1,4 @@
-package Accs;
+package Accounts;
 
 public class CreditAccountLauncher extends AccountLauncher {
     public static void creditAccountInit() {

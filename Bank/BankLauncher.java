@@ -1,7 +1,10 @@
-package Accs;
+package Bank;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+
+import Accounts.Account;
+import Accounts.CreditAccount;
 
 public class BankLauncher {
     private static ArrayList<Bank> BANKS = new ArrayList<>();
@@ -15,10 +18,19 @@ public class BankLauncher {
 
     }
 
+    public static void showAccounts() {
+        ArrayList<CreditAccount> creditBanks = new ArrayList<>();
+        for (CreditAccount accs : creditBanks) {
+            System.out.println(accs);
+        }
+    }
     public static void bankLogin() {
-        
+        String username = 
     }
 
+    private static void newAccounts() {
+
+    }
     private static void setLogSession(Bank b) {
 
     }
@@ -49,5 +61,21 @@ public class BankLauncher {
 
     public static int bankSize() {
         return 0;
+    }
+
+    public static ArrayList<Bank> getBANKS() {
+        return BANKS;
+    }
+
+    public static void setBANKS(ArrayList<Bank> bANKS) {
+        BANKS = bANKS;
+    }
+
+    public static Bank getLoggedBank() {
+        return loggedBank;
+    }
+
+    public static void setLoggedBank(Bank loggedBank) {
+        BankLauncher.loggedBank = loggedBank;
     }
 }

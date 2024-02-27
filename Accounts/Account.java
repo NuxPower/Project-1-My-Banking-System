@@ -1,9 +1,9 @@
-package Accs;
+package Accounts;
 
 import java.util.ArrayList;
 import javax.print.DocFlavor.STRING;
 
-import Accounts.Transaction;
+import Bank.Bank;
 
 public abstract class Account {
     private Bank bank;

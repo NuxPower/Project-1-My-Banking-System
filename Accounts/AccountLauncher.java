@@ -1,4 +1,6 @@
-package Accs;
+package Accounts;
+
+import Bank.Bank;
 
 public class AccountLauncher {
     private static Account loggedAccount;
