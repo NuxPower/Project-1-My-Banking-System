@@ -14,6 +14,7 @@ import Savings.SavingsAccount;
 
 public class Bank {
     private int ID;
+    private int smthng;
     private String name, passcode;
     private double DEPOSITLIMIT, WITHDRAWLIMIT, CREDITLIMIT;
     private double processingFee;
