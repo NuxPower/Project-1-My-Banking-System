@@ -12,6 +12,45 @@ import Main.Field.StringFieldValidator;
 import Main.FieldValidator;
 import Savings.SavingsAccount;
 
+class BankComparator implements Comparator<Bank> {
+    @Override
+    public int compare(Bank b1, Bank b2) {
+        int idComparison = new BankIdComparator().compare(getFirstAccount(b1), getFirstAccount(b2));
+        if (idComparison != 0) {
+            return idComparison;
+        }
+        return new BankCredentialsComparator().compare(getFirstAccount(b1), getFirstAccount(b2));
+    }
+    
+    private Account getFirstAccount(Bank bank) {
+        if (bank != null && !bank.getBANKACCOUNTS().isEmpty()) {
+            return bank.getBANKACCOUNTS().get(0);
+        }
+        return null;
+    }
+}
+
+class BankIdComparator implements Comparator<Account> {
+    @Override
+    public int compare(Account a1, Account a2) {
+        return Integer.compare(a1.getBank().getID(), a2.getBank().getID());
+    }
+}
+
+class BankCredentialsComparator implements Comparator<Account> {
+    @Override
+    public int compare(Account acc1, Account acc2) {
+        Bank bank1 = acc1.getBank();
+        Bank bank2 = acc2.getBank();
+        
+        if (bank1 == null || bank2 == null) {
+            return 0; 
+        }
+        
+        return bank1.getName().compareTo(bank2.getName());
+    }
+}
+
 public class Bank {
     private int ID;
     private int smthng;
@@ -200,9 +239,7 @@ public class Bank {
     }
 
     public void addNewAccount(Account account) {
-        BANKACCOUNTS.add(account);
-        int newAccountsSize = BANKACCOUNTS.size();
-        
+        BANKACCOUNTS.add(account);        
     }
 
     public static boolean accountExists(Bank bank, String accountNum) {
