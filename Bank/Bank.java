@@ -137,6 +137,8 @@ public class Bank {
         BANKACCOUNTS = bANKACCOUNTS;
     }
 
+
+    // Ayaw sa nig hilabti, balikan ko ra ni -Yohan
     public <T> void showAccounts(Class<T> accountType) {
         Comparator<Account> comparator;
         
@@ -158,8 +160,7 @@ public class Bank {
         for (Account acc : BANKACCOUNTS) {
             System.out.println(acc);
         }
-    }
-    
+    }    
         
     public Account getBankAccount(Bank bank, String accountNum) {
         for (Account accs : BANKACCOUNTS) {
