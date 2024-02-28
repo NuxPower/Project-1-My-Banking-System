@@ -1,5 +1,4 @@
 package Accounts;
-
 import Bank.Bank;
 
 public class AccountLauncher {

@@ -19,6 +19,7 @@ class BankComparator implements Comparator<Bank> {
         return new BankCredentialsComparator().compare(getFirstAccount(b1), getFirstAccount(b2));
     }
     
+    // Helper method to get the first account associated with a bank
     private Account getFirstAccount(Bank bank) {
         if (bank != null && !bank.getBANKACCOUNTS().isEmpty()) {
             return bank.getBANKACCOUNTS().get(0);
@@ -30,6 +31,7 @@ class BankComparator implements Comparator<Bank> {
 class BankIdComparator implements Comparator<Account> {
     @Override
     public int compare(Account a1, Account a2) {
+        // Compare accounts based on the bank IDs
         return Integer.compare(a1.getBank().getID(), a2.getBank().getID());
     }
 }
@@ -41,16 +43,16 @@ class BankCredentialsComparator implements Comparator<Account> {
         Bank bank2 = acc2.getBank();
         
         if (bank1 == null || bank2 == null) {
-            return 0; 
+            // Handle case where bank information is missing
+            return 0; // or any other appropriate handling
         }
         
         return bank1.getName().compareTo(bank2.getName());
     }
 }
-
+    
 public class Bank {
     private int ID;
-    private int smthng;
     private String name, passcode;
     private double DEPOSITLIMIT, WITHDRAWLIMIT, CREDITLIMIT;
     private double processingFee;
@@ -136,42 +138,29 @@ public class Bank {
     }
 
     public <T> void showAccounts(Class<T> accountType) {
+        Comparator<Account> comparator;
+        
         if (CreditAccount.class.isAssignableFrom(accountType)) {
             // If the specified accountType is a subclass of CreditAccount or CreditAccount itself
-            try {
-                // Assuming CreditAccount has a static method to get all accounts.
-                Method getAllAccountsMethod = accountType.getMethod("getAllAccounts");
-                CreditAccount[] creditAccounts = (CreditAccount[]) getAllAccountsMethod.invoke(null);
-                for (CreditAccount acc : creditAccounts) {
-                    System.out.println(acc);
-                }
-            } catch (Exception e) {
-                e.printStackTrace(); // Handle any exceptions appropriately
-            }
+            comparator = new BankCredentialsComparator();
         } else if (SavingsAccount.class.isAssignableFrom(accountType)) {
             // If the specified accountType is a subclass of SavingsAccount or SavingsAccount itself
-            try {
-                // Assuming SavingsAccount has a static method to get all accounts.
-                Method getAllAccountsMethod = accountType.getMethod("getAllAccounts");
-                SavingsAccount[] savingsAccounts = (SavingsAccount[]) getAllAccountsMethod.invoke( null);
-                for (SavingsAccount acc : savingsAccounts) {
-                    System.out.println(acc);
-                }
-            } catch (Exception e) {
-                e.printStackTrace(); // Handle any exceptions appropriately
-            }
+            comparator = new BankIdComparator();
         } else {
             System.out.println("Unsupported account type: " + accountType.getSimpleName());
+            return;
+        }
+        
+        // Sorting the accounts using the selected comparator
+        BANKACCOUNTS.sort(comparator);
+        
+        // Printing the sorted accounts
+        for (Account acc : BANKACCOUNTS) {
+            System.out.println(acc);
         }
     }
-
-    /**
-     * Retrieves a bank account from the specified bank using the account number.
-     *
-     * @param  bank       the bank from which to retrieve the account
-     * @param  accountNum the account number of the bank account
-     * @return            the bank account with the specified account number, or null if not found
-     */
+    
+        
     public Account getBankAccount(Bank bank, String accountNum) {
         for (Account accs : BANKACCOUNTS) {
             if (accs.getOwnerFullname() == accountNum) {
@@ -240,6 +229,7 @@ public class Bank {
         }
         return createNew;
     }
+        
 
     public CreditAccount createNewCreditAccount() {
         return null;
@@ -249,16 +239,16 @@ public class Bank {
         return null;
     }
 
-        /**
+    /**
      * Adds a new account to the list of bank accounts.
      *
      * @param  account   the account to be added
      * @return          void
      */
     public void addNewAccount(Account account) {
-        BANKACCOUNTS.add(account);        
+        BANKACCOUNTS.add(account);
     }
-    
+
     /**
      * Check if the account exists in the bank.
      *
