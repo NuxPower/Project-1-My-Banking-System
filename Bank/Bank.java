@@ -138,50 +138,52 @@ public class Bank {
         return null;
     }
 
-    public ArrayList<Field<String, ?>> createNewAccount() throws NumberFormatException, IllegalArgumentException{
+    public ArrayList<Field<String, ?>> createNewAccount() throws NumberFormatException, IllegalArgumentException {
         ArrayList<Field<String, ?>> createNew = new ArrayList<>();
         FieldValidator<String, String> validateString = new Field.StringFieldValidator();
+
         while (true) {
-            String username = Main.prompt("Enter username: ", true);   
             try {
+                String username = Main.prompt("Enter username: ", true);
                 if (username.length() >= 6 && username.length() <= 20) {
-                    createNew.add(new Field<String, String>(username, String.class, username, validateString));
+                    Field<String, String> usernameField = new Field<>(username, String.class, username, validateString);
+                    usernameField.setFieldValue("Enter username: ", true);
+                    createNew.add(usernameField);
                     break;
                 }
             } catch (IllegalArgumentException exc) {
                 System.out.println("Invalid input! Please input a valid name.");
             }
         }
+
         while (true) {
-            System.out.print("Enter pin (4-6 digits): ");
             try {
-                if (input.hasNextInt()) {
-                    int pinInt = input.nextInt();
-                    String pinString = Integer.toString(pinInt);
-                    if (pinString.length() >= 4 && pinString.length() <= 6) {
-                        createNew.add(new Field<String, String>(pinString, String.class, pinString, validateString)); 
-                        break;
-                    }
+                System.out.print("Enter pin (4-6 digits): ");
+                int pinInt = input.nextInt();
+                String pinString = Integer.toString(pinInt);
+                if (pinString.length() >= 4 && pinString.length() <= 6) {
+                    Field<String, String> pinField = new Field<>(pinString, String.class, pinString, validateString);
+                    pinField.setFieldValue("Enter pin (4-6 digits): ", true);
+                    createNew.add(pinField);
+                    break;
                 }
-            } catch (NumberFormatException numExc) {
+            } catch (NumberFormatException exc) {
                 System.out.println("Invalid input! Please enter a valid number.");
             }
         }
+
         while (true) {
-            String accountType = Main.prompt("Enter account type (Savings/Credit): ", true);
             try {
-                if (accountType.equalsIgnoreCase("Savings")) {
-                    createNew.add(new Field<String, String>("Savings", String.class, "Savings", validateString));
-                } else if (accountType.equalsIgnoreCase("Credit")) {
-                    createNew.add(new Field<String, String>("Credit", String.class, "Credit", validateString));
-                } else if (accountType.equalsIgnoreCase("Savings/Credit")) {
-                    createNew.add(new Field<String, String>("Savings/Credit", String.class, "Savings/Credit", validateString));
+                String accountType = Main.prompt("Enter account type (Savings/Credit): ", true);
+                if (accountType.equalsIgnoreCase("Savings") || accountType.equalsIgnoreCase("Credit") || accountType.equalsIgnoreCase("Savings/Credit")) {
+                    Field<String, String> accountTypeField = new Field<>(accountType, String.class, accountType, validateString);
+                    accountTypeField.setFieldValue("Enter account type (Savings/Credit): ", true);
+                    createNew.add(accountTypeField);
+                    break;
                 } else {
                     System.out.println("Invalid account type!");
                     return null;
                 }
-                break;
-                
             } catch (IllegalArgumentException exc) {
                 System.out.println("Invalid input! Please input a valid account type.");
             }
