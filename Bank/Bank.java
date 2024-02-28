@@ -164,7 +164,14 @@ public class Bank {
             System.out.println("Unsupported account type: " + accountType.getSimpleName());
         }
     }
-    
+
+    /**
+     * Retrieves a bank account from the specified bank using the account number.
+     *
+     * @param  bank       the bank from which to retrieve the account
+     * @param  accountNum the account number of the bank account
+     * @return            the bank account with the specified account number, or null if not found
+     */
     public Account getBankAccount(Bank bank, String accountNum) {
         for (Account accs : BANKACCOUNTS) {
             if (accs.getOwnerFullname() == accountNum) {
@@ -174,6 +181,13 @@ public class Bank {
         return null;
     }
 
+    /**
+     * Creates a new account by prompting the user for username, pin, and account type.
+     *
+     * @throws NumberFormatException    if the pin is not a valid number
+     * @throws IllegalArgumentException if the input for username or account type is invalid
+     * @return                         an ArrayList of Fields containing the user's username, pin, and account type
+     */
     public ArrayList<Field<String, ?>> createNewAccount() throws NumberFormatException, IllegalArgumentException {
         ArrayList<Field<String, ?>> createNew = new ArrayList<>();
         FieldValidator<String, String> validateString = new Field.StringFieldValidator();
@@ -235,10 +249,23 @@ public class Bank {
         return null;
     }
 
+        /**
+     * Adds a new account to the list of bank accounts.
+     *
+     * @param  account   the account to be added
+     * @return          void
+     */
     public void addNewAccount(Account account) {
         BANKACCOUNTS.add(account);        
     }
-
+    
+    /**
+     * Check if the account exists in the bank.
+     *
+     * @param  bank       the bank object
+     * @param  accountNum the account number
+     * @return           true if the account exists, false otherwise
+     */
     public static boolean accountExists(Bank bank, String accountNum) {
         for (Account accs : bank.getBANKACCOUNTS()) {
             if (accs.getOwnerFullname() == accountNum) {
