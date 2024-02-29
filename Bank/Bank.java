@@ -10,6 +10,13 @@ import Main.FieldValidator;
 import Savings.SavingsAccount;
 
 class BankComparator implements Comparator<Bank> {
+    /**
+     * Compares two Bank objects based on their ID, name, and passcode.
+     *
+     * @param  b1  the first Bank object to compare
+     * @param  b2  the second Bank object to compare
+     * @return     0 if the Bank objects are equal, -1 otherwise
+     */
     @Override
     public int compare(Bank b1, Bank b2) {
         if (b1.getID() == b2.getID() && b1.getName().equals(b2.getName()) && b1.getPasscode().equals(b2.getPasscode())) {
@@ -20,6 +27,13 @@ class BankComparator implements Comparator<Bank> {
 }
 
 class BankIdComparator implements Comparator<Bank> {
+    /**
+     * Compares two Bank objects based on their IDs.
+     *
+     * @param  b1  the first Bank object to compare
+     * @param  b2  the second Bank object to compare
+     * @return     the result of the comparison
+     */
     @Override
     public int compare(Bank b1, Bank b2) {
         return Integer.compare(b1.getID(), b2.getID());
@@ -27,6 +41,13 @@ class BankIdComparator implements Comparator<Bank> {
 }
 
 class BankCredentialsComparator implements Comparator<Bank> {
+    /**
+     * Compares two Bank objects based on the owner's first name, last name, and email.
+     *
+     * @param  b1  the first Bank object to compare
+     * @param  b2  the second Bank object to compare
+     * @return     -1 if b1 is less than b2, 1 if b1 is greater than b2, 0 if they are equal
+     */
     @Override
     public int compare(Bank b1, Bank b2) {
         for (Account account1 : b1.getBANKACCOUNTS()) {
@@ -49,14 +70,12 @@ class BankCredentialsComparator implements Comparator<Bank> {
 public class Bank {
     private int ID;
     private String name, passcode;
-    private double DEPOSITLIMIT = 50000.0d;
-    private double WITHDRAWLIMIT = 50000.0d;
-    private double CREDITLIMIT = 50000.0d;
+    private double DEPOSITLIMIT = 50000.0d, WITHDRAWLIMIT = 50000.0d, CREDITLIMIT = 50000.0d;
     private double processingFee = 10.0d;
     private ArrayList<Account> BANKACCOUNTS;
-    
-    private Scanner input = new Scanner(System.in);
 
+    private Scanner input = new Scanner(System.in);
+    
     public Bank(int ID, String name, String passcode) {
         this.ID = ID;
         this.name = name;
@@ -100,17 +119,32 @@ public class Bank {
         return DEPOSITLIMIT;
     }
 
+    public void setDEPOSITLIMIT(double dEPOSITLIMIT) {
+        DEPOSITLIMIT = dEPOSITLIMIT;
+    }
+
     public double getWITHDRAWLIMIT() {
         return WITHDRAWLIMIT;
     }
 
+    public void setWITHDRAWLIMIT(double wITHDRAWLIMIT) {
+        WITHDRAWLIMIT = wITHDRAWLIMIT;
+    }
 
     public double getCREDITLIMIT() {
         return CREDITLIMIT;
     }
 
+    public void setCREDITLIMIT(double cREDITLIMIT) {
+        CREDITLIMIT = cREDITLIMIT;
+    }
+
     public double getProcessingFee() {
         return processingFee;
+    }
+
+    public void setProcessingFee(double processingFee) {
+        this.processingFee = processingFee;
     }
 
     public ArrayList<Account> getBANKACCOUNTS() {
@@ -120,7 +154,6 @@ public class Bank {
     public void setBANKACCOUNTS(ArrayList<Account> bANKACCOUNTS) {
         BANKACCOUNTS = bANKACCOUNTS;
     }
-
 
     // Ayaw sa nig hilabti, balikan ko ra ni -Yohan
     public <T> void showAccounts(Class<T> accountType) {
@@ -146,6 +179,13 @@ public class Bank {
         }
     }    
         
+    /**
+     * Retrieves a bank account from the specified bank using the account number.
+     *
+     * @param  bank       the bank from which to retrieve the account
+     * @param  accountNum the account number of the bank account
+     * @return            the bank account with the specified account number, or null if not found
+     */
     public Account getBankAccount(Bank bank, String accountNum) {
         for (Account accs : BANKACCOUNTS) {
             if (accs.getOwnerFullname() == accountNum) {
@@ -166,6 +206,20 @@ public class Bank {
         ArrayList<Field<String, ?>> createNew = new ArrayList<>();
         FieldValidator<String, String> validateString = new Field.StringFieldValidator();
 
+        while (true) {
+            try {
+                String firstname = Main.prompt("Enter first name: ", true);
+                if (firstname.length() >= 3 && firstname.length() <= 20) {
+                    Field<String, String> firstnameField = new Field<>(firstname, String.class, firstname, validateString);
+                    firstnameField.setFieldValue("Enter first name: ", true);
+                    createNew.add(firstnameField);
+                    break;
+                }
+            } catch (IllegalArgumentException exc) {
+                System.out.println("Invalid input! Please input a valid name.");
+            }
+        }
+        
         while (true) {
             try {
                 String username = Main.prompt("Enter username: ", true);
@@ -214,7 +268,6 @@ public class Bank {
         }
         return createNew;
     }
-        
         
 
     public CreditAccount createNewCreditAccount() {
