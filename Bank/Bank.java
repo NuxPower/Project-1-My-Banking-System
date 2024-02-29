@@ -54,10 +54,14 @@ class BankCredentialsComparator implements Comparator<Account> {
 public class Bank {
     private int ID;
     private String name, passcode;
-    private double DEPOSITLIMIT, WITHDRAWLIMIT, CREDITLIMIT;
-    private double processingFee;
+    private double DEPOSITLIMIT = 50,000.0d;
+    private double WITHDRAWLIMIT = 50,000.0d;
+    private double CREDITLIMIT = 50,000.0d;
+    private double processingFee = 10.0d;
     private ArrayList<Account> BANKACCOUNTS;
+    
     private Scanner input = new Scanner(System.in);
+
     public Bank(int ID, String name, String passcode) {
         this.ID = ID;
         this.name = name;
