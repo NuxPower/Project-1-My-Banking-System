@@ -105,32 +105,17 @@ public class Bank {
         return DEPOSITLIMIT;
     }
 
-    public void setDEPOSITLIMIT(double dEPOSITLIMIT) {
-        DEPOSITLIMIT = dEPOSITLIMIT;
-    }
-
     public double getWITHDRAWLIMIT() {
         return WITHDRAWLIMIT;
     }
 
-    public void setWITHDRAWLIMIT(double wITHDRAWLIMIT) {
-        WITHDRAWLIMIT = wITHDRAWLIMIT;
-    }
 
     public double getCREDITLIMIT() {
         return CREDITLIMIT;
     }
 
-    public void setCREDITLIMIT(double cREDITLIMIT) {
-        CREDITLIMIT = cREDITLIMIT;
-    }
-
     public double getProcessingFee() {
         return processingFee;
-    }
-
-    public void setProcessingFee(double processingFee) {
-        this.processingFee = processingFee;
     }
 
     public ArrayList<Account> getBANKACCOUNTS() {
