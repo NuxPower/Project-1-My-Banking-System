@@ -212,12 +212,9 @@ public class Bank {
                 System.out.println("Invalid input! Please input a valid account type.");
             }
         }
-        if (accountExists(createNew.get(0).getFieldValue(), createNew.get(1).getFieldValue())) {
-            System.out.println("Account already exists!");
-        } else {
-            return createNew;
-        }
+        return createNew;
     }
+        
         
 
     public CreditAccount createNewCreditAccount() {
