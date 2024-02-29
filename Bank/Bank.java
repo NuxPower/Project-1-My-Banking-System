@@ -12,42 +12,37 @@ import Savings.SavingsAccount;
 class BankComparator implements Comparator<Bank> {
     @Override
     public int compare(Bank b1, Bank b2) {
-        int idComparison = new BankIdComparator().compare(getFirstAccount(b1), getFirstAccount(b2));
-        if (idComparison != 0) {
-            return idComparison;
+        if (b1.getID() == b2.getID() && b1.getName().equals(b2.getName()) && b1.getPasscode().equals(b2.getPasscode())) {
+            return 0;
         }
-        return new BankCredentialsComparator().compare(getFirstAccount(b1), getFirstAccount(b2));
-    }
-    
-    // Helper method to get the first account associated with a bank
-    private Account getFirstAccount(Bank bank) {
-        if (bank != null && !bank.getBANKACCOUNTS().isEmpty()) {
-            return bank.getBANKACCOUNTS().get(0);
-        }
-        return null;
+        return -1;
     }
 }
 
-class BankIdComparator implements Comparator<Account> {
+class BankIdComparator implements Comparator<Bank> {
     @Override
-    public int compare(Account a1, Account a2) {
-        // Compare accounts based on the bank IDs
-        return Integer.compare(a1.getBank().getID(), a2.getBank().getID());
+    public int compare(Bank b1, Bank b2) {
+        return Integer.compare(b1.getID(), b2.getID());
     }
 }
 
-class BankCredentialsComparator implements Comparator<Account> {
+class BankCredentialsComparator implements Comparator<Bank> {
     @Override
-    public int compare(Account acc1, Account acc2) {
-        Bank bank1 = acc1.getBank();
-        Bank bank2 = acc2.getBank();
-        
-        if (bank1 == null || bank2 == null) {
-            // Handle case where bank information is missing
-            return 0; // or any other appropriate handling
+    public int compare(Bank b1, Bank b2) {
+        for (Account account1 : b1.getBANKACCOUNTS()) {
+            for (Account account2 : b2.getBANKACCOUNTS()) {
+                if ((account1.getOWNERFNAME().compareTo(account2.getOWNERFNAME()) < 0) 
+                && (account1.getOWNERLNAME().compareTo(account2.getOWNERLNAME()) < 0) 
+                && (account1.getOWNEREMAIL().compareTo(account2.getOWNEREMAIL()) < 0)) {
+                    return -1;
+                } else if ((account1.getOWNERFNAME().compareTo(account2.getOWNERFNAME()) > 0)
+                && (account1.getOWNERLNAME().compareTo(account2.getOWNERLNAME()) > 0)
+                && (account1.getOWNEREMAIL().compareTo(account2.getOWNEREMAIL()) > 0)) {
+                    return 1;
+                }
+            }
         }
-        
-        return bank1.getName().compareTo(bank2.getName());
+        return 0;
     }
 }
     
