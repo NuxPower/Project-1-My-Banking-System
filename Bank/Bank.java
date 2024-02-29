@@ -196,67 +196,22 @@ public class Bank {
     }
 
     /**
-     * Creates a new account by prompting the user for username, pin, and account type.
+     * Create a new account with the provided account type, first name, last name, email, username, pin, and account number.
      *
-     * @throws NumberFormatException    if the pin is not a valid number
-     * @throws IllegalArgumentException if the input for username or account type is invalid
-     * @return                         an ArrayList of Fields containing the user's username, pin, and account type
+     * @throws NumberFormatException      if there is an error converting a string to a number
+     * @throws IllegalArgumentException   if an invalid argument is passed to a method
+     * @return                           an ArrayList of Field objects representing the account information
      */
-    public ArrayList<Field<String, ?>> createNewAccount() throws NumberFormatException, IllegalArgumentException {
-        ArrayList<Field<String, ?>> createNew = new ArrayList<>();
+    public ArrayList<Field<String, ?>> createNewAccount() 
+    throws NumberFormatException, IllegalArgumentException {
         FieldValidator<String, String> validateString = new Field.StringFieldValidator();
-
+        ArrayList<Field<String, ?>> createNew = new ArrayList<>();
+            
+        String accountType;
         while (true) {
             try {
-                String firstname = Main.prompt("Enter first name: ", true);
-                if (firstname.length() >= 3 && firstname.length() <= 20) {
-                    Field<String, String> firstnameField = new Field<>(firstname, String.class, firstname, validateString);
-                    firstnameField.setFieldValue("Enter first name: ", true);
-                    createNew.add(firstnameField);
-                    break;
-                }
-            } catch (IllegalArgumentException exc) {
-                System.out.println("Invalid input! Please input a valid name.");
-            }
-        }
-        
-        while (true) {
-            try {
-                String username = Main.prompt("Enter username: ", true);
-                if (username.length() >= 6 && username.length() <= 20) {
-                    Field<String, String> usernameField = new Field<>(username, String.class, username, validateString);
-                    usernameField.setFieldValue("Enter username: ", true);
-                    createNew.add(usernameField);
-                    break;
-                }
-            } catch (IllegalArgumentException exc) {
-                System.out.println("Invalid input! Please input a valid name.");
-            }
-        }
-
-        while (true) {
-            try {
-                System.out.print("Enter pin (4-6 digits): ");
-                int pinInt = input.nextInt();
-                String pinString = Integer.toString(pinInt);
-                if (pinString.length() >= 4 && pinString.length() <= 6) {
-                    Field<String, String> pinField = new Field<>(pinString, String.class, pinString, validateString);
-                    pinField.setFieldValue("Enter pin (4-6 digits): ", true);
-                    createNew.add(pinField);
-                    break;
-                }
-            } catch (NumberFormatException exc) {
-                System.out.println("Invalid input! Please enter a valid number.");
-            }
-        }
-
-        while (true) {
-            try {
-                String accountType = Main.prompt("Enter account type (Savings/Credit): ", true);
+                accountType = Main.prompt("Enter account type (Savings/Credit): ", true);
                 if (accountType.equalsIgnoreCase("Savings") || accountType.equalsIgnoreCase("Credit") || accountType.equalsIgnoreCase("Savings/Credit")) {
-                    Field<String, String> accountTypeField = new Field<>(accountType, String.class, accountType, validateString);
-                    accountTypeField.setFieldValue("Enter account type (Savings/Credit): ", true);
-                    createNew.add(accountTypeField);
                     break;
                 } else {
                     System.out.println("Invalid account type!");
@@ -266,8 +221,104 @@ public class Bank {
                 System.out.println("Invalid input! Please input a valid account type.");
             }
         }
+        Field<String, String> accountTypeField = new Field<>("Account Type", String.class, accountType, validateString);
+        accountTypeField.setFieldValue("Enter account type (Savings/Credit): ", true);
+        createNew.add(accountTypeField);
+            
+        String firstName;
+        while (true) {
+            try {
+                Field<String, String> firstNameField = new Field<>("Enter first name: ", String.class, "3", validateString);
+                firstNameField.setFieldValue("Enter first name: ");
+                firstName = firstNameField.getFieldValue();
+                if (firstName.length() >= 3) {
+                    break;
+                }
+            } catch (IllegalArgumentException exc) {
+                System.out.println("Invalid input! Please input a valid name.");
+            }
+        }
+        Field<String, String> firstNameField = new Field<>("First Name", String.class, firstName, validateString);
+        createNew.add(firstNameField);
+        
+        String lastName;
+        while (true) {
+            try {
+                Field<String, String> lastNameField = new Field<>("Enter last name: ", String.class, "3", validateString);
+                lastNameField.setFieldValue("Enter last name: ");
+                lastName = lastNameField.getFieldValue();
+                if (lastName.length() >= 3) {
+                    break;
+                }
+            } catch (IllegalArgumentException exc) {
+                System.out.println("Invalid input! Please input a valid name.");
+            } 
+        }
+        Field<String, String> lastNameField = new Field<>("Last Name", String.class, lastName, validateString);
+        createNew.add(lastNameField);
+
+        String email;
+        while (true) {
+            try {
+                Field<String, String> emailField = new Field<>("Enter email: ", String.class, "", new Field.StringFieldValidator());
+                emailField.setFieldValue("Enter email: ");
+                email = emailField.getFieldValue();
+                if (email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
+                    break;
+                }
+            } catch (IllegalArgumentException exc) {
+                System.out.println("Invalid input! Please input a valid email address.");
+            }
+        }
+        Field<String, String> emailField = new Field<>("Email", String.class, email, new Field.StringFieldValidator());
+        createNew.add(emailField);
+
+        String username;
+        while (true) {
+            try {
+                Field<String, String> usernameField = new Field<>("Enter username: ", String.class, "3", validateString);
+                usernameField.setFieldValue("Enter username: ");
+                username = usernameField.getFieldValue();
+                if (username.length() >= 3) {
+                    break;
+                } 
+            } catch (IllegalArgumentException exc) {
+                System.out.println("Invalid input! Please input a valid username.");
+            }
+        }
+        Field<String, String> usernameField = new Field<>("Username", String.class, username, validateString);
+        createNew.add(usernameField);
+
+        String pin;
+        while (true) {
+            try {
+                Field<String, String> pinField = new Field<>("Enter pin: ", String.class, "4", validateString);
+                pinField.setFieldValue("Enter pin: ");
+                pin = pinField.getFieldValue();
+                if (pin.length() >= 4) {
+                    break;
+                }
+            } catch (IllegalArgumentException exc) {
+                System.out.println("Invalid input! Please input a valid pin.");
+            }
+        }
+        Field<String, String> pinField = new Field<>("Pin", String.class, pin, validateString);
+        createNew.add(pinField);
+
+        String accountNumber = "";
+        for(int i = BANKACCOUNTS.size(); i > 0;) {
+            int idTemplate = 2024;
+            String accountNum = Integer.toString(idTemplate);
+            accountNum += String.format("%04d", i);
+            Field<String, String> accountNumField = new Field<>(accountNum, String.class, accountNum, validateString);
+            accountNumber = accountNumField.getFieldValue();
+        }
+        Field<String, String> accountNumberField = new Field<>("Account Number", String.class, accountNumber, validateString);
+        createNew.add(accountNumberField);
+        
         return createNew;
     }
+
         
 
     public CreditAccount createNewCreditAccount() {
