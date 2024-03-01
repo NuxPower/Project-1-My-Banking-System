@@ -5,7 +5,6 @@ import java.util.Scanner;
 import Accounts.Account;
 import Accounts.CreditAccount;
 import Main.Field;
-import Main.Main;
 import Main.FieldValidator;
 import Savings.SavingsAccount;
 
@@ -82,7 +81,8 @@ public class Bank {
         this.passcode = passcode;        
     }
 
-    public Bank(int ID, String name, String passcode, double DEPOSITLIMIT, double WITHDRAWLIMIT, double CREDITLIMIT) {
+    public Bank(int ID, String name, String passcode, double DEPOSITLIMIT, 
+    double WITHDRAWLIMIT, double CREDITLIMIT) {
         this.ID = ID;
         this.name = name;
         this.passcode = passcode;
