@@ -155,30 +155,50 @@ public class Bank {
         BANKACCOUNTS = bANKACCOUNTS;
     }
 
-    // Ayaw sa nig hilabti, balikan ko ra ni -Yohan
+    /**
+     * Shows the sorted accounts of the specified account type.
+     *
+     * @param  accountType   the class of the account type
+     * @return               void
+     */
     public <T> void showAccounts(Class<T> accountType) {
         Comparator<Account> comparator;
-        
+    
         if (CreditAccount.class.isAssignableFrom(accountType)) {
             // If the specified accountType is a subclass of CreditAccount or CreditAccount itself
-            comparator = new BankCredentialsComparator();
+            comparator = (acc1, acc2) -> new BankCredentialsComparator().compare((Bank) acc1.getBank(), (Bank) acc2.getBank());
         } else if (SavingsAccount.class.isAssignableFrom(accountType)) {
             // If the specified accountType is a subclass of SavingsAccount or SavingsAccount itself
-            comparator = new BankIdComparator();
+            comparator = (acc1, acc2) -> new BankIdComparator().compare((Bank) acc1.getBank(), (Bank) acc2.getBank());
         } else {
             System.out.println("Unsupported account type: " + accountType.getSimpleName());
             return;
-        }
-        
-        // Sorting the accounts using the selected comparator
-        BANKACCOUNTS.sort(comparator);
-        
-        // Printing the sorted accounts
-        for (Account acc : BANKACCOUNTS) {
+        } 
+    
+        List<Account> sortedAccounts = new ArrayList<>(getBANKACCOUNTS());
+        sortedAccounts.sort(comparator);
+    
+        for (Account acc : sortedAccounts) {
             System.out.println(acc);
         }
-    }    
+    }
         
+    /**
+     * Retrieves a bank account from the specified bank using the account number.
+     *
+     * @param  bank       the bank from which to retrieve the account
+     * @param  accountNum the account number of the bank account
+     * @return            the bank account with the specified account number, or null if not found
+     */
+    public Account getBankAccount(Bank bank, String accountNum) {
+        for (Account accs : BANKACCOUNTS) {
+            if (accs.getOwnerFullname() == accountNum) {
+                return accs;
+            }
+        }
+        return null;
+    }
+
     /**
      * Creates a new account by prompting the user for account type, first name, last name, email, username, and pin.
      *
@@ -189,26 +209,7 @@ public class Bank {
     public ArrayList<Field<String, ?>> createNewAccount() throws NumberFormatException, IllegalArgumentException {
         FieldValidator<String, String> validateString = new Field.StringFieldValidator();
         ArrayList<Field<String, ?>> createNew = new ArrayList<>();
-    
-        // Prompt for account type until a valid one is entered
-        String accountType;
-        while (true) {
-            try {
-                Field<String, String> accountTypeField = new Field<>("Account Type", String.class, "Savings/Credit", validateString);
-                accountTypeField.setFieldValue("Enter account type (Savings/Credit): ");
-                accountType = accountTypeField.getFieldValue();
-                if (accountType.equalsIgnoreCase("Savings") || accountType.equalsIgnoreCase("Credit") || accountType.equalsIgnoreCase("Savings/Credit")) {
-                    createNew.add(accountTypeField);
-                    break;
-                } else {
-                    System.out.println("Invalid account type!");
-                }
-                break;
-            } catch (IllegalArgumentException exc) {
-                System.out.println("Invalid input! Please input a valid account type.");
-            }
-        }
-    
+        
         // Prompt for first name
         String firstName;
         while (true) {
@@ -309,23 +310,24 @@ public class Bank {
         Bank bank = new Bank(getID(), getName(), getPasscode());
         CreditAccount credit;
 
-        String firstName = (String) fields.get(0).getFieldValue();
-        String lastName = (String) fields.get(1).getFieldValue();
-        String email = (String) fields.get(2).getFieldValue();
-        String pin = (String) fields.get(3).getFieldValue();
-        String accountNum = (String) fields.get(4).getFieldValue();
-
-        Field<Double, Double> creditField = new Field<Double,Double>("Credit", Double.class, 0.0, new Field.DoubleFieldValidator());
-        creditField.setFieldValue("Enter credit (credit limit 100000.0): ", true);
-        if (creditField.getFieldValue() <= this.CREDITLIMIT) {
+        String firstName = fields.get(0).getFieldValue();
+        String lastName = fields.get(1).getFieldValue();
+        String email = fields.get(2).getFieldValue();
+        String pin = fields.get(3).getFieldValue();
+        String accountNum = fields.get(4).getFieldValue();
+        
+        while (true) {
+            Field<Double, Double> creditField = new Field<Double,Double>("Credit", Double.class, 500.0, new Field.DoubleFieldValidator());
+            creditField.setFieldValue("Enter credit (credit limit 100000.0): ", true);
+            if (creditField.getFieldValue() <= this.CREDITLIMIT) {
                 double creditLimit = creditField.getFieldValue();
                 credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, creditLimit);
-        } else {
-            System.out.println("Credit limit defaulted to 100000.0");
-            credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, this.CREDITLIMIT);
+                return credit;
+            } else {
+                System.out.println("Credit must be less than credit limit");
+                continue;
+            }
         }
-
-        return credit;
     }
 
     // creates new savings account
@@ -381,14 +383,6 @@ public class Bank {
     System.out.println("New Savings Account created successfully!");
     return newSavingsAccount;
 }
-
-    
-
-
-
-
-
-    
 
     /**
      * Adds a new account to the list of bank accounts.
