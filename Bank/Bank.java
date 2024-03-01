@@ -155,7 +155,12 @@ public class Bank {
         BANKACCOUNTS = bANKACCOUNTS;
     }
 
-    // Ayaw sa nig hilabti, balikan ko ra ni -Yohan
+    /**
+     * Shows the sorted accounts of the specified account type.
+     *
+     * @param  accountType   the class of the account type
+     * @return               void
+     */
     public <T> void showAccounts(Class<T> accountType) {
         Comparator<Account> comparator;
     
@@ -204,26 +209,7 @@ public class Bank {
     public ArrayList<Field<String, ?>> createNewAccount() throws NumberFormatException, IllegalArgumentException {
         FieldValidator<String, String> validateString = new Field.StringFieldValidator();
         ArrayList<Field<String, ?>> createNew = new ArrayList<>();
-    
-        // Prompt for account type until a valid one is entered
-        String accountType;
-        while (true) {
-            try {
-                Field<String, String> accountTypeField = new Field<>("Account Type", String.class, "Savings/Credit", validateString);
-                accountTypeField.setFieldValue("Enter account type (Savings/Credit): ");
-                accountType = accountTypeField.getFieldValue();
-                if (accountType.equalsIgnoreCase("Savings") || accountType.equalsIgnoreCase("Credit") || accountType.equalsIgnoreCase("Savings/Credit")) {
-                    createNew.add(accountTypeField);
-                    break;
-                } else {
-                    System.out.println("Invalid account type!");
-                }
-                break;
-            } catch (IllegalArgumentException exc) {
-                System.out.println("Invalid input! Please input a valid account type.");
-            }
-        }
-    
+        
         // Prompt for first name
         String firstName;
         while (true) {
