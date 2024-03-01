@@ -158,26 +158,25 @@ public class Bank {
     // Ayaw sa nig hilabti, balikan ko ra ni -Yohan
     public <T> void showAccounts(Class<T> accountType) {
         Comparator<Account> comparator;
-        
+    
         if (CreditAccount.class.isAssignableFrom(accountType)) {
             // If the specified accountType is a subclass of CreditAccount or CreditAccount itself
-            comparator = new BankCredentialsComparator();
+            comparator = (acc1, acc2) -> new BankCredentialsComparator().compare((Bank) acc1.getBank(), (Bank) acc2.getBank());
         } else if (SavingsAccount.class.isAssignableFrom(accountType)) {
             // If the specified accountType is a subclass of SavingsAccount or SavingsAccount itself
-            comparator = new BankIdComparator();
+            comparator = (acc1, acc2) -> new BankIdComparator().compare((Bank) acc1.getBank(), (Bank) acc2.getBank());
         } else {
             System.out.println("Unsupported account type: " + accountType.getSimpleName());
             return;
-        }
-        
-        // Sorting the accounts using the selected comparator
-        BANKACCOUNTS.sort(comparator);
-        
-        // Printing the sorted accounts
-        for (Account acc : BANKACCOUNTS) {
+        } 
+    
+        List<Account> sortedAccounts = new ArrayList<>(getBANKACCOUNTS());
+        sortedAccounts.sort(comparator);
+    
+        for (Account acc : sortedAccounts) {
             System.out.println(acc);
         }
-    }    
+    }
         
     /**
      * Retrieves a bank account from the specified bank using the account number.
@@ -194,7 +193,6 @@ public class Bank {
         }
         return null;
     }
-
 
     /**
      * Creates a new account by prompting the user for account type, first name, last name, email, username, and pin.
