@@ -319,7 +319,11 @@ public class Bank {
      * @return          void
      */
     public void addNewAccount(Account account) {
-        BANKACCOUNTS.add(account);
+        if (!accountExists(this, account.getOWNEREMAIL())) {
+            BANKACCOUNTS.add(account);
+        } else {
+            System.out.println("An account with the same email already exists!");
+        }
     }
 
     /**
@@ -331,13 +335,12 @@ public class Bank {
      */
     public static boolean accountExists(Bank bank, String accountNum) {
         for (Account accs : bank.getBANKACCOUNTS()) {
-            if (accs.getOwnerFullname() == accountNum) {
+            if (accs.getACCOUNTNUMBER().toString().equals(accountNum)) {
                 return true;
             }
         }
         return false;
     }
-
     public String toString() {
         return null;
     }
