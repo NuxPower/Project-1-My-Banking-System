@@ -304,7 +304,27 @@ public class Bank {
     }
 
     public CreditAccount createNewCreditAccount() {
-        return null;
+        ArrayList<Field<String, ?>> fields = createNewAccount();    
+        Bank bank = new Bank(getID(), getName(), getPasscode());
+        CreditAccount credit;
+
+        String firstName = (String) fields.get(0).getFieldValue();
+        String lastName = (String) fields.get(1).getFieldValue();
+        String email = (String) fields.get(2).getFieldValue();
+        String pin = (String) fields.get(3).getFieldValue();
+        String accountNum = (String) fields.get(4).getFieldValue();
+
+        Field<Double, Double> creditField = new Field<Double,Double>("Credit", Double.class, 0.0, new Field.DoubleFieldValidator());
+        creditField.setFieldValue("Enter credit (credit limit 100000.0): ", true);
+        if (creditField.getFieldValue() <= this.CREDITLIMIT) {
+                double creditLimit = creditField.getFieldValue();
+                credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, creditLimit);
+        } else {
+            System.out.println("Credit limit defaulted to 100000.0");
+            credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, this.CREDITLIMIT);
+        }
+
+        return credit;
     }
 
     public SavingsAccount createNewSavingsAccount() {
@@ -318,7 +338,17 @@ public class Bank {
      * @return          void
      */
     public void addNewAccount(Account account) {
-        BANKACCOUNTS.add(account);
+        boolean exists = false;
+        if (accountExist(account.getBank(), account.getACCOUNTNUMBER())) {
+            exists = true;
+        }
+
+        if (!exists) {
+            BANKACCOUNTS.add(account);
+            System.out.println("New account added successfully!");
+        } else {
+            System.out.println("Account number already exists in the bank. Cannot add duplicate account.");
+        }
     }
 
     /**
