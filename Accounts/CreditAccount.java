@@ -6,7 +6,7 @@ import Bank.Bank;
 public class CreditAccount extends Account {
     private double loan;
 
-    public CreditAccount(Bank bank,String ACCOUNTNUMBER,  String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double loan) {
+    public CreditAccount(Bank bank, STRING ACCOUNTNUMBER,  String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double loan) {
         super(bank, ACCOUNTNUMBER, OWNERFNAME, OWNERLNAME, OWNEREMAIL, pin); 
         this.loan = loan;
     }
