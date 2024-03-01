@@ -392,6 +392,28 @@ public class Bank {
         return false;
     }
     public String toString() {
-        return null;
+        String res = "Bank Name: " + name + "\n";
+
+        int i = 0;
+        while (i < BANKACCOUNTS.size()) {
+            Account account = BANKACCOUNTS.get(i);
+            String accountType = "";
+
+            if (account instanceof CreditAccount) {
+                accountType = "Credit Account";
+
+            } else if (account instanceof SavingsAccount) {
+                accountType = "Savings Account";
+
+            } else {
+                accountType = "Account Type not listed in Bank!";
+            }
+
+            res += "Account Type: " + accountType + "\n";
+            res += "Account Details: " + account.toString() + "\n";
+            i++;
+        }
+
+        return res;
     }
 }
