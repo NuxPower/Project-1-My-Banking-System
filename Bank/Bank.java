@@ -321,8 +321,8 @@ public class Bank {
                 double creditLimit = creditField.getFieldValue();
                 credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, creditLimit);
         } else {
-            System.out.println("Credit limit defaulted to 100000.0");
-            credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, this.CREDITLIMIT);
+            System.out.println("Credit limit defaulted to 500.0");
+            credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, 500.0);
         }
 
         return credit;
