@@ -308,9 +308,59 @@ public class Bank {
         return null;
     }
 
-    public SavingsAccount createNewSavingsAccount() {
-        return null;
+    // creates new savings account
+   public SavingsAccount createNewSavingsAccount() throws AccountNumberAlreadyExistsException {
+        ArrayList<Field<String, ?>> savingsAccountFields = createNewAccount();
+    
+        // Add additional fields specific to a Savings Account
+        FieldValidator<Double, Double> validateDouble = new Field.DoubleFieldValidator();
+    
+        // Prompt for initial balance
+        double initialBalance;
+        while (true) {
+            try {
+                Field<Double, Double> initialBalanceField = new Field<>("Enter initial balance: ", Double.class, 0.0, validateDouble);
+                initialBalanceField.setFieldValue("Enter initial balance: ");
+                initialBalance = initialBalanceField.getFieldValue();
+                if (initialBalance >= 0.0) {
+                    Field<Double, Double> initialBalanceFieldFinal = new Field<>("Initial Balance", Double.class, initialBalance, validateDouble);
+                    savingsAccountFields.add(initialBalanceFieldFinal);
+                    break;
+                }
+            } catch (IllegalArgumentException exc) {
+                System.out.println("Invalid input! Please input a valid initial balance.");
+            }
+        }
+    
+        // Add any other fields specific to a Savings Account...
+    
+        // Check if the generated account number already exists
+        String accountNum = (String) savingsAccountFields.get(savingsAccountFields.size() - 1).getFieldValue();
+        Bank bank = Bank.getInstance();
+        
+        for (Account acc : bank.getBANKACCOUNTS()) {
+            if (acc.getAccountNumber().equals(accountNum)) {
+                throw new AccountNumberAlreadyExistsException("Account number already exists!");
+            }
+        }
+    
+        // Create a SavingsAccount object using the collected fields
+        SavingsAccount newSavingsAccount = new SavingsAccount();
+    
+        // Set the values of the fields in the new SavingsAccount
+        for (Field<String, ?> field : savingsAccountFields) {
+            newSavingsAccount.setField(field.getFieldName(), field.getFieldValue());
+        }
+    
+        return newSavingsAccount;
     }
+    
+
+
+
+
+
+    
 
     /**
      * Adds a new account to the list of bank accounts.
