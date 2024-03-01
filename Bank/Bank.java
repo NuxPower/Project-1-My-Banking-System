@@ -194,15 +194,16 @@ public class Bank {
         String accountType;
         while (true) {
             try {
-                accountType = Main.prompt("Enter account type (Savings/Credit): ", true);
+                Field<String, String> accountTypeField = new Field<>("Account Type", String.class, "Savings/Credit", validateString);
+                accountTypeField.setFieldValue("Enter account type (Savings/Credit): ");
+                accountType = accountTypeField.getFieldValue();
                 if (accountType.equalsIgnoreCase("Savings") || accountType.equalsIgnoreCase("Credit") || accountType.equalsIgnoreCase("Savings/Credit")) {
-                    Field<String, String> accountTypeField = new Field<>("Account Type", String.class, accountType, validateString);
-                    accountTypeField.setFieldValue("Enter account type (Savings/Credit): ", true);
                     createNew.add(accountTypeField);
                     break;
                 } else {
                     System.out.println("Invalid account type!");
                 }
+                break;
             } catch (IllegalArgumentException exc) {
                 System.out.println("Invalid input! Please input a valid account type.");
             }
