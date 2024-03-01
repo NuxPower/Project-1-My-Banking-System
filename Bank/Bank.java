@@ -5,7 +5,6 @@ import java.util.Scanner;
 import Accounts.Account;
 import Accounts.CreditAccount;
 import Main.Field;
-import Main.Main;
 import Main.FieldValidator;
 import Savings.SavingsAccount;
 
@@ -82,7 +81,8 @@ public class Bank {
         this.passcode = passcode;        
     }
 
-    public Bank(int ID, String name, String passcode, double DEPOSITLIMIT, double WITHDRAWLIMIT, double CREDITLIMIT) {
+    public Bank(int ID, String name, String passcode, double DEPOSITLIMIT, 
+    double WITHDRAWLIMIT, double CREDITLIMIT) {
         this.ID = ID;
         this.name = name;
         this.passcode = passcode;
@@ -194,15 +194,16 @@ public class Bank {
         String accountType;
         while (true) {
             try {
-                accountType = Main.prompt("Enter account type (Savings/Credit): ", true);
+                Field<String, String> accountTypeField = new Field<>("Account Type", String.class, "Savings/Credit", validateString);
+                accountTypeField.setFieldValue("Enter account type (Savings/Credit): ");
+                accountType = accountTypeField.getFieldValue();
                 if (accountType.equalsIgnoreCase("Savings") || accountType.equalsIgnoreCase("Credit") || accountType.equalsIgnoreCase("Savings/Credit")) {
-                    Field<String, String> accountTypeField = new Field<>("Account Type", String.class, accountType, validateString);
-                    accountTypeField.setFieldValue("Enter account type (Savings/Credit): ", true);
                     createNew.add(accountTypeField);
                     break;
                 } else {
                     System.out.println("Invalid account type!");
                 }
+                break;
             } catch (IllegalArgumentException exc) {
                 System.out.println("Invalid input! Please input a valid account type.");
             }
@@ -249,7 +250,7 @@ public class Bank {
                 Field<String, String> emailField = new Field<>("Enter email: ", String.class, "", new Field.StringFieldValidator());
                 emailField.setFieldValue("Enter email: ");
                 email = emailField.getFieldValue();
-                if (email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
+                if (email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:gmail|yahoo|\\w+\\.)+[a-zA-Z]{2,}$")) {
                     Field<String, String> emailFieldFinal = new Field<>("Email", String.class, email, new Field.StringFieldValidator());
                     createNew.add(emailFieldFinal);
                     break;
@@ -327,9 +328,59 @@ public class Bank {
         return credit;
     }
 
-    public SavingsAccount createNewSavingsAccount() {
-        return null;
+    // creates new savings account
+   public SavingsAccount createNewSavingsAccount() throws AccountNumberAlreadyExistsException {
+        ArrayList<Field<String, ?>> savingsAccountFields = createNewAccount();
+    
+        // Add additional fields specific to a Savings Account
+        FieldValidator<Double, Double> validateDouble = new Field.DoubleFieldValidator();
+    
+        // Prompt for initial balance
+        double initialBalance;
+        while (true) {
+            try {
+                Field<Double, Double> initialBalanceField = new Field<>("Enter initial balance: ", Double.class, 0.0, validateDouble);
+                initialBalanceField.setFieldValue("Enter initial balance: ");
+                initialBalance = initialBalanceField.getFieldValue();
+                if (initialBalance >= 0.0) {
+                    Field<Double, Double> initialBalanceFieldFinal = new Field<>("Initial Balance", Double.class, initialBalance, validateDouble);
+                    savingsAccountFields.add(initialBalanceFieldFinal);
+                    break;
+                }
+            } catch (IllegalArgumentException exc) {
+                System.out.println("Invalid input! Please input a valid initial balance.");
+            }
+        }
+    
+        // Add any other fields specific to a Savings Account...
+    
+        // Check if the generated account number already exists
+        String accountNum = (String) savingsAccountFields.get(savingsAccountFields.size() - 1).getFieldValue();
+        Bank bank = Bank.getInstance();
+        
+        for (Account acc : bank.getBANKACCOUNTS()) {
+            if (acc.getAccountNumber().equals(accountNum)) {
+                throw new AccountNumberAlreadyExistsException("Account number already exists!");
+            }
+        }
+    
+        // Create a SavingsAccount object using the collected fields
+        SavingsAccount newSavingsAccount = new SavingsAccount();
+    
+        // Set the values of the fields in the new SavingsAccount
+        for (Field<String, ?> field : savingsAccountFields) {
+            newSavingsAccount.setField(field.getFieldName(), field.getFieldValue());
+        }
+    
+        return newSavingsAccount;
     }
+    
+
+
+
+
+
+    
 
     /**
      * Adds a new account to the list of bank accounts.
@@ -360,14 +411,35 @@ public class Bank {
      */
     public static boolean accountExists(Bank bank, String accountNum) {
         for (Account accs : bank.getBANKACCOUNTS()) {
-            if (accs.getOwnerFullname() == accountNum) {
+            if (accs.getACCOUNTNUMBER().toString().equals(accountNum)) {
                 return true;
             }
         }
         return false;
     }
-
     public String toString() {
-        return null;
+        String res = "Bank Name: " + name + "\n";
+
+        int i = 0;
+        while (i < BANKACCOUNTS.size()) {
+            Account account = BANKACCOUNTS.get(i);
+            String accountType = "";
+
+            if (account instanceof CreditAccount) {
+                accountType = "Credit Account";
+
+            } else if (account instanceof SavingsAccount) {
+                accountType = "Savings Account";
+
+            } else {
+                accountType = "Account Type not listed in Bank!";
+            }
+
+            res += "Account Type: " + accountType + "\n";
+            res += "Account Details: " + account.toString() + "\n";
+            i++;
+        }
+
+        return res;
     }
 }
