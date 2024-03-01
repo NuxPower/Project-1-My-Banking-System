@@ -310,23 +310,24 @@ public class Bank {
         Bank bank = new Bank(getID(), getName(), getPasscode());
         CreditAccount credit;
 
-        String firstName = (String) fields.get(0).getFieldValue();
-        String lastName = (String) fields.get(1).getFieldValue();
-        String email = (String) fields.get(2).getFieldValue();
-        String pin = (String) fields.get(3).getFieldValue();
-        String accountNum = (String) fields.get(4).getFieldValue();
-
-        Field<Double, Double> creditField = new Field<Double,Double>("Credit", Double.class, 0.0, new Field.DoubleFieldValidator());
-        creditField.setFieldValue("Enter credit (credit limit 100000.0): ", true);
-        if (creditField.getFieldValue() <= this.CREDITLIMIT) {
+        String firstName = fields.get(0).getFieldValue();
+        String lastName = fields.get(1).getFieldValue();
+        String email = fields.get(2).getFieldValue();
+        String pin = fields.get(3).getFieldValue();
+        String accountNum = fields.get(4).getFieldValue();
+        
+        while (true) {
+            Field<Double, Double> creditField = new Field<Double,Double>("Credit", Double.class, 500.0, new Field.DoubleFieldValidator());
+            creditField.setFieldValue("Enter credit (credit limit 100000.0): ", true);
+            if (creditField.getFieldValue() <= this.CREDITLIMIT) {
                 double creditLimit = creditField.getFieldValue();
                 credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, creditLimit);
-        } else {
-            System.out.println("Credit limit defaulted to 500.0");
-            credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, 500.0);
+                return credit;
+            } else {
+                System.out.println("Credit must be less than credit limit");
+                continue;
+            }
         }
-
-        return credit;
     }
 
     // creates new savings account
