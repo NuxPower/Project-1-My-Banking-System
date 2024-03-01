@@ -342,7 +342,7 @@ public class Bank {
         String res = "Bank Name: " + name + "\n";
 
         int i = 0;
-        while (index < BANKACCOUNTS.size()) {
+        while (i < BANKACCOUNTS.size()) {
             Account account = BANKACCOUNTS.get(i);
             String accountType = "";
 
