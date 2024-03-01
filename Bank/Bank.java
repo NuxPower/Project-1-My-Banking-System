@@ -180,6 +180,23 @@ public class Bank {
     }    
         
     /**
+     * Retrieves a bank account from the specified bank using the account number.
+     *
+     * @param  bank       the bank from which to retrieve the account
+     * @param  accountNum the account number of the bank account
+     * @return            the bank account with the specified account number, or null if not found
+     */
+    public Account getBankAccount(Bank bank, String accountNum) {
+        for (Account accs : BANKACCOUNTS) {
+            if (accs.getOwnerFullname() == accountNum) {
+                return accs;
+            }
+        }
+        return null;
+    }
+
+
+    /**
      * Creates a new account by prompting the user for account type, first name, last name, email, username, and pin.
      *
      * @throws NumberFormatException       if the input is not a valid number format
@@ -374,13 +391,6 @@ public class Bank {
     
         return newSavingsAccount;
     }
-    
-
-
-
-
-
-    
 
     /**
      * Adds a new account to the list of bank accounts.
