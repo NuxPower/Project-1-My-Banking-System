@@ -1,12 +1,22 @@
 package Accounts;
 
+import javax.print.DocFlavor.STRING;
+
 import Bank.Bank;
 
-
 public class CreditAccount extends Account {
+    private static STRING ACCOUNTNUMBER;
     private double loan;
+    
+    public double getLoan() {
+        return loan;
+    }
 
-    public CreditAccount(Bank bank, STRING ACCOUNTNUMBER,  String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double loan) {
+    public void setLoan(double loan) {
+        this.loan = loan;
+    }
+
+    public CreditAccount(Bank bank,  String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, String pin2, double loan) {
         super(bank, ACCOUNTNUMBER, OWNERFNAME, OWNERLNAME, OWNEREMAIL, pin); 
         this.loan = loan;
     }
@@ -19,20 +29,7 @@ public class CreditAccount extends Account {
         return false;
     }
 
-    private void adjustLoanAmount(double amountAdjustment) {
-        
-    }
-
-    @Override
     public String toString() {
-        String creditAcc = "Credit account details: \n";
-        creditAcc += "Account Number: " + getACCOUNTNUMBER() + "\n";
-        creditAcc += "Name: " + getOWNERFNAME() + " " + getOWNERLNAME() + "\n";
-        creditAcc += "Email: " + getOWNEREMAIL() + "\n";
-        creditAcc += "Credit: " + this.loan + "\n";
-
-        return creditAcc;
+        return null;
     }
-
 }
-

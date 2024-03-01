@@ -1,13 +1,24 @@
 package Savings;
 
+import javax.print.DocFlavor.STRING;
+
 import Accounts.Account;
 import Bank.Bank;
 
 public class SavingsAccount extends Account {
+    private static STRING ACCOUNTNUMBER;
     private double balance;
 
-    public SavingsAccount(Bank bank,  String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin) {
-        super();
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public SavingsAccount(Bank bank,  String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double balance) {
+        super(bank, ACCOUNTNUMBER, OWNERFNAME, OWNERLNAME, OWNEREMAIL, pin);
         this.balance = balance;
     }
 
