@@ -156,10 +156,10 @@ public class Bank {
     }
 
     /**
-     * Shows the sorted accounts of the specified account type.
+     * Show accounts of the specified account type, sorted based on the type of account.
      *
-     * @param  accountType   the class of the account type
-     * @return               void
+     * @param  accountType	The class of the account type to be shown
+     * @return         		void
      */
     public <T> void showAccounts(Class<T> accountType) {
         Comparator<Account> comparator;
@@ -181,8 +181,7 @@ public class Bank {
         for (Account acc : sortedAccounts) {
             System.out.println(acc);
         }
-    }
-        
+    }        
     /**
      * Retrieves a bank account from the specified bank using the account number.
      *
