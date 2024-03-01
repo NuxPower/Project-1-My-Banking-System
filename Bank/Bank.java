@@ -260,24 +260,7 @@ public class Bank {
                 System.out.println("Invalid input! Please input a valid email address.");
             }
         }
-    
-        // Prompt for username
-        String username;
-        while (true) {
-            try {
-                Field<String, String> usernameField = new Field<>("Enter username: ", String.class, "3", validateString);
-                usernameField.setFieldValue("Enter username: ");
-                username = usernameField.getFieldValue();
-                if (username.length() >= 3) {
-                    Field<String, String> usernameFieldFinal = new Field<>("Username", String.class, username, validateString);
-                    createNew.add(usernameFieldFinal);
-                    break;
-                } 
-            } catch (IllegalArgumentException exc) {
-                System.out.println("Invalid input! Please input a valid username.");
-            }
-        }
-    
+        
         // Prompt for pin
         String pin;
         while (true) {
