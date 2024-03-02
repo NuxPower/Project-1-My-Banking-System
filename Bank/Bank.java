@@ -314,60 +314,32 @@ public class Bank {
         }
     }
 
-    // creates new savings account
-   public SavingsAccount createNewSavingsAccount() throws AccountNumberAlreadyExistsException {
-    ArrayList<Field<String, ?>> savingsAccountFields = createNewAccount();
 
-    // Add additional fields specific to a Savings Account
-    FieldValidator<Double, Double> validateDouble = new Field.DoubleFieldValidator();
-
-    // Prompt for initial balance
-    double initialBalance;
-    while (true) {
-        try {
-            Field<Double, Double> initialBalanceField = new Field<>("Enter initial balance: ", Double.class, 0.0, validateDouble);
-            initialBalanceField.setFieldValue("Enter initial balance: ");
-            initialBalance = initialBalanceField.getFieldValue();
-            if (initialBalance >= 0.0) {
-                Field<Double, Double> initialBalanceFieldFinal = new Field<>("Initial Balance", Double.class, initialBalance, validateDouble);
-                savingsAccountFields.add(initialBalanceFieldFinal);
-                break;
+  // Create a new savings account
+    public static SavingsAccount createNewSavingsAccount() {
+        ArrayList<Field<String, ?>> fields = createNewAccount();
+        Bank bank = new Bank(getID(), getName(), getPasscode());
+        SavingsAccount savings;
+    
+        String firstName = fields.get(0).getFieldValue();
+        String lastName = fields.get(1).getFieldValue();
+        String email = fields.get(2).getFieldValue();
+        String pin = fields.get(3).getFieldValue();
+    
+        while (true) {
+            Field<Double, Double> initialBalanceField = new Field<>("InitialBalance", Double.class, 0.0, new Field.DoubleFieldValidator());
+            initialBalanceField.setFieldValue("Enter initial balance: ", true);
+    
+            double initialBalance = initialBalanceField.getFieldValue();
+    
+            if (initialBalance >= 0) {
+                savings = new SavingsAccount(bank, firstName, lastName, email, pin, initialBalance);
+                return savings;
+            } else {
+                System.out.println("Initial balance must be non-negative");
+                continue;
             }
-        } catch (IllegalArgumentException exc) {
-            System.out.println("Invalid input! Please input a valid initial balance.");
         }
-    }
-
-    // Generate and add account number
-    int idTemplate = 2024;
-    String accountNum = Integer.toString(idTemplate);
-    accountNum += String.format("%04d", BANKACCOUNTS.size() + 1);
-    Field<String, String> accountNumberField = new Field<>("Account Number", String.class, accountNum, new Field.StringFieldValidator());
-    savingsAccountFields.add(accountNumberField);
-
-    // Check if the generated account number already exists
-    for (Account acc : BANKACCOUNTS) {
-        if (acc.getAccountNumber().equals(accountNum)) {
-            throw new AccountNumberAlreadyExistsException("Account number already exists!");
-        }
-
-        // Create a SavingsAccount object using the collected fields
-        Bank bank = this; // Assuming the bank instance is referenced by 'this'
-        SavingsAccount newSavingsAccount = new SavingsAccount(bank,
-                savingsAccountFields.get(1).getFieldValue(), // first name
-                savingsAccountFields.get(2).getFieldValue(), // last name
-                savingsAccountFields.get(3).getFieldValue(), // email
-                savingsAccountFields.get(5).getFieldValue(), // pin
-                initialBalance);
-
-        // Add the new savings account to the bank
-        bank.addNewAccount(newSavingsAccount);
-
-        System.out.println("New Savings Account created successfully!");
-        return newSavingsAccount;
-    }   
-
-
     }
 
     /**
