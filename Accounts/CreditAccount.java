@@ -5,7 +5,6 @@ import javax.print.DocFlavor.STRING;
 import Bank.Bank;
 
 public class CreditAccount extends Account {
-    private static STRING ACCOUNTNUMBER;
     private double loan;
     
     public double getLoan() {
@@ -16,7 +15,7 @@ public class CreditAccount extends Account {
         this.loan = loan;
     }
 
-    public CreditAccount(Bank bank,  String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, String pin2, double loan) {
+    public CreditAccount(Bank bank,  STRING ACCOUNTNUMBER, String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double loan) {
         super(bank, ACCOUNTNUMBER, OWNERFNAME, OWNERLNAME, OWNEREMAIL, pin); 
         this.loan = loan;
     }

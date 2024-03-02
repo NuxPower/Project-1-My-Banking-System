@@ -6,7 +6,6 @@ import Accounts.Account;
 import Bank.Bank;
 
 public class SavingsAccount extends Account {
-    private static STRING ACCOUNTNUMBER;
     private double balance;
 
     public double getBalance() {
@@ -17,7 +16,7 @@ public class SavingsAccount extends Account {
         this.balance = balance;
     }
 
-    public SavingsAccount(Bank bank,  String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double balance) {
+    public SavingsAccount(Bank bank,  STRING ACCOUNTNUMBER, String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double balance) {
         super(bank, ACCOUNTNUMBER, OWNERFNAME, OWNERLNAME, OWNEREMAIL, pin);
         this.balance = balance;
     }

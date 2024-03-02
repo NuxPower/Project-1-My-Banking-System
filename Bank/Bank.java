@@ -289,6 +289,11 @@ public class Bank {
         return createNew;
     }
 
+    /**
+     * Creates a new credit account using the provided account information and credit limit.
+     *
+     * @return         	the newly created CreditAccount
+     */
     public CreditAccount createNewCreditAccount() {
         ArrayList<Field<String, ?>> fields = createNewAccount();    
         Bank bank = new Bank(getID(), getName(), getPasscode());
@@ -315,8 +320,12 @@ public class Bank {
     }
 
 
-  // Create a new savings account
-    public static SavingsAccount createNewSavingsAccount() {
+    /**
+     * Creates a new savings account with the provided information and initial balance.
+     *
+     * @return         	the newly created SavingsAccount
+     */
+    public SavingsAccount createNewSavingsAccount() {
         ArrayList<Field<String, ?>> fields = createNewAccount();
         Bank bank = new Bank(getID(), getName(), getPasscode());
         SavingsAccount savings;
@@ -377,6 +386,12 @@ public class Bank {
         }
         return false;
     }
+
+    /**
+     * Returns a string containing the bank name and details of all accounts associated with the bank.
+     *
+     * @return         	string containing the bank name and details of all accounts
+     */
     public String toString() {
         String res = "Bank Name: " + name + "\n";
 
