@@ -326,21 +326,27 @@ public class Bank {
      * @return         	the newly created SavingsAccount
      */
     public SavingsAccount createNewSavingsAccount() {
+        //Create a new account using the common account creation method
         ArrayList<Field<String, ?>> fields = createNewAccount();
+        
+        //Create a new Bank instance using account information
         Bank bank = new Bank(getID(), getName(), getPasscode());
         SavingsAccount savings;
-    
+        
+        //Extract relevant information from the common account fields
         String firstName = fields.get(0).getFieldValue();
         String lastName = fields.get(1).getFieldValue();
         String email = fields.get(2).getFieldValue();
         String pin = fields.get(3).getFieldValue();
-    
+        
+        //Gather initial balance information with validation
         while (true) {
             Field<Double, Double> initialBalanceField = new Field<>("InitialBalance", Double.class, 0.0, new Field.DoubleFieldValidator());
             initialBalanceField.setFieldValue("Enter initial balance: ", true);
     
             double initialBalance = initialBalanceField.getFieldValue();
-    
+            
+            //Validate and create the SavingsAccount if initial balance is non-negative
             if (initialBalance >= 0) {
                 savings = new SavingsAccount(bank, firstName, lastName, email, pin, initialBalance);
                 return savings;
