@@ -14,7 +14,7 @@ public class SavingsAccount extends Account {
     }
 
     public SavingsAccount(Bank bank,  String accountNumber, String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double balance) {
-        super(bank, ACCOUNTNUMBER, OWNERFNAME, OWNERLNAME, OWNEREMAIL, pin);
+        super(bank, accountNumber, OWNERFNAME, OWNERLNAME, OWNEREMAIL, pin);
         this.balance = balance;
     }
 
