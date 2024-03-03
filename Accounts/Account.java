@@ -55,7 +55,15 @@ public abstract class Account {
     }
 
     public void addNewTransaction(String accountNum, Transaction.Transactions type, String description) {
-
+        Account account = getBank().getBankAccount(getBank(), accountNum);
+        
+        if (account != null) {
+            Transaction transaction = new Transaction(accountNum, type, description);
+            TRANSACTIONS.add(transaction);
+            System.out.println("New " + type + " transaction added to account: " + accountNum);
+        } else {
+            System.out.println("Account not found with account number: " + accountNum);
+        }
     }
 
     public String getTransactionsInfo() {
