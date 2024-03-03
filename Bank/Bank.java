@@ -2,7 +2,6 @@ package Bank;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
 import Accounts.Account;
 import Accounts.CreditAccount;
 import Main.Field;
@@ -70,12 +69,9 @@ class BankCredentialsComparator implements Comparator<Bank> {
 public class Bank {
     private int ID;
     private String name, passcode;
-    private double DEPOSITLIMIT = 50000.0d, WITHDRAWLIMIT = 50000.0d, CREDITLIMIT = 100000.0d;
+    private double DEPOSITLIMIT = 50000.0d, WITHDRAWLIMIT = 50000.0d, CREDITLIMIT = 50000.0d;
     private double processingFee = 10.0d;
-    private ArrayList<Account> BANKACCOUNTS;
-
-    private Scanner input = new Scanner(System.in);
-    
+    private ArrayList<Account> BANKACCOUNTS;    
     public Bank(int ID, String name, String passcode) {
         this.ID = ID;
         this.name = name;
@@ -182,8 +178,8 @@ public class Bank {
         for (Account acc : sortedAccounts) {
             System.out.println(acc);
         }
-    }        
-
+    }
+                
     /**
      * Retrieves a bank account from the specified bank using the account number.
      *
@@ -200,6 +196,7 @@ public class Bank {
         return null;
     }
 
+  
     /**
      * Creates a new account by prompting the user for account type, first name, last name, email, username, and pin.
      *
@@ -261,7 +258,24 @@ public class Bank {
                 System.out.println("Invalid input! Please input a valid email address.");
             }
         }
-        
+    
+        // Prompt for username
+        String username;
+        while (true) {
+            try {
+                Field<String, String> usernameField = new Field<>("Enter username: ", String.class, "3", validateString);
+                usernameField.setFieldValue("Enter username: ");
+                username = usernameField.getFieldValue();
+                if (username.length() >= 3) {
+                    Field<String, String> usernameFieldFinal = new Field<>("Username", String.class, username, validateString);
+                    createNew.add(usernameFieldFinal);
+                    break;
+                } 
+            } catch (IllegalArgumentException exc) {
+                System.out.println("Invalid input! Please input a valid username.");
+            }
+        }
+    
         // Prompt for pin
         String pin;
         while (true) {
@@ -288,37 +302,35 @@ public class Bank {
     
         return createNew;
     }
-
+            
     /**
-     * Creates a new credit account using the provided account information and credit limit.
+     * Create a new credit account for the bank customer.
      *
-     * @return         	the newly created CreditAccount
+     * @return         	The newly created CreditAccount
      */
     public CreditAccount createNewCreditAccount() {
         ArrayList<Field<String, ?>> fields = createNewAccount();    
         Bank bank = new Bank(getID(), getName(), getPasscode());
         CreditAccount credit;
 
-        String firstName = fields.get(0).getFieldValue();
-        String lastName = fields.get(1).getFieldValue();
-        String email = fields.get(2).getFieldValue();
-        String pin = fields.get(3).getFieldValue();
-        String accountNum = fields.get(4).getFieldValue();
-        
-        while (true) {
-            Field<Double, Double> creditField = new Field<Double,Double>("Credit", Double.class, 500.0, new Field.DoubleFieldValidator());
-            creditField.setFieldValue("Enter credit (credit limit 100000.0): ", true);
-            if (creditField.getFieldValue() <= this.CREDITLIMIT) {
+        String firstName = (String) fields.get(0).getFieldValue();
+        String lastName = (String) fields.get(1).getFieldValue();
+        String email = (String) fields.get(2).getFieldValue();
+        String pin = (String) fields.get(3).getFieldValue();
+        String accountNum = (String) fields.get(4).getFieldValue();
+
+        Field<Double, Double> creditField = new Field<Double,Double>("Credit", Double.class, 0.0, new Field.DoubleFieldValidator());
+        creditField.setFieldValue("Enter credit (credit limit 100000.0): ", true);
+        if (creditField.getFieldValue() <= this.CREDITLIMIT) {
                 double creditLimit = creditField.getFieldValue();
                 credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, creditLimit);
-                return credit;
-            } else {
-                System.out.println("Credit must be less than credit limit");
-                continue;
-            }
+        } else {
+            System.out.println("Credit limit defaulted to 100000.0");
+            credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, this.CREDITLIMIT);
         }
-    }
 
+        return credit;
+    }
 
     /**
      * Creates a new savings account with the provided information and initial balance.
@@ -330,11 +342,12 @@ public class Bank {
         Bank bank = new Bank(getID(), getName(), getPasscode());
         SavingsAccount savings;
     
-        String firstName = fields.get(0).getFieldValue();
-        String lastName = fields.get(1).getFieldValue();
-        String email = fields.get(2).getFieldValue();
-        String pin = fields.get(3).getFieldValue();
-    
+        String firstName = (String) fields.get(0).getFieldValue();
+        String lastName = (String) fields.get(1).getFieldValue();
+        String email = (String) fields.get(2).getFieldValue();
+        String pin = (String) fields.get(3).getFieldValue();
+        String accountNum = (String) fields.get(4).getFieldValue();
+
         while (true) {
             Field<Double, Double> initialBalanceField = new Field<>("InitialBalance", Double.class, 0.0, new Field.DoubleFieldValidator());
             initialBalanceField.setFieldValue("Enter initial balance: ", true);
@@ -342,7 +355,7 @@ public class Bank {
             double initialBalance = initialBalanceField.getFieldValue();
     
             if (initialBalance >= 0) {
-                savings = new SavingsAccount(bank, firstName, lastName, email, pin, initialBalance);
+                savings = new SavingsAccount(bank, accountNum, firstName, lastName, email, pin, initialBalance);
                 return savings;
             } else {
                 System.out.println("Initial balance must be non-negative");
@@ -351,24 +364,23 @@ public class Bank {
         }
     }
 
-    /**
-     * Adds a new account to the list of bank accounts.
+    /*
+     * Adds a new account to this bank, if the account number of the new account does not exist inside the bank.
      *
-     * @param  account   the account to be added
-     * @return          void
+     * @param account Account object to be added into this bank.
+     * @throws NullPointerException if the passed account object is null.
+     * @throws IllegalArgumentException if an account with the same account number already exists.
      */
     public void addNewAccount(Account account) {
-        boolean exists = false;
-        if (accountExist(account.getBank(), account.getACCOUNTNUMBER())) {
-            exists = true;
+        if (account == null) {
+            throw new NullPointerException("The account cannot be null.");
+        }
+        
+        if (accountExists(this, account.getAccountNumber().toString())) {
+            throw new IllegalArgumentException("An account with the same account number already exists!");
         }
 
-        if (!exists) {
-            BANKACCOUNTS.add(account);
-            System.out.println("New account added successfully!");
-        } else {
-            System.out.println("Account number already exists in the bank. Cannot add duplicate account.");
-        }
+        BANKACCOUNTS.add(account);
     }
 
     /**
@@ -380,17 +392,17 @@ public class Bank {
      */
     public static boolean accountExists(Bank bank, String accountNum) {
         for (Account accs : bank.getBANKACCOUNTS()) {
-            if (accs.getACCOUNTNUMBER().toString().equals(accountNum)) {
-                return true;
+            if (accs.getAccountNumber().toString().equals(accountNum)) {
+                return true; 
             }
         }
         return false;
     }
 
     /**
-     * Returns a string containing the bank name and details of all accounts associated with the bank.
+     * Returns a string representation of the entire object, including bank name and account details.
      *
-     * @return         	string containing the bank name and details of all accounts
+     * @return         	string representation of the object
      */
     public String toString() {
         String res = "Bank Name: " + name + "\n";
