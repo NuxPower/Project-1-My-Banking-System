@@ -60,6 +60,11 @@ public abstract class Account {
         System.out.println("A successful " + type + ".");
     }
 
+    /**
+     * A method to get transactions information.
+     *
+     * @return         	description of the transactions information
+     */
     public String getTransactionsInfo() {
         String transactionsInfo = "Transactions for the Account Number: " + accountNumber + "\n";
     
@@ -73,7 +78,6 @@ public abstract class Account {
         
         return transactionsInfo;
     }
-
 
     public String toString() {
     String accountInfo = "Account Information:\n";
@@ -95,5 +99,6 @@ public abstract class Account {
 
     return accountInfo;
 }
+
 
 }
