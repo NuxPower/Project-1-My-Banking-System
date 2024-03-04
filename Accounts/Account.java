@@ -50,8 +50,8 @@ public abstract class Account {
     }
 
 
-    public String getOwnerFullname() {
-        return null;
+    public String getOwnerFullName() {
+        return this.OWNERFNAME + " " + this.OWNERLNAME;
     }
 
     public void addNewTransaction(String accountNum, Transaction.Transactions type, String description) {
