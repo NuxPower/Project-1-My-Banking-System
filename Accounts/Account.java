@@ -61,20 +61,21 @@ public abstract class Account {
     }
 
     /**
-     * A method to get transactions information.
-     *
-     * @return         	description of the transactions information
-     */
+    * A method to get transactions information.
+    *
+    * @return         	description of the transactions information
+    */
     public String getTransactionsInfo() {
         String transactionsInfo = "Transactions for the Account Number: " + accountNumber + "\n";
-    
+        
         int i = 0;
         while (i < TRANSACTIONS.size()) {
             Transaction transaction = TRANSACTIONS.get(i);
-            transactionsInfo += "Transaction Type: " + transaction.getType() + "\n";
-            transactionsInfo += "Description: " + transaction.getDescription() + "\n";
+            transactionsInfo += "Transaction Type: " + transaction.transactionType + "\n";
+            transactionsInfo += "Description: " + transaction.description + "\n";
             i++;
         }
+        
         
         return transactionsInfo;
     }
