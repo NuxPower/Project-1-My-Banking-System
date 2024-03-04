@@ -61,6 +61,16 @@ public abstract class Account {
     }
 
     public String getTransactionsInfo() {
-        return null;
+        String transactionsInfo = "Transactions for the Account Number: " + accountNumber + "\n";
+    
+        int i = 0;
+        while (i < TRANSACTIONS.size()) {
+            Transaction transaction = TRANSACTIONS.get(i);
+            transactionsInfo += "Transaction Type: " + transaction.getType() + "\n";
+            transactionsInfo += "Description: " + transaction.getDescription() + "\n";
+            i++;
+        }
+        
+        return transactionsInfo;
     }
 }
