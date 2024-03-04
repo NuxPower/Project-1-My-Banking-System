@@ -78,4 +78,8 @@ public abstract class Account {
         
         return transactionsInfo;
     }
+
+    public String toString() {
+        return null;
+    }
 }
