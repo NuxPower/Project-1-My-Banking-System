@@ -338,7 +338,10 @@ public class Bank {
      * @return         	the newly created SavingsAccount
      */
     public SavingsAccount createNewSavingsAccount() {
+        //Create a new account using the common account creation method
         ArrayList<Field<String, ?>> fields = createNewAccount();
+        
+        //Create a new Bank instance using account information
         Bank bank = new Bank(getID(), getName(), getPasscode());
         SavingsAccount savings;
     
@@ -353,7 +356,8 @@ public class Bank {
             initialBalanceField.setFieldValue("Enter initial balance: ", true);
     
             double initialBalance = initialBalanceField.getFieldValue();
-    
+            
+            //Validate and create the SavingsAccount if initial balance is non-negative
             if (initialBalance >= 0) {
                 savings = new SavingsAccount(bank, accountNum, firstName, lastName, email, pin, initialBalance);
                 return savings;
