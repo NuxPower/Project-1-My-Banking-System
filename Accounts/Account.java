@@ -63,4 +63,25 @@ public abstract class Account {
     public String getTransactionsInfo() {
         return null;
     }
+
+
+     public String toString() {
+        StringBuilder sb = new StringBuilder("Account Information:\n");
+        sb.append(String.format("Bank:\n%s", bank != null ? bank.toString() : "No bank information available")).append("\n");
+        sb.append(String.format("Account Number: %s\n", accountNumber));
+        sb.append(String.format("Owner: %s\n", getOwnerFullName()));
+        sb.append(String.format("Owner Email: %s\n", OWNEREMAIL));
+        sb.append(String.format("PIN: %s\n", pin));
+    
+        if (TRANSACTIONS != null && !TRANSACTIONS.isEmpty()) {
+            sb.append("Transactions:\n");
+            for (Transaction transaction : TRANSACTIONS) {
+                sb.append(String.format("- %s\n", transaction != null ? transaction.toString() : "Invalid Transaction"));
+            }
+        } else {
+            sb.append("No transactions available.\n");
+        }
+    
+        return sb.toString();
+    }
 }
