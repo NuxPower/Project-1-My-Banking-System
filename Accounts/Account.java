@@ -55,7 +55,9 @@ public abstract class Account {
     }
 
     public void addNewTransaction(String accountNum, Transaction.Transactions type, String description) {
-
+        Transaction transaction = new Transaction(accountNum, type, description);
+        TRANSACTIONS.add(transaction);
+        System.out.println("New " + type + " transaction added to account: " + accountNum);
     }
 
     public String getTransactionsInfo() {
