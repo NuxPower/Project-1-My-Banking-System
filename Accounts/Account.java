@@ -5,7 +5,7 @@ import javax.print.DocFlavor.STRING;
 import Bank.Bank;
 public abstract class Account {
     private Bank bank;
-    private STRING ACCOUNTNUMBER;
+    private String accountNumber;
     private String OWNERFNAME, OWNERLNAME, OWNEREMAIL;
     private String pin;
     private ArrayList<Transaction> TRANSACTIONS;
@@ -22,8 +22,8 @@ public abstract class Account {
     public void setPin(String pin) {
         this.pin = pin;
     }
-    public STRING getACCOUNTNUMBER() {
-        return ACCOUNTNUMBER;
+    public STRING getAccountNumber() {
+        return accountNumber;
     }
     public String getOWNERFNAME() {
         return OWNERFNAME;
@@ -39,10 +39,10 @@ public abstract class Account {
         return TRANSACTIONS;
     }
 
-    public Account(Bank bank, STRING ACCOUNTNUMBER, 
+    public Account(Bank bank, String accountNumber, 
     String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin) {
         this.bank = bank;
-        this.ACCOUNTNUMBER = ACCOUNTNUMBER;
+        this.accountNumber = accountNumber;
         this.OWNERFNAME = OWNERFNAME;
         this.OWNERLNAME = OWNERLNAME;
         this.OWNEREMAIL = OWNEREMAIL;
@@ -55,7 +55,9 @@ public abstract class Account {
     }
 
     public void addNewTransaction(String accountNum, Transaction.Transactions type, String description) {
-
+        Transaction transaction = new Transaction(accountNum, type, description);
+        TRANSACTIONS.add(transaction);
+        System.out.println("A successful " + type + ".");
     }
 
     public String getTransactionsInfo() {
