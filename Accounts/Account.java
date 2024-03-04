@@ -91,28 +91,28 @@ public abstract class Account {
      */
     public String toString() {
         //Initialize the string with a header
-    String accountInfo = "Account Information:\n";
-        
-        //Append bank information or indicate if not available
-    accountInfo += String.format("Bank:\n%s", bank != null ? bank.toString() : "No bank information available") + "\n";
-        //Append account details
-    accountInfo += String.format("Account Number: %s\n", accountNumber);
-    accountInfo += String.format("Owner: %s\n", getOwnerFullName());
-    accountInfo += String.format("Owner Email: %s\n", OWNEREMAIL);
-    accountInfo += String.format("PIN: %s\n", pin);
+        String accountInfo = "Account Information:\n";
+            
+            //Append bank information or indicate if not available
+        accountInfo += String.format("Bank:\n%s", bank != null ? bank.toString() : "No bank information available") + "\n";
+            //Append account details
+        accountInfo += String.format("Account Number: %s\n", accountNumber);
+        accountInfo += String.format("Owner: %s\n", getOwnerFullName());
+        accountInfo += String.format("Owner Email: %s\n", OWNEREMAIL);
+        accountInfo += String.format("PIN: %s\n", pin);
 
-        //Append transaction details or indicate if no transactions available
-    if (TRANSACTIONS != null && !TRANSACTIONS.isEmpty()) {
-        accountInfo += "Transactions:\n";
-        for (Transaction transaction : TRANSACTIONS) {
-            accountInfo += String.format("- %s\n", transaction != null ? transaction.toString() : "Invalid Transaction");
+            //Append transaction details or indicate if no transactions available
+        if (TRANSACTIONS != null && !TRANSACTIONS.isEmpty()) {
+            accountInfo += "Transactions:\n";
+            for (Transaction transaction : TRANSACTIONS) {
+                accountInfo += String.format("- %s\n", transaction != null ? transaction.toString() : "Invalid Transaction");
+            }
+        } else {
+            accountInfo += "No transactions available.\n";
         }
-    } else {
-        accountInfo += "No transactions available.\n";
+        // Return the final string representation
+        return accountInfo;
     }
-    // Return the final string representation
-    return accountInfo;
-}
 
 
 }
