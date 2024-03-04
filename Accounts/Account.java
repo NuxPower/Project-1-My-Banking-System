@@ -49,7 +49,11 @@ public abstract class Account {
         this.pin = pin;
     }
 
-
+    /**
+     * Retrieves the full name of the account owner by concatenating the first and last names.
+     *
+     * @return the full name of the account owner
+     */
     public String getOwnerFullName() {
         return this.OWNERFNAME + " " + this.OWNERLNAME;
     }
@@ -78,16 +82,25 @@ public abstract class Account {
         
         return transactionsInfo;
     }
-
+     /**
+     * Returns a string representation of the account, including details such as bank information, account number,
+     * owner details, PIN, and a list of transactions if available.
+     *
+     * @return a formatted string containing account information
+     */
     public String toString() {
+        //Initialize the string with a header
     String accountInfo = "Account Information:\n";
-
+        
+        //Append bank information or indicate if not available
     accountInfo += String.format("Bank:\n%s", bank != null ? bank.toString() : "No bank information available") + "\n";
+        //Append account details
     accountInfo += String.format("Account Number: %s\n", accountNumber);
     accountInfo += String.format("Owner: %s\n", getOwnerFullName());
     accountInfo += String.format("Owner Email: %s\n", OWNEREMAIL);
     accountInfo += String.format("PIN: %s\n", pin);
 
+        //Append transaction details or indicate if no transactions available
     if (TRANSACTIONS != null && !TRANSACTIONS.isEmpty()) {
         accountInfo += "Transactions:\n";
         for (Transaction transaction : TRANSACTIONS) {
@@ -96,7 +109,7 @@ public abstract class Account {
     } else {
         accountInfo += "No transactions available.\n";
     }
-
+    // Return the final string representation
     return accountInfo;
 }
 
