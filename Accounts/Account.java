@@ -80,6 +80,25 @@ public abstract class Account {
     }
 
     public String toString() {
-        return null;
+    String accountInfo = "Account Information:\n";
+
+    accountInfo += String.format("Bank:\n%s", bank != null ? bank.toString() : "No bank information available") + "\n";
+    accountInfo += String.format("Account Number: %s\n", accountNumber);
+    accountInfo += String.format("Owner: %s\n", getOwnerFullName());
+    accountInfo += String.format("Owner Email: %s\n", OWNEREMAIL);
+    accountInfo += String.format("PIN: %s\n", pin);
+
+    if (TRANSACTIONS != null && !TRANSACTIONS.isEmpty()) {
+        accountInfo += "Transactions:\n";
+        for (Transaction transaction : TRANSACTIONS) {
+            accountInfo += String.format("- %s\n", transaction != null ? transaction.toString() : "Invalid Transaction");
+        }
+    } else {
+        accountInfo += "No transactions available.\n";
     }
+
+    return accountInfo;
+}
+
+
 }
