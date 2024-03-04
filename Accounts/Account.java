@@ -49,7 +49,11 @@ public abstract class Account {
         this.pin = pin;
     }
 
-
+    /**
+     * Retrieves the full name of the owner by concatenating the first and last names.
+     *
+     * @return the full name of the owner
+     */
     public String getOwnerFullName() {
         return this.OWNERFNAME + " " + this.OWNERLNAME;
     }
@@ -78,8 +82,13 @@ public abstract class Account {
         
         return transactionsInfo;
     }
-
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return a string containing relevant information about the object
+     */
     public String toString() {
+        // Implement the logic to generate a meaningful string representation here
         return null;
     }
 }
