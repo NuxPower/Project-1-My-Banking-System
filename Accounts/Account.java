@@ -1,7 +1,5 @@
 package Accounts;
 import java.util.ArrayList;
-import javax.print.DocFlavor;
-import javax.print.DocFlavor.STRING;
 import Bank.Bank;
 public abstract class Account {
     private Bank bank;
