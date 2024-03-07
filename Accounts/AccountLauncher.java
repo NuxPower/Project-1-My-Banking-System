@@ -4,7 +4,6 @@ import Bank.BankLauncher;
 import Main.Main;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class AccountLauncher {
     private static Account loggedAccount;
@@ -15,26 +14,16 @@ public class AccountLauncher {
     }
 
     public static void accountLogin() {
-        Scanner sc = new Scanner(System.in);
-
         assocBank = selectBank();
-
-        System.out.println("Please enter your account number:");
-        String accountNumber = sc.nextLine();
-
-        System.out.println("Please enter your PIN:");
-        String pin = sc.nextLine();
-
-        ArrayList<Account> accounts = assocBank.getBANKACCOUNTS();
-        int i = 0;
-        while (i < accounts.size()) {
-            Account account = accounts.get(i);
-            if (account.getAccountNumber().equals(accountNumber) && account.getPin().equals(pin)) {
-                loggedAccount = account;
-                break;
-            }
-            i++;
+        if (assocBank == null) {
+            System.out.println("Invalid bank selection.");
+            return;
         }
+        
+        String accountNumber = Main.prompt("Please enter your account number: ", true);
+        String pin = Main.prompt("Please enter your PIN: ", true);
+
+        loggedAccount = checkCredentials(accountNumber, pin);
 
         if (loggedAccount != null) {
             System.out.println("Successfully logged in!");
@@ -73,7 +62,7 @@ public class AccountLauncher {
     private static void setLogSession() {
         loggedInAccount = loggedAccount;
         loginTime = LocalDateTime.now();
-        System.out.println("Session created for account: " + loggedInAccount.getAccountNumber() + " at " + loginTime);
+        System.out.println("Session created for account number  " + loggedAccount.getAccountNumber() + " at " + loginTime);
     }
 
     // Mia and Janos dri atoa
