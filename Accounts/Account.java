@@ -20,7 +20,7 @@ public abstract class Account {
     public void setPin(String pin) {
         this.pin = pin;
     }
-    public STRING getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
     public String getOWNERFNAME() {
