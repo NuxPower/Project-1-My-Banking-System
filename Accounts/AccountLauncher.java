@@ -95,7 +95,6 @@ public class AccountLauncher {
             return null;
         }
     }
-    
     // Mia and Janos dri atoa
     protected static CreditAccount getLoggedAccount() {
         try {
