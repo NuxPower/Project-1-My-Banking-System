@@ -116,40 +116,20 @@ public class Bank {
         return DEPOSITLIMIT;
     }
 
-    public void setDEPOSITLIMIT(double dEPOSITLIMIT) {
-        DEPOSITLIMIT = dEPOSITLIMIT;
-    }
-
     public double getWITHDRAWLIMIT() {
         return WITHDRAWLIMIT;
-    }
-
-    public void setWITHDRAWLIMIT(double wITHDRAWLIMIT) {
-        WITHDRAWLIMIT = wITHDRAWLIMIT;
     }
 
     public double getCREDITLIMIT() {
         return CREDITLIMIT;
     }
 
-    public void setCREDITLIMIT(double cREDITLIMIT) {
-        CREDITLIMIT = cREDITLIMIT;
-    }
-
     public double getProcessingFee() {
         return processingFee;
     }
 
-    public void setProcessingFee(double processingFee) {
-        this.processingFee = processingFee;
-    }
-
     public ArrayList<Account> getBANKACCOUNTS() {
         return BANKACCOUNTS;
-    }
-
-    public void setBANKACCOUNTS(ArrayList<Account> bANKACCOUNTS) {
-        BANKACCOUNTS = bANKACCOUNTS;
     }
 
     /**
@@ -181,7 +161,6 @@ public class Bank {
         }
         return null;
     }
-
   
     /**
      * Creates a new account by prompting the user for account type, first name, last name, email, username, and pin.
