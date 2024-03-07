@@ -2,13 +2,14 @@ package Accounts;
 import Bank.Bank;
 import Bank.BankLauncher;
 import Main.Main;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class AccountLauncher {
     private static Account loggedAccount;
     private static Bank assocBank;
-    import java.time.LocalDateTime;
-    import java.util.ArrayList;
-    import java.util.Scanner;
+    
 
 
     private boolean isLoggedIn() {
