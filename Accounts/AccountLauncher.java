@@ -67,8 +67,17 @@ public class AccountLauncher {
         System.out.println("Session created for account number  " + loggedAccount.getAccountNumber() + " at " + loginTime);
     }
 
+    // Mia and Janos dri atoa
     private static void destroyLogSession() {
-
+        if (isLoggedIn()) {
+            System.out.println("Destroying log session for account: " + loggedAccount.getACCOUNTNUMBER());
+            loggedAccount = null;
+            System.out.println("Log session destroyed.");
+        } 
+        
+        else {
+            System.out.println("No user logged in. Log session destruction not required.");
+        }
     }
 
     /**
