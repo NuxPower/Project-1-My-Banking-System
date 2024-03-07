@@ -56,7 +56,6 @@ public class AccountLauncher {
      */
     public static Account checkCredentials(String accountNum, String pin) {
         Account selAccount = assocBank.getBankAccount(assocBank, accountNum);
-        System.out.println(selAccount.toString());
         if (selAccount != null && selAccount.getACCOUNTNUMBER().equals(accountNum) && selAccount.getPin().equals(pin)) {
             return selAccount;
         } else {
