@@ -89,7 +89,13 @@ public class AccountLauncher {
         }
     }
 
+    // Mia and Janos dri atoa
     protected static CreditAccount getLoggedAccount() {
-        return null;
+        try {
+            return (CreditAccount) loggedAccount;
+        } catch (ClassCastException e) {
+            System.out.println("The currently logged account is not a Credit Account.");
+            return null;
+        }
     }
 }
