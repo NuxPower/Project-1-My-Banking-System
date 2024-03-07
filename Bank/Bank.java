@@ -116,40 +116,20 @@ public class Bank {
         return DEPOSITLIMIT;
     }
 
-    public void setDEPOSITLIMIT(double dEPOSITLIMIT) {
-        DEPOSITLIMIT = dEPOSITLIMIT;
-    }
-
     public double getWITHDRAWLIMIT() {
         return WITHDRAWLIMIT;
-    }
-
-    public void setWITHDRAWLIMIT(double wITHDRAWLIMIT) {
-        WITHDRAWLIMIT = wITHDRAWLIMIT;
     }
 
     public double getCREDITLIMIT() {
         return CREDITLIMIT;
     }
 
-    public void setCREDITLIMIT(double cREDITLIMIT) {
-        CREDITLIMIT = cREDITLIMIT;
-    }
-
     public double getProcessingFee() {
         return processingFee;
     }
 
-    public void setProcessingFee(double processingFee) {
-        this.processingFee = processingFee;
-    }
-
     public ArrayList<Account> getBANKACCOUNTS() {
         return BANKACCOUNTS;
-    }
-
-    public void setBANKACCOUNTS(ArrayList<Account> bANKACCOUNTS) {
-        BANKACCOUNTS = bANKACCOUNTS;
     }
 
     /**
@@ -181,7 +161,6 @@ public class Bank {
         }
         return null;
     }
-
   
     /**
      * Creates a new account by prompting the user for account type, first name, last name, email, username, and pin.
@@ -354,12 +333,10 @@ public class Bank {
         }
     }
 
-    /*
-     * Adds a new account to this bank, if the account number of the new account does not exist inside the bank.
+    /**
+     * Adds a new account to the bank accounts list if it doesn't already exist.
      *
-     * @param account Account object to be added into this bank.
-     * @throws NullPointerException if the passed account object is null.
-     * @throws IllegalArgumentException if an account with the same account number already exists.
+     * @param  account   the account to be added
      */
     public void addNewAccount(Account account) {
         if (account == null) {

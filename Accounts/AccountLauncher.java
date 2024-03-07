@@ -3,54 +3,44 @@ import Bank.Bank;
 import Bank.BankLauncher;
 import Main.Main;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class AccountLauncher {
     private static Account loggedAccount;
     private static Bank assocBank;
-
-    private boolean isLoggedIn() {
+    
+    
+    private static boolean isLoggedIn() {
         return loggedAccount != null;
     }
-
+    
+    
     public static void accountLogin() {
-        Scanner sc = new Scanner(System.in);
-
         assocBank = selectBank();
-
-        System.out.println("Please enter your account number:");
-        String accountNumber = sc.nextLine();
-
-        System.out.println("Please enter your PIN:");
-        String pin = sc.nextLine();
-
-        ArrayList<Account> accounts = assocBank.getBANKACCOUNTS();
-        int i = 0;
-        while (i < accounts.size()) {
-            Account account = accounts.get(i);
-            if (account.getAccountNumber().equals(accountNumber) && account.getPin().equals(pin)) {
-                loggedAccount = account;
-                break;
-            }
-            i++;
+        if (assocBank == null) {
+            System.out.println("Invalid bank selection.");
+            return;
         }
-
+        
+        String accountNumber = Main.prompt("Please enter your account number: ", true);
+        String pin = Main.prompt("Please enter your PIN: ", true);
+        
+        loggedAccount = checkCredentials(accountNumber, pin);
+        
         if (loggedAccount != null) {
             System.out.println("Successfully logged in!");
-            setLogSession();
+            setLogSession(loggedAccount);
         } else {
             System.out.println("Invalid account number or PIN! Please try again.");
         }
-
+        
     }
-
+    
     /**
-     * Bank selection screen before the user is prompted to login. User is prompted for the Bank ID
-     * with corresponding bank name.
-     * 
-     * @return Bank object based on selected ID
-     */
+    * Bank selection screen before the user is prompted to login. User is prompted for the Bank ID
+    * with corresponding bank name.
+    * 
+    * @return Bank object based on selected ID
+    */
     private static Bank selectBank() {
         int bankID = Integer.parseInt(Main.prompt("Enter bank ID: ", true));
         String bankName = Main.prompt("Enter bank name: ", true);
@@ -66,46 +56,50 @@ public class AccountLauncher {
                 return null;
             }
         }
-
+        
         return selbank;
     }
-
-    private static void setLogSession() {
-        loggedInAccount = loggedAccount;
-        loginTime = LocalDateTime.now();
-        System.out.println("Session created for account: " + loggedInAccount.getAccountNumber() + " at " + loginTime);
+    
+    private static void setLogSession(Account account) {
+        LocalDateTime loginTime = LocalDateTime.now();
+        System.out.println("Session created for account number  " + loggedAccount.getAccountNumber() + " at " + loginTime);
     }
-
+    
+    // Mia and Janos dri atoa
     private static void destroyLogSession() {
-
+        if (isLoggedIn()) {
+            System.out.println("Destroying log session for account: " + loggedAccount.getAccountNumber());
+            loggedAccount = null;
+            System.out.println("Log session destroyed.");
+        } 
+        
+        else {
+            System.out.println("No user logged in. Log session destruction not required.");
+        }
     }
-
+    
     /**
-     * Checks inputted credentials during account login.
-     * 
-     * @param accountNum – Account number.
-     * @param pin – 4-digit pin.
-     * 
-     * @return Account object if it passes verification. Null if not.
-     */
+    * Checks inputted credentials during account login.
+    * 
+    * @param accountNum – Account number.
+    * @param pin – 4-digit pin.
+    * 
+    * @return Account object if it passes verification. Null if not.
+    */
     public static Account checkCredentials(String accountNum, String pin) {
         Account selAccount = assocBank.getBankAccount(assocBank, accountNum);
-        if (selAccount != null && selAccount.getACCOUNTNUMBER().equals(accountNum) && selAccount.getPin().equals(pin)) {
+        if (selAccount != null && selAccount.getAccountNumber().equals(accountNum) && selAccount.getPin().equals(pin)) {
             return selAccount;
         } else {
             System.out.println("Invalid account number or PIN.");
             return null;
         }
     }
-
     // Mia and Janos dri atoa
     protected static CreditAccount getLoggedAccount() {
-
-        if (loggedAccount instanceof CreditAccount) {
+        try {
             return (CreditAccount) loggedAccount;
-        } 
-        
-        else {
+        } catch (ClassCastException e) {
             System.out.println("The currently logged account is not a Credit Account.");
             return null;
         }
