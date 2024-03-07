@@ -175,7 +175,7 @@ public class Bank {
      */
     public Account getBankAccount(Bank bank, String accountNum) {
         for (Account accs : BANKACCOUNTS) {
-            if (accs.getACCOUNTNUMBER().equals(accountNum)) {
+            if (accs.getAccountNumber().equals(accountNum)) {
                 return accs;
             }
         }
