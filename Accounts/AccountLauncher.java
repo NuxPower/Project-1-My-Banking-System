@@ -64,16 +64,24 @@ public class AccountLauncher {
         LocalDateTime loginTime = LocalDateTime.now();
         System.out.println("Session created for account number  " + loggedAccount.getAccountNumber() + " at " + loginTime);
     }
-    
+    /**
+     * Destroys the current log session if a user is logged in, resetting the loggedAccount to null.
+     * Prints relevant messages indicating the success or absence of a log session.
+     */
     // Mia and Janos dri atoa
     private static void destroyLogSession() {
+        // Check if a user is logged in
         if (isLoggedIn()) {
+            // Log the destruction of the log session for the currently logged account
             System.out.println("Destroying log session for account: " + loggedAccount.getAccountNumber());
+            // Reset the loggedAccount to null
             loggedAccount = null;
+            // Print a message indicating the successful destruction of the log session
             System.out.println("Log session destroyed.");
         } 
         
         else {
+            // Print a message indicating that no user is logged in, and log session destruction is not required
             System.out.println("No user logged in. Log session destruction not required.");
         }
     }
@@ -95,11 +103,18 @@ public class AccountLauncher {
             return null;
         }
     }
+    /**
+     * Retrieves the currently logged CreditAccount if available, otherwise prints an error message and returns null.
+     *
+     * @return the currently logged CreditAccount, or null if not a Credit Account
+     */
     // Mia and Janos dri atoa
     protected static CreditAccount getLoggedAccount() {
         try {
+            // Attempt to cast the loggedAccount to CreditAccount
             return (CreditAccount) loggedAccount;
         } catch (ClassCastException e) {
+            // Handle ClassCastException, print an error message, and return null
             System.out.println("The currently logged account is not a Credit Account.");
             return null;
         }
