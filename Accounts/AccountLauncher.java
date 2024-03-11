@@ -13,7 +13,10 @@ public class AccountLauncher {
         return loggedAccount != null;
     }
     
-    
+    /**
+     * A function to handle account login.
+     * 
+     */
     public static void accountLogin() {
         assocBank = selectBank();
         if (assocBank == null) {
@@ -60,6 +63,11 @@ public class AccountLauncher {
         return selbank;
     }
     
+    /**
+     * Sets the log session for the given account.
+     *
+     * @param  account   the account for which the log session is being set
+     */
     private static void setLogSession(Account account) {
         LocalDateTime loginTime = LocalDateTime.now();
         System.out.println("Session created for account number  " + loggedAccount.getAccountNumber() + " at " + loginTime);
