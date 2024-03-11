@@ -76,11 +76,11 @@ public class AccountLauncher {
         LocalDateTime loginTime = LocalDateTime.now();
         System.out.println("Session created for account number  " + loggedAccount.getAccountNumber() + " at " + loginTime);
     }
+
     /**
      * Destroys the current log session if a user is logged in, resetting the loggedAccount to null.
      * Prints relevant messages indicating the success or absence of a log session.
      */
-    // Mia and Janos dri atoa
     private static void destroyLogSession() {
         // Check if a user is logged in
         if (isLoggedIn()) {
@@ -115,6 +115,7 @@ public class AccountLauncher {
             return null;
         }
     }
+    
     /**
      * Retrieves the currently logged CreditAccount if available, otherwise prints an error message and returns null.
      *
