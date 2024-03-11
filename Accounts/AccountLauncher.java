@@ -8,7 +8,11 @@ public class AccountLauncher {
     private static Account loggedAccount;
     private static Bank assocBank;
     
-    
+    /**
+    * Checks if a user is currently logged in by verifying the presence of a logged account.
+     *
+     * @return true if a user is logged in, false otherwise
+     */
     private static boolean isLoggedIn() {
         return loggedAccount != null;
     }
