@@ -42,7 +42,8 @@ public class SavingsAccount extends Account {
 
     }
 
+    // Here Janos and Mia
     public String toString() {
-        return null;
+        return getAccountBalanceStatement();
     }
 }
