@@ -30,8 +30,9 @@ public class SavingsAccount extends Account {
         return account_statement;
     }
 
+    // Here Janos and Mia
     private boolean hasEnoughBalance(double amount) {
-        return false;
+        return balance >= amount;
     }
 
     private void insufficientBalance() {
