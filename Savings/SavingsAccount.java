@@ -18,8 +18,16 @@ public class SavingsAccount extends Account {
         this.balance = balance;
     }
 
-    public String getAccountStatement() {
-        return null;
+    public String getAccountBalanceStatement() {
+        String format = String.format("%.2f", balance); 
+
+        String account_statement = "Account Balance Statement:\n" +
+                                   "Account Number: " + getAccountNumber() + "\n" +
+                                   "Owner: " + getOwnerFullname() + "\n" +
+                                   "Email: " + getOWNEREMAIL() + "\n" +
+                                   "Balance: " + format + "\n";
+            
+        return account_statement;
     }
 
     private boolean hasEnoughBalance(double amount) {
