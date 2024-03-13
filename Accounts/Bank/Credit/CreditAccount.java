@@ -29,8 +29,11 @@ public class CreditAccount extends Account implements Payment, Recompense {
         return false;
     }
 
+    // Janos and Mia here
+    @Override
     public String toString() {
-        return null;
+        return "CreditAccount{" +
+                "bank = " + getBank() + ", loan = " + loan + ", accountNumber = '" + getAccountNumber() + "'" + ", owner = '" + getOwnerFullName() + "'" + ", email = '" + getOwnerEmail() + "'" + '}';
     }
 
     /**
