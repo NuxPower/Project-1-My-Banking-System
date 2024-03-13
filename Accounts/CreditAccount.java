@@ -1,7 +1,7 @@
-package Accounts;
+package Credit;
 import Bank.Bank;
-
-public class CreditAccount extends Account {
+import Interfaces.*;
+public class CreditAccount extends Account implements Payment, Recompense {
     private double loan;
     
     public double getLoan() {

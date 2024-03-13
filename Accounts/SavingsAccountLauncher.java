@@ -1,6 +1,8 @@
-package Accs;
+package Savings;
 
-public class SavingsAccountLauncher {
+import Accounts.AccountLauncher;
+
+public class SavingsAccountLauncher extends AccountLauncher {
     public static void savingsAccountInit() {
 
     }
@@ -17,7 +19,7 @@ public class SavingsAccountLauncher {
 
     }
 
-    protected SavingsAccount getLoggedAccount() {
+    protected static SavingsAccount getLoggedAccount() {
         return null;
     }
 }
