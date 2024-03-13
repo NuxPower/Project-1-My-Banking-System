@@ -43,7 +43,7 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
      * Warns the account owner that their balance is not enough for the transaction to proceed
      * successfully.
      */
-    public void insufficientBalance() {
+    private void insufficientBalance() {
         System.out.println("Insufficient balance for the transaction. Please check your account balance.");
     }
 
@@ -53,14 +53,15 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
      * 
      * @param amount – Amount to be added or subtracted from the account balance.
      */
-    public void adjustAccountBalance(double amount) {
-        if (hasEnoughBalance(amount) == true) {
-            this.balance += amount;
-            System.out.println("Transaction succesful");
-        } else {
-            insufficientBalance();
+    private void adjustAccountBalance(double amount) {
+        if (!hasEnoughBalance(amount)) {
             amount = 0.0;
+            insufficientBalance();
+            return;
         }
+    
+        this.balance += amount;
+        System.out.println("Transaction successful");
     }
 
     // Here Janos and Mia
