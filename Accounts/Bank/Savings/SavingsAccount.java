@@ -38,8 +38,13 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
         return account_statement;
     }
 
-    // here janos and mia
-    private boolean hasEnoughBalance(double amount) {
+    /**
+     * Checks if the account has sufficient balance to cover a specified amount.
+     *
+     * @param amount the amount to be checked against the account balance
+     * @return true if the account has enough balance, false otherwise
+     */
+     private boolean hasEnoughBalance(double amount) {
         return (this.balance >= amount); 
     }
 
@@ -59,17 +64,20 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
      * @param amount – Amount to be added or subtracted from the account balance.
      */
     private void adjustAccountBalance(double amount) {
-        if (!hasEnoughBalance(amount)) {
-            amount = 0.0;
+        if (hasEnoughBalance(amount) == true) {
+            this.balance += amount;
+            System.out.println("Transaction succesful");
+        } else {
             insufficientBalance();
-            return;
+            amount = 0.0;
         }
-    
-        this.balance += amount;
-        System.out.println("Transaction successful");
     }
 
-    // Here Janos and Mia
+    /**
+     * Returns a string representation of the object by delegating to the {@code getAccountBalanceStatement} method.
+     *
+     * @return a formatted string containing account balance information
+     */
     public String toString() {
         return getAccountBalanceStatement();
     }
