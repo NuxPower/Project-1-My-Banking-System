@@ -21,6 +21,11 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
     }
 
 
+    /**
+     * Generates an account balance statement including account number, owner details, email, and balance.
+     *
+     * @return          the formatted account balance statement
+     */
     public String getAccountBalanceStatement() {
         String format = String.format("%.2f", balance); 
 
@@ -33,11 +38,11 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
         return account_statement;
     }
 
-    // Here Janos and Mia
+    // here janos and mia
+    private boolean hasEnoughBalance(double amount) {
+        return (this.balance >= amount); 
+    }
 
-    // private boolean hasEnoughBalance(double amount) {
-    //     return balance >= amount;
-    // }
     
     /*
      * Warns the account owner that their balance is not enough for the transaction to proceed
@@ -69,6 +74,15 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
         return getAccountBalanceStatement();
     }
 
+    /**
+     * A method to transfer money from one account to another within the same bank.
+     *
+     * @param  bank    the bank from which the transfer is taking place
+     * @param  account the account from which the transfer is being made
+     * @param  amount  the amount of money to be transferred
+     * @return         true if the transfer is successful, false otherwise
+     * @throws IllegalAccountType if the account type is invalid for the transfer
+     */
     @Override
     public boolean transfer(Bank bank, Account account, double amount) throws IllegalAccountType {
         if (account.getClass().equals(SavingsAccount.class)) {
@@ -87,6 +101,14 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
     } 
     
 
+    /**
+     * A method to transfer an amount from one account to another.
+     *
+     * @param  account  the account to transfer to
+     * @param  amount   the amount to transfer
+     * @return          true if the transfer is successful, false otherwise
+     * @throws IllegalAccountType if the account type is invalid
+     */
     @Override
     public boolean transfer(Account account, double amount) throws IllegalAccountType {
         if (account.getClass().equals(SavingsAccount.class)) {
@@ -104,6 +126,13 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
         }
     }
 
+
+    /**
+     * Perform a cash deposit if there are enough funds in the account.
+     *
+     * @param  amount   the amount to deposit
+     * @return          true if the deposit was successful, false otherwise
+     */
     @Override
     public boolean cashDeposit(double amount) {
         if (hasEnoughBalance(amount)) {
@@ -116,14 +145,13 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
         }
     }
 
-    public String getAccountBalance() {
-        return String.format("Savings Account Balance: $%.2f", this.balance);
-    }
 
-    private boolean hasEnoughBalance(double amount) {
-        return (this.balance >= amount); 
-    }
-
+    /**
+     * withdrawal function to deduct the specified amount from the balance
+     *
+     * @param  amount  the amount to be withdrawn
+     * @return         true if withdrawal is successful, false if there is insufficient balance
+     */
     @Override
     public boolean withdrawal(double amount) {
         if (hasEnoughBalance(amount)) {
