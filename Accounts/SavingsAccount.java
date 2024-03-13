@@ -34,6 +34,12 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
     }
 
     // Here Janos and Mia
+    /**
+     * Checks if the account has sufficient balance to cover a specified amount.
+     *
+     * @param amount the amount to be checked against the account balance
+     * @return true if the account has enough balance, false otherwise
+     */
 
     // private boolean hasEnoughBalance(double amount) {
     //     return balance >= amount;
@@ -66,6 +72,11 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
     }
 
     // Here Janos and Mia
+    /**
+     * Returns a string representation of the object by delegating to the {@code getAccountBalanceStatement} method.
+     *
+     * @return a formatted string containing account balance information
+     */
     public String toString() {
         return getAccountBalanceStatement();
     }
