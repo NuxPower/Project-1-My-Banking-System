@@ -35,12 +35,9 @@ public class CreditAccount extends Account implements Payment, Recompense {
      * @return Flag if this account can continue with the credit transaction.
      */
     private boolean canCredit(double amountAdjustment) {
-        double newLoan = amountAdjustment += this.loan;
-        if (newLoan <= getBank().getCreditLimit()) {
-            return true;
-        } else {
-            return false;
-        }
+        double newLoan = this.loan += amountAdjustment;
+        double creditLimit = this.getBank().getCreditLimit();
+        return newLoan <= creditLimit;
     }
 
     public String toString() {
