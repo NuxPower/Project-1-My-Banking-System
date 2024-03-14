@@ -95,18 +95,16 @@ public class CreditAccount extends Account implements Payment, Recompense {
     @Override
     public boolean pay(Account account, double amount) throws IllegalAccountType {
         if (account instanceof CreditAccount) {
-            CreditAccount creditAccount = (CreditAccount) account;
-            if (canCredit(amount)) {
-                double newBalance = creditAccount.getLoan() - amount;
-                creditAccount.setLoan(newBalance);
-                addNewTransaction(getAccountNumber(), Transaction.Transactions.Payment, "Payment of $" + amount);
-                creditAccount.addNewTransaction(creditAccount.getAccountNumber(), Transaction.Transactions.Payment, "Receipt of $" + amount);
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            throw new IllegalAccountType("Payment is only applicable to Credit Accounts");
+            throw new IllegalAccountType("Credit Accounts cannot pay to other Credit Accounts.");
         }
+    
+        if (amount <= 0 || amount > this.loan) {
+            return false;
+        }
+        
+        adjustLoanAmount(amount);
+        ((SavingsAccount) account).cashDeposit(amount);
+        this.addNewTransaction(this.getACCOUNTNUMBER(), Transactions.Payment, "A successful payment.");
+        return true;
     }
 }
