@@ -10,7 +10,7 @@ import Bank.Savings.SavingsAccount;
 public class Bank {
     private int ID;
     private String name, passcode;
-    private double DEPOSITLIMIT = 50000.0d, WITHDRAWLIMIT = 50000.0d, CREDITLIMIT = 50000.0d;
+    private double DEPOSITLIMIT = 50000.0d, WITHDRAWLIMIT = 50000.0d, CREDITLIMIT = 100000.0d;
     private double processingFee = 10.0d;
     private ArrayList<Account> BANKACCOUNTS;    
     public Bank(int ID, String name, String passcode) {
