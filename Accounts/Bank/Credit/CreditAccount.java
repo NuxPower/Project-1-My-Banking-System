@@ -61,8 +61,13 @@ public class CreditAccount extends Account implements Payment, Recompense {
         }
     }
 
+   // Janos and Mia here
     public String toString() {
-        return null;
+        return "CreditAccount{" +
+                "accountNumber = '" + getAccountNumber() + "'" +
+                ", owner ='" + getOwnerFullname() + "'" +
+                ", loan =" + loan +
+                '}';
     }
 
     /**
