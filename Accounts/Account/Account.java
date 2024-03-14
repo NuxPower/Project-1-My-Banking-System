@@ -4,10 +4,10 @@ import Accounts.Transaction;
 import Bank.Bank;
 public abstract class Account {
     private Bank bank;
-    private String accountNumber;
-    private String OWNERFNAME, OWNERLNAME, OWNEREMAIL;
+    private final String ACCOUNTNUMBER;
+    private final String OWNERFNAME, OWNERLNAME, OWNEREMAIL;
     private String pin;
-    private ArrayList<Transaction> TRANSACTIONS;
+    private final ArrayList<Transaction> TRANSACTIONS;
     
     public Bank getBank() {
         return bank;
@@ -38,14 +38,14 @@ public abstract class Account {
         return TRANSACTIONS;
     }
 
-    public Account(Bank bank, String accountNumber, 
-    String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin) {
+    public Account(Bank bank, String ACCOUNTNUMBER, String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin) {
         this.bank = bank;
-        this.accountNumber = accountNumber;
+        this.ACCOUNTNUMBER = ACCOUNTNUMBER;
         this.OWNERFNAME = OWNERFNAME;
         this.OWNERLNAME = OWNERLNAME;
         this.OWNEREMAIL = OWNEREMAIL;
         this.pin = pin;
+        this.TRANSACTIONS = new ArrayList<>();
     }
 
     /**
