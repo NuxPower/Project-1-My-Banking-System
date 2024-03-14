@@ -10,23 +10,30 @@ import Bank.Savings.SavingsAccount;
 public class Bank {
     private int ID;
     private String name, passcode;
-    private double DEPOSITLIMIT = 50000.0d, WITHDRAWLIMIT = 50000.0d, CREDITLIMIT = 100000.0d;
-    private double processingFee = 10.0d;
-    private ArrayList<Account> BANKACCOUNTS;    
+    private final double DEPOSITLIMIT, WITHDRAWLIMIT, CREDITLIMIT;
+    private double processingFee;
+    private final ArrayList<Account> BANKACCOUNTS;
+    
     public Bank(int ID, String name, String passcode) {
         this.ID = ID;
         this.name = name;
-        this.passcode = passcode;        
+        this.passcode = passcode;
+        this.DEPOSITLIMIT = 50000.0;
+        this.WITHDRAWLIMIT = 50000.0;
+        this.CREDITLIMIT = 100000.0;
+        this.processingFee = 10.0;
+        this.BANKACCOUNTS = new ArrayList<>();
     }
 
-    public Bank(int ID, String name, String passcode, double DEPOSITLIMIT, 
-    double WITHDRAWLIMIT, double CREDITLIMIT) {
+    public Bank(int ID, String name, String passcode, double DEPOSITLIMIT, double WITHDRAWLIMIT, double CREDITLIMIT) {
         this.ID = ID;
         this.name = name;
         this.passcode = passcode;
         this.DEPOSITLIMIT = DEPOSITLIMIT;
         this.WITHDRAWLIMIT = WITHDRAWLIMIT;
         this.CREDITLIMIT = CREDITLIMIT;
+        this.processingFee = 10.0;
+        this.BANKACCOUNTS = new ArrayList<>();
     }
 
     public int getID() {
