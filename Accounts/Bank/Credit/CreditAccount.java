@@ -22,11 +22,31 @@ public class CreditAccount extends Account implements Payment, Recompense {
     }
 
     public String getLoanStatement() {
-        return null;
+        String loan_statement = "Loan Statement:\n" +
+                                "Owner: " + getOwnerFullname() + "\n" +
+                                "Account Number: " + getAccountNumber() + "\n" +
+                                "Loan Amount: " + loan + "\n";
+        return loan_statement;
     }
 
     private boolean canCredit(double amountAdjustment) {
         return false;
+    }
+
+    private void adjustAmount(double amountAdjustment) {
+        if (amountAdjustment >= 0) {
+            loan += amountAdjustment; 
+            System.out.println("Loan amount: " + loan);
+        } else {
+            double newLoan = loan + amountAdjustment; 
+            if (newLoan >= 0) {
+                loan = newLoan;
+                System.out.println("Loan amount: " + loan);
+            } else {
+                loan = 0;
+                System.out.println("Loan amount: 0. Insufficient funds!");
+            }
+        }
     }
 
     public String toString() {
