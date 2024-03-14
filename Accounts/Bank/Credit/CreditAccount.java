@@ -25,8 +25,22 @@ public class CreditAccount extends Account implements Payment, Recompense {
         return null;
     }
 
+    /**
+     * Checks if this credit account can do additional credit transactions if the amount to credit will not
+     * exceeded the credit limit set by the bank associated to this Credit Account.
+     * 
+     * @param amountAdjustment – The amount of credit to be adjusted once the said transaction is
+     * processed.
+     * 
+     * @return Flag if this account can continue with the credit transaction.
+     */
     private boolean canCredit(double amountAdjustment) {
-        return false;
+        double newLoan = amountAdjustment += this.loan;
+        if (newLoan <= getBank().getCreditLimit()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String toString() {
