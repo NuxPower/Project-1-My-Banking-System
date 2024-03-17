@@ -9,8 +9,17 @@ public class CreditAccountLauncher extends AccountLauncher {
 
     }
 
-    private static void creditPaymentProcess() {
+    /**
+     * Method that is utilized to process the credit payment transaction
+     * 
+     * @throws IllegalAccountType
+     */
+    private static void creditPaymentProcess() throws IllegalAccountType {
+        String accNum = Main.prompt("Account number: ", true);
+        double amount = Double.parseDouble(Main.prompt("Amount: ", true));
 
+        Account account = getAssocBank().getBankAccount(getAssocBank(), accNum);
+        getLoggedAccount().pay(account, amount);
     }
 
     private static void creditRecompenseProcess() {
