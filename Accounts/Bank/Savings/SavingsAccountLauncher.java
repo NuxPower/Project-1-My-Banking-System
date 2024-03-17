@@ -9,8 +9,9 @@ public class SavingsAccountLauncher extends AccountLauncher {
      * Prints the account balance statement if a savings account is logged in.
      * Otherwise, prints a message indicating that no account is logged in.
      */
+
     public static void savingsAccountInit() {
-        // Retrieve the currently logged-in savings account
+        // Add initialization logic here
         SavingsAccount loggedAccount = getLoggedAccount();
 
          // Check if a savings account is logged in
@@ -18,7 +19,6 @@ public class SavingsAccountLauncher extends AccountLauncher {
             // Print welcome message and account balance statement
             System.out.println("Welcome to your savings account!");
             System.out.println(loggedAccount.getAccountBalanceStatement());
-            // Print message indicating no account is logged in
         } else {
             System.out.println("No account logged in.");
         }
