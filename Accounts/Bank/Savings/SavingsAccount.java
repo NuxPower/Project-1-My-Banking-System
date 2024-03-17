@@ -96,7 +96,7 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
         if (account.getClass().equals(SavingsAccount.class)) {
             if (hasEnoughBalance(amount)) {
                 this.balance -= amount;
-                ((SavingsAccount) account).balance += amount;
+                ((SavingsAccount) account).adjustAccountBalance(amount);
                 System.out.println("Transfer successful");
                 return true;
             } else {
@@ -106,8 +106,7 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
         } else {
             throw new IllegalAccountType("Invalid account type. Saving account can only transfer to another saving account.");
         }
-    } 
-    
+    }     
 
     /**
      * A method to transfer an amount from one account to another.
@@ -122,7 +121,7 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
         if (account.getClass().equals(SavingsAccount.class)) {
             if (hasEnoughBalance(amount)) {
                 this.balance -= amount;
-                ((SavingsAccount) account).balance += amount;
+                ((SavingsAccount) account).adjustAccountBalance(amount);
                 System.out.println("Transfer successful");
                 return true;
             } else {
