@@ -14,7 +14,18 @@ public class CreditAccountLauncher extends AccountLauncher {
     }
 
     private static void creditRecompenseProcess() {
-        
+        CreditAccount loggedAccount = getLoggedAccount();
+
+        if (loggedAccount != null) {
+            double amountToRecompense = loggedAccount.getAmountToRecompense();
+            if (loggedAccount.recompense(amountToRecompense)) {
+                System.out.println("Recompense successful!"); 
+            } else {
+                System.out.println("Recompense failed!");
+            }
+        } else {
+            System.out.println("No credit account found!");
+        }
     }
 
    // Janos and Mia here
