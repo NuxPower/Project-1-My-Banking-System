@@ -142,6 +142,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
      * 
      * @return Savings Account instance of the currently logged account.
      */
+    @Override
     protected static SavingsAccount getLoggedAccount() {
         Account account = AccountLauncher.getLoggedAccount();
         if (account instanceof SavingsAccount) {
