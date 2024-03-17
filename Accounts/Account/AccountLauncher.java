@@ -117,20 +117,18 @@ public class AccountLauncher {
         }
     }
     
-    /**
-     * Retrieves the currently logged CreditAccount if available, otherwise prints an error message and returns null.
-     *
-     * @return the currently logged CreditAccount, or null if not a Credit Account
-     */
-    // Mia and Janos dri atoa
+   /**
+    * Retrieves the currently logged CreditAccount if available, otherwise prints an error message and returns null.
+    *
+    * @return the currently logged CreditAccount, or null if not a Credit Account
+    */
     protected static CreditAccount getLoggedAccount() {
-        try {
-            // Attempt to cast the loggedAccount to CreditAccount
-            return (CreditAccount) loggedAccount;
-        } catch (ClassCastException e) {
-            // Handle ClassCastException, print an error message, and return null
-            System.out.println("The currently logged account is not a Credit Account.");
-            return null;
-        }
+       Account account = AccountLauncher.getLoggedAccount();
+       if (account instanceof CreditAccount) {
+           return (CreditAccount) account;
+       } else {
+           System.out.println("No logged-in credit account found.");
+           return null;
+       }
     }
 }
