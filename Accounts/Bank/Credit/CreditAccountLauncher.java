@@ -1,4 +1,7 @@
 package Bank.Credit;
+
+// Janos and Mia
+import Account.Account;
 import Account.AccountLauncher;
 
 public class CreditAccountLauncher extends AccountLauncher {
@@ -14,7 +17,13 @@ public class CreditAccountLauncher extends AccountLauncher {
         
     }
 
+   // Janos and Mia here
     protected static CreditAccount getLoggedAccount() {
-        return null;
+        Account account = AccountLauncher.getLoggedAccount();
+        if (account != null && account instanceof CreditAccount) {
+            return (CreditAccount) account;
+        } else {
+            return null;
+        }
     }
 }
