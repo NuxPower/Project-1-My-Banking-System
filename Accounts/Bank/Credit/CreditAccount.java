@@ -9,6 +9,7 @@ import Interfaces.Recompense;
 import Bank.Savings.SavingsAccount;
 public class CreditAccount extends Account implements Payment, Recompense {
     private double loan;
+    private amountToRecompense = 0.0;
     
     public double getLoan() {
         return loan;
@@ -16,6 +17,10 @@ public class CreditAccount extends Account implements Payment, Recompense {
 
     public void setLoan(double loan) {
         this.loan = loan;
+    }
+
+     public double getAmountToRecompense() {
+        return amountToRecompense;
     }
 
     public CreditAccount(Bank bank,  String accountNumber, String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double loan) {
@@ -79,6 +84,7 @@ public class CreditAccount extends Account implements Payment, Recompense {
             double newBalance = getLoan() + amount;
             setLoan(newBalance);
             addNewTransaction(getAccountNumber(), Transaction.Transactions.Recompense, "Recompense of $" + amount);
+            this.amountToRecompense = amount;
             return true;
         } else {
             return false;
