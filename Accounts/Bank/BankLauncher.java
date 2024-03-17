@@ -51,7 +51,13 @@ public class BankLauncher {
 
     }
 
+    // Janos and Mia here
     public static Bank getBank(Comparator<Bank> comparator, Bank bank) {
+        for (Bank registeredBank : BANKS) {
+            if (comparator.compare(registeredBank, bank) == 0) {
+                return registeredBank;
+            }
+        }
         return null;
     }
 
