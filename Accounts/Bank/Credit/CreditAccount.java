@@ -3,10 +3,13 @@ import Account.Account;
 import Accounts.IllegalAccountType;
 import Bank.Bank;
 import Accounts.Transaction;
+import Accounts.Transaction.Transactions;
 import Interfaces.Payment;
 import Interfaces.Recompense;
+import Bank.Savings.SavingsAccount;
 public class CreditAccount extends Account implements Payment, Recompense {
     private double loan;
+    private amountToRecompense = 0.0;
     
     public double getLoan() {
         return loan;
@@ -16,6 +19,10 @@ public class CreditAccount extends Account implements Payment, Recompense {
         this.loan = loan;
     }
 
+     public double getAmountToRecompense() {
+        return amountToRecompense;
+    }
+
     public CreditAccount(Bank bank,  String accountNumber, String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double loan) {
         super(bank, accountNumber, OWNERFNAME, OWNERLNAME, OWNEREMAIL, pin); 
         this.loan = loan;
@@ -23,7 +30,7 @@ public class CreditAccount extends Account implements Payment, Recompense {
 
     public String getLoanStatement() {
         String loan_statement = "Loan Statement:\n" +
-                                "Owner: " + getOwnerFullname() + "\n" +
+                                "Owner: " + getOwnerFullName() + "\n" +
                                 "Account Number: " + getAccountNumber() + "\n" +
                                 "Loan Amount: " + loan + "\n";
         return loan_statement;
@@ -40,7 +47,7 @@ public class CreditAccount extends Account implements Payment, Recompense {
      */
     private boolean canCredit(double amountAdjustment) {
         double newLoan = this.loan + amountAdjustment;
-        double creditLimit = this.getBank().getCreditLimit();
+        double creditLimit = this.getBank().getCREDITLIMIT();
 
         return newLoan <= creditLimit;
     }
@@ -61,19 +68,16 @@ public class CreditAccount extends Account implements Payment, Recompense {
         }
     }
 
-   // Janos and Mia here
     /**
      * Returns a string representation of the CreditAccount object, including its account number, owner's full name,
      * and the loan amount.
      *
      * @return a formatted string representing the CreditAccount object
      */
+    @Override
     public String toString() {
         return "CreditAccount{" +
-                "accountNumber = '" + getAccountNumber() + "'" +
-                ", owner ='" + getOwnerFullname() + "'" +
-                ", loan =" + loan +
-                '}';
+                "bank = " + getBank() + ", loan = " + loan + ", accountNumber = '" + getAccountNumber() + "'" + ", owner = '" + getOwnerFullName() + "'" + ", email = '" + getOwnerEmail() + "'" + '}';
     }
 
     /**
@@ -88,6 +92,7 @@ public class CreditAccount extends Account implements Payment, Recompense {
             double newBalance = getLoan() + amount;
             setLoan(newBalance);
             addNewTransaction(getAccountNumber(), Transaction.Transactions.Recompense, "Recompense of $" + amount);
+            this.amountToRecompense = amount;
             return true;
         } else {
             return false;
@@ -113,9 +118,9 @@ public class CreditAccount extends Account implements Payment, Recompense {
             return false;
         }
         
-        adjustLoanAmount(amount);
+        adjustAmount(amount);
         ((SavingsAccount) account).cashDeposit(amount);
-        this.addNewTransaction(this.getACCOUNTNUMBER(), Transactions.Payment, "A successful payment.");
+        this.addNewTransaction(this.getAccountNumber(), Transactions.Payment, "A successful payment.");
         return true;
     }
 }
