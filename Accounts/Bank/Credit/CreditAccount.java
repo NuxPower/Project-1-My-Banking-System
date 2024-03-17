@@ -3,8 +3,10 @@ import Account.Account;
 import Accounts.IllegalAccountType;
 import Bank.Bank;
 import Accounts.Transaction;
+import Accounts.Transaction.Transactions;
 import Interfaces.Payment;
 import Interfaces.Recompense;
+import Bank.Savings.SavingsAccount;
 public class CreditAccount extends Account implements Payment, Recompense {
     private double loan;
     
@@ -23,7 +25,7 @@ public class CreditAccount extends Account implements Payment, Recompense {
 
     public String getLoanStatement() {
         String loan_statement = "Loan Statement:\n" +
-                                "Owner: " + getOwnerFullname() + "\n" +
+                                "Owner: " + getOwnerFullName() + "\n" +
                                 "Account Number: " + getAccountNumber() + "\n" +
                                 "Loan Amount: " + loan + "\n";
         return loan_statement;
@@ -40,7 +42,7 @@ public class CreditAccount extends Account implements Payment, Recompense {
      */
     private boolean canCredit(double amountAdjustment) {
         double newLoan = this.loan + amountAdjustment;
-        double creditLimit = this.getBank().getCreditLimit();
+        double creditLimit = this.getBank().getCREDITLIMIT();
 
         return newLoan <= creditLimit;
     }
@@ -61,13 +63,8 @@ public class CreditAccount extends Account implements Payment, Recompense {
         }
     }
 
-   // Janos and Mia here
     public String toString() {
-        return "CreditAccount{" +
-                "accountNumber = '" + getAccountNumber() + "'" +
-                ", owner ='" + getOwnerFullname() + "'" +
-                ", loan =" + loan +
-                '}';
+        return null;
     }
 
     /**
@@ -107,9 +104,9 @@ public class CreditAccount extends Account implements Payment, Recompense {
             return false;
         }
         
-        adjustLoanAmount(amount);
+        adjustAmount(amount);
         ((SavingsAccount) account).cashDeposit(amount);
-        this.addNewTransaction(this.getACCOUNTNUMBER(), Transactions.Payment, "A successful payment.");
+        this.addNewTransaction(this.getAccountNumber(), Transactions.Payment, "A successful payment.");
         return true;
     }
 }
