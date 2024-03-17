@@ -68,7 +68,12 @@ public class CreditAccount extends Account implements Payment, Recompense {
         }
     }
 
-    // Janos and Mia here
+    /**
+     * Returns a string representation of the CreditAccount object, including its account number, owner's full name,
+     * and the loan amount.
+     *
+     * @return a formatted string representing the CreditAccount object
+     */
     @Override
     public String toString() {
         return "CreditAccount{" +
