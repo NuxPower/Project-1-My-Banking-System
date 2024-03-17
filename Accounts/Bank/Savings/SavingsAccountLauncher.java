@@ -84,11 +84,59 @@ public class SavingsAccountLauncher extends AccountLauncher {
         }
     }
     
-    private static void fundTransferProcess() {
+    /**
+     * A method that deals with the fund transfer process transaction.
+     * 
+     * @throws IllegalAccountType
+     */
+    private static void fundTransferProcess() throws IllegalAccountType {
+        SavingsAccount loggedAccount = getLoggedAccount();
+        if (loggedAccount == null) {
+            System.out.println("No logged-in savings account found.");
+            return;
+        }
 
+        System.out.println("[1]. Internal transfer \n[2]. External transfer");
+        Main.setOption();
+
+        switch (Main.getOption()) {
+            case 1:
+                String internalAccNum = Main.prompt("Account Number: ", true);
+                double internalAmount = Double.parseDouble(Main.prompt("Amount: ", true));
+        
+                SavingsAccount internalAccount = (SavingsAccount) loggedAccount.getBank().getBankAccount(loggedAccount.getBank(), internalAccNum);
+                loggedAccount.transfer(internalAccount, internalAmount);
+                break;
+    
+            case 2:
+                int externalBankID = Integer.parseInt(Main.prompt("Bank ID: ", true));
+                String externalAccNum = Main.prompt("Account Number: ", true);
+                double externalAmount = Double.parseDouble(Main.prompt("Amount: ", true));
+
+                for (Bank bank : BankLauncher.getBANKS()) {
+                    if (bank.getID() == externalBankID) {
+                        Account externalAccount = bank.getBankAccount(bank, externalAccNum);
+                        loggedAccount.transfer(bank, externalAccount, externalAmount);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
     }
 
+    /**
+     * Method to get the currently logged Savings Account
+     * 
+     * @return Savings Account instance of the currently logged account.
+     */
     protected static SavingsAccount getLoggedAccount() {
-        return null;
+        Account account = AccountLauncher.getLoggedAccount();
+        if (account instanceof SavingsAccount) {
+            return (SavingsAccount) account;
+        } else {
+            System.out.println("No logged-in savings account found.");
+            return null;
+        }
     }
 }
