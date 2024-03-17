@@ -12,19 +12,22 @@ public class SavingsAccountLauncher extends AccountLauncher {
     }
 
    //  Janos and Mia here
+    /**
+     * Initiates the withdrawal process for the logged-in savings account.
+     * Prompts the user to enter the withdrawal amount and performs the withdrawal if the amount is valid and sufficient.
+     * Prints appropriate messages indicating the success or failure of the withdrawal process.
+     */
     private static void withdrawProcess() {
         
         SavingsAccount loggedAccount = getLoggedAccount();
+        // Check if a savings account is logged in
         if (loggedAccount != null) {
             loggedAccount.toString();
             String withdrawAmount = Main.prompt("Enter the amount to withdraw: ", true);
             double amount = Double.parseDouble(withdrawAmount);
-            // Scanner scanner = new Scanner(System.in);
-            // System.out.print("Enter amount to withdraw: ");
-            // double amount = scanner.nextDouble();
-            
-            
+                        
             if (amount <= 0) {
+                // Check if the withdrawal amount is valid
                 System.out.println("Invalid amount. Please enter a positive value.");
                 return;
             }
