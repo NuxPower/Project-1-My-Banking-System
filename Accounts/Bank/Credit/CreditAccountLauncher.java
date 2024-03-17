@@ -24,16 +24,31 @@ public class CreditAccountLauncher extends AccountLauncher {
 
     private static void creditRecompenseProcess() {
         CreditAccount loggedAccount = getLoggedAccount();
+        if (loggedAccount == null) {
+            System.out.println("No credit account logged in.");
+            return;
+        }
 
-        if (loggedAccount != null) {
-            double amountToRecompense = loggedAccount.getAmountToRecompense();
-            if (loggedAccount.recompense(amountToRecompense)) {
-                System.out.println("Recompense successful!"); 
-            } else {
-                System.out.println("Recompense failed!");
+        double amountToRecompense;
+        while (true) {
+            String amount = Main.prompt("Enter the amount to recompense: ", true);
+            try {
+                amountToRecompense = Double.parseDouble(amount);
+                if (amountToRecompense <= 0) {
+                    System.out.println("Amount must be greater than zero!");
+                } else {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid amount!");
             }
+        }
+
+        boolean success = loggedAccount.recompense(amountToRecompense);
+        if (success) {
+            System.out.println("Recompense successful!");
         } else {
-            System.out.println("No credit account found!");
+            System.out.println("Recompense failed! The entered amount exceeds the credit limit!");
         }
     }
 
