@@ -35,9 +35,16 @@ public class BankLauncher {
 
     }
 
+    /**
+     * Logs out the currently logged-in bank by setting the loggedBank reference to null.
+     * Prints a message indicating the successful logout and destruction of the session.
+     */
     // Janos and Mia here
     private static void logout() {
+        // Set the loggedBank reference to null to logout
         loggedBank = null;
+
+        // Print a message indicating the successful logout and destruction of the session
         System.out.println("Logout successful. Session destroyed.");
     }
     
