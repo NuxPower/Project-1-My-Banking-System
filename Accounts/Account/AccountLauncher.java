@@ -9,6 +9,14 @@ public class AccountLauncher {
     private static Account loggedAccount;
     private static Bank assocBank;
     
+    public static Bank getAssocBank() {
+        return assocBank;
+    }
+
+    public static void setAssocBank(Bank assocBank) {
+        AccountLauncher.assocBank = assocBank;
+    }
+
     /**
     * Checks if a user is currently logged in by verifying the presence of a logged account.
      *
@@ -117,20 +125,8 @@ public class AccountLauncher {
         }
     }
     
-    /**
-     * Retrieves the currently logged CreditAccount if available, otherwise prints an error message and returns null.
-     *
-     * @return the currently logged CreditAccount, or null if not a Credit Account
-     */
-    // Mia and Janos dri atoa
-    protected static CreditAccount getLoggedAccount() {
-        try {
-            // Attempt to cast the loggedAccount to CreditAccount
-            return (CreditAccount) loggedAccount;
-        } catch (ClassCastException e) {
-            // Handle ClassCastException, print an error message, and return null
-            System.out.println("The currently logged account is not a Credit Account.");
-            return null;
-        }
+
+    protected static Account getLoggedAccount() {
+        return loggedAccount;
     }
 }

@@ -2,7 +2,9 @@ package Bank.Savings;
 import Account.Account;
 import Accounts.IllegalAccountType;
 import Bank.Bank;
-import Interfaces.*;
+import Interfaces.Withdrawal;
+import Interfaces.Deposit;
+import Interfaces.FundTransfer;
 
 public class SavingsAccount extends Account implements Withdrawal, Deposit, FundTransfer {
     private double balance;
@@ -57,21 +59,23 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
         System.out.println("Insufficient balance for the transaction. Please check your account balance.");
     }
 
-    /*
-     * Adjust the account balance of this savings account based on the amount to be adjusted. If it
-     * results to the account balance going less than 0.0, then it is forcibly reset to 0.0.
-     * 
-     * @param amount – Amount to be added or subtracted from the account balance.
-     */
-    private void adjustAccountBalance(double amount) {
-        if (hasEnoughBalance(amount) == true) {
-            this.balance += amount;
-            System.out.println("Transaction succesful");
-        } else {
+    /*      
+      * Adjusts the account balance of this savings account based on the amount to be adjusted.
+      * If the result of the adjustment brings the balance below 0.0, the balance is forcibly reset to 0.0.
+      *
+      * @param amount the amount to be added or subtracted from the account balance
+      */
+      private void adjustAccountBalance(double amount) {
+        if (!hasEnoughBalance(amount)) {
             insufficientBalance();
-            amount = 0.0;
+            return;
+        }
+        this.balance += amount;
+        if (this.balance < 0.0) {
+            this.balance = 0.0;
         }
     }
+
 
     /**
      * Returns a string representation of the object by delegating to the {@code getAccountBalanceStatement} method.
@@ -93,21 +97,19 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
      */
     @Override
     public boolean transfer(Bank bank, Account account, double amount) throws IllegalAccountType {
-        if (account.getClass().equals(SavingsAccount.class)) {
-            if (hasEnoughBalance(amount)) {
-                this.balance -= amount;
-                ((SavingsAccount) account).balance += amount;
-                System.out.println("Transfer successful");
-                return true;
-            } else {
-                insufficientBalance();
-                return false;
-            }
-        } else {
+        if (!(account instanceof SavingsAccount)) {
             throw new IllegalAccountType("Invalid account type. Saving account can only transfer to another saving account.");
         }
-    } 
-    
+        if (!hasEnoughBalance(amount)) {
+            insufficientBalance();
+            return false;
+        }
+        this.balance -= amount;
+        ((SavingsAccount) account).adjustAccountBalance(amount);
+        System.out.println("Transfer successful");
+        return true;
+    }
+   
 
     /**
      * A method to transfer an amount from one account to another.
@@ -119,36 +121,37 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
      */
     @Override
     public boolean transfer(Account account, double amount) throws IllegalAccountType {
-        if (account.getClass().equals(SavingsAccount.class)) {
-            if (hasEnoughBalance(amount)) {
-                this.balance -= amount;
-                ((SavingsAccount) account).balance += amount;
-                System.out.println("Transfer successful");
-                return true;
-            } else {
-                insufficientBalance();
-                return false;
-            }
-        } else {
+        if (!(account instanceof SavingsAccount)) {
             throw new IllegalAccountType("Invalid account type. Saving account can only transfer to another saving account.");
         }
+        if (!hasEnoughBalance(amount)) {
+            insufficientBalance();
+            return false;
+        }
+        this.balance -= amount;
+        ((SavingsAccount) account).adjustAccountBalance(amount);
+        System.out.println("Transfer successful");
+        return true;
     }
-
 
     /**
      * Perform a cash deposit if there are enough funds in the account.
      *
      * @param  amount   the amount to deposit
      * @return          true if the deposit was successful, false otherwise
-     */
+     */ 
     @Override
     public boolean cashDeposit(double amount) {
-        if (hasEnoughBalance(amount)) {
-            this.balance += amount;
-            System.out.println("Cash deposit successful");
+        if (hasEnoughBalance(amount) && amount <= this.getBank().getDEPOSITLIMIT()) {
+            adjustAccountBalance(amount);
+            System.out.println("Deposit successful");
             return true;
         } else {
-            insufficientBalance();
+            if (amount > this.getBank().getDEPOSITLIMIT()) {
+                System.out.println("Cannot exceed the bank's deposit limit.");
+            } else {
+                insufficientBalance();
+            }
             return false;
         }
     }
