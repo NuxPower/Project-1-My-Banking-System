@@ -15,7 +15,41 @@ public class BankLauncher {
     }
 
     public static void bankInit() {
+        if (isLogged()) {
+            boolean menuContinue = true;
 
+            while (menuContinue) {
+                System.out.println("Bank Menu:");
+                System.out.println("1. Show Accounts");
+                System.out.println("2. New Accounts");
+                System.out.println("3. Logout");
+
+                String choice_str = Main.prompt("Select an option: ", true);
+
+                try {
+                    int choice = Integer.parseInt(choice_str);
+
+                    switch (choice) {
+                        case 1:
+                            showAccounts();
+                            break;
+                        case 2:
+                            newAccounts();
+                            break;
+                        case 3:
+                            logout();
+                            menuContinue = false;
+                            break;
+                        default:
+                            System.out.println("Invalid option! Please try again.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input!");
+                }
+            }
+        } else {
+            System.out.println("Please login to your bank account.");
+        }
     }
 
     public static void showAccounts() {
@@ -25,7 +59,21 @@ public class BankLauncher {
         }
     }
     public static void bankLogin() {
-        String username = 
+        System.out.println("Bank Login:");
+        String accountNumber = Main.prompt("Enter bank account number: ", true);
+        String pin = Main.prompt("Enter PIN: ", true);
+        
+        for (Bank bank : BANKS) {
+            for (Account account : bank.getBANKACCOUNTS()) {
+                if (account.getAccountNumber().equals(accountNumber) && account.getPin().equals(pin)) {
+                    loggedBank = bank;
+                    System.out.println("Login successful!");
+                    return;
+                }
+            }
+        }
+        
+        System.out.println("Invalid account number or PIN. Please try again."); 
     }
 
     /**
@@ -95,7 +143,7 @@ public class BankLauncher {
     }
 
     private static void addBank(Bank b) {
-
+        BANKS.add(b);
     }
 
     // Janos and Mia here
@@ -126,7 +174,7 @@ public class BankLauncher {
     }
 
     public static int bankSize() {
-        return 0;
+        return BANKS.size();
     }
 
     public static ArrayList<Bank> getBANKS() {
