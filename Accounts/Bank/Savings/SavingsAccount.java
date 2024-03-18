@@ -2,7 +2,9 @@ package Bank.Savings;
 import Account.Account;
 import Accounts.IllegalAccountType;
 import Bank.Bank;
-import Interfaces.*;
+import Interfaces.Withdrawal;
+import Interfaces.Deposit;
+import Interfaces.FundTransfer;
 
 public class SavingsAccount extends Account implements Withdrawal, Deposit, FundTransfer {
     private double balance;
