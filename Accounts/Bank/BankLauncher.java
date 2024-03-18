@@ -35,9 +35,12 @@ public class BankLauncher {
 
     }
 
+    // Janos and Mia here
     private static void logout() {
-
+        loggedBank = null;
+        System.out.println("Logout successful. Session destroyed.");
     }
+    
 
     public static void createNewBank() {
 
