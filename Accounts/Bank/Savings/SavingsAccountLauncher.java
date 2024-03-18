@@ -16,16 +16,31 @@ public class SavingsAccountLauncher extends AccountLauncher {
      */
 
     public static void savingsAccountInit() {
-        // Add initialization logic here
-        SavingsAccount loggedAccount = getLoggedAccount();
+        Main.showMenuHeader("Savings Account Menu");
+        Main.showMenu(51);
+        Main.setOption();
 
-         // Check if a savings account is logged in
-        if (loggedAccount != null) {
-            // Print welcome message and account balance statement
-            System.out.println("Welcome to your savings account!");
-            System.out.println(loggedAccount.getAccountBalanceStatement());
-        } else {
-            System.out.println("No account logged in.");
+        switch (Main.getOption()) {
+            case 1:
+                getLoggedAccount().getAccountBalanceStatement();
+                break;
+            case 2:
+                depositProcess();
+                break;
+            case 3:
+                withdrawProcess();
+                break;
+            case 4:
+                fundTransferProcess();
+                break;
+            case 5:
+                getLoggedAccount().getTransactionsInfo();
+                break;
+            case 6:
+                break;
+            default:
+                System.out.println("Invalid option");
+                break;
         }
     }
 
