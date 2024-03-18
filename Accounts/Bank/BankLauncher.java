@@ -28,11 +28,41 @@ public class BankLauncher {
         String username = 
     }
 
+    /**
+     * Bank interaction when creating new accounts for the currently logged in bank.
+     */
     private static void newAccounts() {
-
+        Main.showMenuHeader("New Account Type");
+        Main.showMenu(33);
+        Main.setOption();
+        switch (Main.getOption()) {
+            case 1:
+                CreditAccount newCreditAcc = getLoggedBank().createNewCreditAccount();
+                getLoggedBank().addNewAccount(newCreditAcc);
+                break;
+            case 2:
+                SavingsAccount newSavingAcc = getLoggedBank().createNewSavingsAccount();
+                getLoggedBank().addNewAccount(newSavingAcc);
+                break;
+            default:
+                System.out.println("Invalid option");
+                break;
+        }
     }
+    
+    /**
+     * Creates a new login session for the logged in bank user. Sets up a new value for the loggedBank
+     * field.
+     * 
+     * @param b – Bank user that successfully logged in.
+     */
     private static void setLogSession(Bank b) {
+        if (isLogged()) {
+            System.out.println("Another bank account is currently logged in");
+            return;
+        }
 
+        setLoggedBank(b);
     }
 
     // Janos and Mia here
@@ -78,7 +108,20 @@ public class BankLauncher {
         return null;
     }
 
+    /**
+     * Finds the Account object based on some account number on all registered banks.
+     * 
+     * @param accountNum – Account number of target Account.
+     * 
+     * @return Account object if it exists. Null if not found.
+     */
     public static Account findAccount(String accountNum) {
+        for (Bank bank : getBANKS()) {
+            if (Bank.accountExist(bank, accountNum) == true){
+                return bank.getBankAccount(bank, accountNum);
+            }
+        }
+
         return null;
     }
 
