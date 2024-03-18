@@ -51,13 +51,24 @@ public class BankLauncher {
 
     }
 
+    /**
+     * Searches for a bank in the list of registered banks using the specified comparator.
+     * 
+     * @param comparator a comparator to determine the equality of banks
+     * @param bank the bank object to search for
+     * @return the bank object found in the list of registered banks, or null if not found
+     */
     // Janos and Mia here
     public static Bank getBank(Comparator<Bank> comparator, Bank bank) {
+        // Iterate through the list of registered banks
         for (Bank registeredBank : BANKS) {
+            // Compare each registered bank with the provided bank using the specified comparator
             if (comparator.compare(registeredBank, bank) == 0) {
+                // If the comparison result is 0 (indicating equality), return the registered bank
                 return registeredBank;
             }
         }
+        // If no matching bank is found, return null
         return null;
     }
 
