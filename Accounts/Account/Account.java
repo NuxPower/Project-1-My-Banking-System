@@ -22,7 +22,7 @@ public abstract class Account {
         this.pin = pin;
     }
     public String getAccountNumber() {
-        return accountNumber;
+        return ACCOUNTNUMBER;
     }
     public String getOWNERFNAME() {
         return OWNERFNAME;
@@ -69,7 +69,7 @@ public abstract class Account {
     * @return         	description of the transactions information
     */
     public String getTransactionsInfo() {
-        String transactionsInfo = "Transactions for the Account Number: " + accountNumber + "\n";
+        String transactionsInfo = "Transactions for the Account Number: " + ACCOUNTNUMBER + "\n";
         
         int i = 0;
         while (i < TRANSACTIONS.size()) {
@@ -95,7 +95,7 @@ public abstract class Account {
             //Append bank information or indicate if not available
         accountInfo += String.format("Bank:\n%s", bank != null ? bank.toString() : "No bank information available") + "\n";
             //Append account details
-        accountInfo += String.format("Account Number: %s\n", accountNumber);
+        accountInfo += String.format("Account Number: %s\n", ACCOUNTNUMBER);
         accountInfo += String.format("Owner: %s\n", getOwnerFullName());
         accountInfo += String.format("Owner Email: %s\n", OWNEREMAIL);
         accountInfo += String.format("PIN: %s\n", pin);

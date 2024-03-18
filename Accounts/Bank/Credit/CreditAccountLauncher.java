@@ -3,6 +3,8 @@ package Bank.Credit;
 // Janos and Mia
 import Account.Account;
 import Account.AccountLauncher;
+import Accounts.IllegalAccountType;
+import Main.Main;
 
 public class CreditAccountLauncher extends AccountLauncher {
     public static void creditAccountInit() {
@@ -60,7 +62,6 @@ public class CreditAccountLauncher extends AccountLauncher {
      *
      * @return the currently logged-in CreditAccount, or null if not available or not a CreditAccount
      */
-    @Override
     protected static CreditAccount getLoggedAccount() {
         // Attempt to obtain the logged account
         Account account = AccountLauncher.getLoggedAccount();

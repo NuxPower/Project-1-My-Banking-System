@@ -9,6 +9,14 @@ public class AccountLauncher {
     private static Account loggedAccount;
     private static Bank assocBank;
     
+    public static Bank getAssocBank() {
+        return assocBank;
+    }
+
+    public static void setAssocBank(Bank assocBank) {
+        AccountLauncher.assocBank = assocBank;
+    }
+
     /**
     * Checks if a user is currently logged in by verifying the presence of a logged account.
      *
