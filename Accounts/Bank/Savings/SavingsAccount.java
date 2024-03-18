@@ -17,9 +17,6 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
 
     public SavingsAccount(Bank bank,  String accountNumber, String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double balance) {
         super(bank, accountNumber, OWNERFNAME, OWNERLNAME, OWNEREMAIL, pin);
-        if (balance < 0) {
-            throw new IllegalArgumentException("Balance cannot be negative.");
-        }
         this.balance = balance;
     }
 
