@@ -46,8 +46,22 @@ public class BankLauncher {
 
     }
 
+     // Janos and Mia here
     public static void showBanksMenu() {
-
+        if (BANKS == null || BANKS.isEmpty()) {
+            System.out.println("No banks registered or created.");
+            return;
+        }
+    
+        System.out.println("Registered Banks:");
+        System.out.println("-------------------------------------");
+    
+        for (int i = 0; i < BANKS.size(); i++) {
+            Bank bank = BANKS.get(i);
+            System.out.println((i + 1) + ". " + bank.getName());
+            System.out.println("   ID: " + bank.getID());
+            System.out.println("-------------------------------------");
+        }
     }
 
     private static void addBank(Bank b) {
