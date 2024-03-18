@@ -43,16 +43,24 @@ public class BankLauncher {
 
     }
 
+     /**
+     * Displays a menu of registered banks if there are any, showing their names and IDs.
+     * If there are no registered banks or the list of banks is empty, it prints a message indicating so.
+     */
      // Janos and Mia here
     public static void showBanksMenu() {
+        // Check if the list of registered banks is null or empty
         if (BANKS == null || BANKS.isEmpty()) {
+            // Print a message indicating no banks are registered or created
             System.out.println("No banks registered or created.");
             return;
         }
-    
+        
+        // Print a header for the registered banks menu
         System.out.println("Registered Banks:");
         System.out.println("-------------------------------------");
-    
+
+        // Iterate through the list of registered banks and display their names and IDs
         for (int i = 0; i < BANKS.size(); i++) {
             Bank bank = BANKS.get(i);
             System.out.println((i + 1) + ". " + bank.getName());
