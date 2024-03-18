@@ -8,7 +8,28 @@ import Main.Main;
 
 public class CreditAccountLauncher extends AccountLauncher {
     public static void creditAccountInit() {
+        Main.showMenuHeader("Credit Account Menu");
+        Main.showMenu(41);
+        Main.setOption();
 
+        switch (Main.getOption()) {
+            case 1:
+                getLoggedAccount().getLoanStatement();
+                break;
+            case 2:
+                creditPaymentProcess();
+                break;
+            case 3:
+                creditRecompenseProcess();
+                break;
+            case 4:
+                getLoggedAccount().getTransactionsInfo();
+            case 5:
+                break;
+            default:
+                System.out.println("Invalid option");
+                break;
+        }
     }
 
     /**
