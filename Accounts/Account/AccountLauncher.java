@@ -117,16 +117,24 @@ public class AccountLauncher {
         }
     }
     
-   /**
-    * Retrieves the currently logged CreditAccount if available, otherwise prints an error message and returns null.
-    *
-    * @return the currently logged CreditAccount, or null if not a Credit Account
-    */
+     /**
+     * Retrieves the currently logged-in CreditAccount, if available.
+     * This method delegates to AccountLauncher.getLoggedAccount() to obtain the logged account,
+     * and returns it if it is an instance of CreditAccount. Otherwise, it prints an error message
+     * indicating no logged-in credit account is found, and returns null.
+     *
+     * @return the currently logged-in CreditAccount, or null if not available or not a CreditAccount
+     */
     protected static CreditAccount getLoggedAccount() {
+        // Attempt to obtain the logged account
        Account account = AccountLauncher.getLoggedAccount();
+
+        // Check if the obtained account is not null and is an instance of CreditAccount
        if (account instanceof CreditAccount) {
+           // If so, return the logged CreditAccount
            return (CreditAccount) account;
        } else {
+           // Otherwise, print an error message and return null
            System.out.println("No logged-in credit account found.");
            return null;
        }
