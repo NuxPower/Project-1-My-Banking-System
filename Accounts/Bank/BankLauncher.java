@@ -19,25 +19,22 @@ public class BankLauncher {
             boolean menuContinue = true;
 
             while (menuContinue) {
-                System.out.println("Bank Menu:");
-                System.out.println("1. Show Accounts");
-                System.out.println("2. New Accounts");
-                System.out.println("3. Logout");
-
-                String choice_str = Main.prompt("Select an option: ", true);
+                Main.showMenuHeader("Bank Menu");
+                Main.showMenu(Menu.BankMenu.menuIdx);
 
                 try {
-                    int choice = Integer.parseInt(choice_str);
+                    Main.setOption(); 
+                    int choice = Main.getOption();
 
                     switch (choice) {
                         case 1:
-                            showAccounts();
+                            showAccounts(); 
                             break;
                         case 2:
-                            newAccounts();
+                            newAccounts(); 
                             break;
                         case 3:
-                            logout();
+                            logout(); 
                             menuContinue = false;
                             break;
                         default:
