@@ -1,4 +1,5 @@
 package Bank;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import Account.Account;
@@ -171,31 +172,33 @@ public class Bank {
                 System.out.println("Invalid input! Please input a valid email address.");
             }
         }
-    
-        // Prompt for username
-        String username;
+
+        // Prompt for account number
+        String accountNum;
         while (true) {
             try {
-                Field<String, String> usernameField = new Field<>("Enter username: ", String.class, "3", validateString);
-                usernameField.setFieldValue("Enter username: ");
-                username = usernameField.getFieldValue();
-                if (username.length() >= 3) {
-                    Field<String, String> usernameFieldFinal = new Field<>("Username", String.class, username, validateString);
-                    createNew.add(usernameFieldFinal);
+                Field<String, String> accountNumField = new Field<>("Enter account number: ", String.class, "4", validateString);
+                accountNumField.setFieldValue("Enter account number: ");
+                int num = Integer.parseInt(accountNumField.getFieldValue());
+                accountNum = String.format("%d", num);
+                if (accountNum.length() >= 4) {
+                    Field<String, String> accountNumFieldFinal = new Field<>("Account Number", String.class, accountNum, validateString);
+                    createNew.add(accountNumFieldFinal);
                     break;
-                } 
+                }
             } catch (IllegalArgumentException exc) {
-                System.out.println("Invalid input! Please input a valid username.");
+                System.out.println("Invalid input! Please input a valid account number.");
             }
         }
-    
+
         // Prompt for pin
         String pin;
         while (true) {
             try {
                 Field<String, String> pinField = new Field<>("Enter pin: ", String.class, "4", validateString);
                 pinField.setFieldValue("Enter pin: ");
-                pin = pinField.getFieldValue();
+                int pinNum = Integer.parseInt(pinField.getFieldValue());
+                pin = String.format("%d", pinNum);
                 if (pin.length() >= 4) {
                     Field<String, String> pinFieldFinal = new Field<>("Pin", String.class, pin, validateString);
                     createNew.add(pinFieldFinal);
@@ -204,15 +207,7 @@ public class Bank {
             } catch (IllegalArgumentException exc) {
                 System.out.println("Invalid input! Please input a valid pin.");
             }
-        }
-    
-        // Generate and add account number
-        int idTemplate = 2024;
-        String accountNum = Integer.toString(idTemplate);
-        accountNum += String.format("%04d", BANKACCOUNTS.size() + 1);
-        Field<String, String> accountNumberField = new Field<>("Account Number", String.class, accountNum, validateString);
-        createNew.add(accountNumberField);
-    
+        }    
         return createNew;
     }
             
@@ -229,8 +224,8 @@ public class Bank {
         String firstName = (String) fields.get(0).getFieldValue();
         String lastName = (String) fields.get(1).getFieldValue();
         String email = (String) fields.get(2).getFieldValue();
-        String pin = (String) fields.get(3).getFieldValue();
-        String accountNum = (String) fields.get(4).getFieldValue();
+        String accountNum = (String) fields.get(3).getFieldValue();
+        String pin = (String) fields.get(4).getFieldValue();
 
         Field<Double, Double> creditField = new Field<Double,Double>("Credit", Double.class, 0.0, new Field.DoubleFieldValidator());
         creditField.setFieldValue("Enter credit (credit limit 100000.0): ", true);
@@ -386,5 +381,4 @@ public class Bank {
             return 0;
         }
     }
-
 }
