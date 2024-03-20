@@ -88,7 +88,13 @@ public class Bank {
      * @return         		void
      */
     public <T> void showAccounts(Class<T> accountType) {
-        for (Account account : this.getBANKACCOUNTS()) {
+        if (accountType == Account.class) {
+            for (Account account : getBANKACCOUNTS()) {
+                System.out.println(account);
+            }
+            return;
+        }
+        for (Account account : getBANKACCOUNTS()) {
             if (account.getClass() == accountType) {
                 System.out.println(account);
             }
