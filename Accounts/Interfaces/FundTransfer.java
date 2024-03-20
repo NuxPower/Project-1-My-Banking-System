@@ -1,5 +1,7 @@
-package Accounts;
+package Interfaces;
 
+import Account.Account;
+import Accounts.IllegalAccountType;
 import Bank.Bank;
 
 public interface FundTransfer{

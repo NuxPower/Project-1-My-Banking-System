@@ -1,4 +1,4 @@
-package Accounts;
+package Interfaces;
 
 public interface Withdrawal {
     /**
