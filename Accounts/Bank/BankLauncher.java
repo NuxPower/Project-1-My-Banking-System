@@ -50,9 +50,25 @@ public class BankLauncher {
     }
 
     public static void showAccounts() {
-        ArrayList<CreditAccount> creditBanks = new ArrayList<>();
-        for (CreditAccount accs : creditBanks) {
-            System.out.println(accs);
+        Main.showMenuHeader("Show Accounts");
+        Main.showMenu(32);
+        Main.setOption();
+
+        switch (Main.getOption()) {
+            case 1:
+                getLoggedBank().showAccounts(CreditAccount.class);
+                break;
+            case 2:
+                getLoggedBank().showAccounts(SavingsAccount.class);
+                break;
+            case 3:
+                getLoggedBank().showAccounts(Account.class);
+                break;
+            case 4:
+                break;
+            default:
+                System.out.println("Invalid input");
+                break;
         }
     }
     public static void bankLogin() {
