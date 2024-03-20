@@ -33,7 +33,20 @@ public class Main {
             }
             // Bank Option
             else if(getOption() == 2) {
-                // TODO: Complete Bank option
+                showMenuHeader("Bank Login Menu");
+                showMenu(3, 1);
+                setOption();
+                
+                switch (getOption()) {
+                    case 1:
+                        BankLauncher.bankLogin();
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        System.out.println("Invalid option!");
+                        break;
+                }
             }
             // Create New Bank
             else if(getOption() == 3) {
