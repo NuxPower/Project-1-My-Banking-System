@@ -7,7 +7,7 @@ import Accounts.IllegalAccountType;
 import Main.Main;
 
 public class CreditAccountLauncher extends AccountLauncher {
-    public static void creditAccountInit() {
+    public static void creditAccountInit() throws IllegalAccountType {
         Main.showMenuHeader("Credit Account Menu");
         Main.showMenu(41);
         Main.setOption();
