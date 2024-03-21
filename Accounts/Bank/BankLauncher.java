@@ -10,7 +10,7 @@ import Main.Main;
 
 public class BankLauncher {
     private static ArrayList<Bank> BANKS = new ArrayList<>();
-    private static Bank loggedBank;
+    private static Bank loggedBank = null;
 
     public static boolean isLogged() {
         return loggedBank != null;
