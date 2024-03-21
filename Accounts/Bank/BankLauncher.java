@@ -87,19 +87,20 @@ public class BankLauncher {
         }        
     }
 
-    /**
-     * Bank interaction when creating new accounts for the currently logged in bank.
-     */
+ /**
+ * Prompts the user to create a new account and adds it to the logged-in bank.
+ * Displays a menu for selecting the type of account (credit or savings) to create.
+ */
     private static void newAccounts() {
         Main.showMenuHeader("New Account Type");
         Main.showMenu(33);
         Main.setOption();
         switch (Main.getOption()) {
-            case 1:
+            case 1: // Creates and adds a new Credit Account to the logged-in bank.
                 CreditAccount newCreditAcc = getLoggedBank().createNewCreditAccount();
                 getLoggedBank().addNewAccount(newCreditAcc);
                 break;
-            case 2:
+            case 2: // Creates and adds a new Savings Account to the logged-in bank.
                 SavingsAccount newSavingAcc = getLoggedBank().createNewSavingsAccount();
                 getLoggedBank().addNewAccount(newSavingAcc);
                 break;
@@ -109,17 +110,20 @@ public class BankLauncher {
         }
     }
     
-    /**
-     * Creates a new login session for the logged in bank user. Sets up a new value for the loggedBank
-     * field.
+     /**
+     * Sets up a new login session for the logged-in bank user.
+     * If another bank account is already logged in, prints a message and returns.
+     * Otherwise, sets the provided bank as the logged-in bank and prints a success message.
      * 
-     * @param b – Bank user that successfully logged in.
+     * @param b The bank user that successfully logged in.
      */
     private static void setLogSession(Bank b) {
+        // Checks if another bank account is already logged in
         if (isLogged()) {
             System.out.println("Another bank account is currently logged in");
             return;
         }
+        // Sets the provided bank as the logged-in bank
         setLoggedBank(b);
         System.out.println("Bank account logged in successfully");
     }
@@ -129,11 +133,19 @@ public class BankLauncher {
         loggedBank = null;
         System.out.println("Logout successful. Session destroyed.");
     }
-    
 
+    /**
+ * Allows the creation of a new bank by prompting the user to enter the bank name.
+ * If the provided name is empty, it displays an error message and prompts the user again.
+ * 
+ * This method displays a menu header for creating a new bank and prompts the user to enter the bank name.
+ * It ensures that the provided name is not empty before proceeding.
+ * 
+ * If the user enters an empty name, it displays an error message and prompts the user again until a valid name is provided.
+ */
     public static void createNewBank() {
         Main.showMenuHeader("Create New Bank");
-
+        // Prompting the user to enter the bank name
         String name = "";
         while (name.isEmpty()) {
             try {
@@ -211,20 +223,23 @@ public class BankLauncher {
         return null;
     }
 
-    /**
-     * Finds the Account object based on some account number on all registered banks.
-     * 
-     * @param accountNum – Account number of target Account.
-     * 
-     * @return Account object if it exists. Null if not found.
-     */
+   /**
+ * Finds the Account object based on the provided account number across all registered banks.
+ * 
+ * @param accountNum The account number of the target Account.
+ * @return The Account object if it exists, or null if not found.
+ * 
+ * This method iterates through all registered banks and checks if the provided account number exists in each bank.
+ * If the account number exists in any bank, it retrieves the corresponding Account object using the bank's method
+ * `getBankAccount()`. It returns the found Account object. If the account number is not found in any bank, it returns null.
+ */
     public static Account findAccount(String accountNum) {
         for (Bank bank : getBANKS()) {
             if (Bank.accountExists(bank, accountNum) == true){
                 return bank.getBankAccount(bank, accountNum);
             }
         }
-
+        // If the account number is not found in any bank, return null
         return null;
     }
 
