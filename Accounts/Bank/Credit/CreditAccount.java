@@ -31,14 +31,16 @@ public class CreditAccount extends Account implements Payment, Recompense {
         return loan_statement;
     }
 
-    /**
-     * Checks if this credit account can do additional credit transactions if the amount to credit will not
-     * exceeded the credit limit set by the bank associated to this Credit Account.
+     /**
+     * Checks if this credit account can perform a credit transaction without exceeding the credit limit.
+     *
+     * @param amountAdjustment The amount to adjust for the transaction.
+     * @return True if the credit transaction can proceed without exceeding the credit limit, false otherwise.
      * 
-     * @param amountAdjustment – The amount of credit to be adjusted once the said transaction is
-     * processed.
-     * 
-     * @return Flag if this account can continue with the credit transaction.
+     * This method calculates the new loan amount after adjusting it by the provided amount for the transaction.
+     * It retrieves the credit limit set by the associated bank and compares the new loan amount with the credit limit.
+     * If the new loan amount is less than or equal to the credit limit, it returns true indicating that the credit transaction
+     * can proceed without exceeding the credit limit. Otherwise, it returns false.
      */
     private boolean canCredit(double amountAdjustment) {
         double newLoan = this.loan + amountAdjustment;
