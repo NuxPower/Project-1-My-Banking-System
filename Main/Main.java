@@ -33,12 +33,41 @@ public class Main {
                 showMenu(2, 1);
                 setOption();
                 // TODO: Complete this portion
-                AccountLauncher.accountLogin();
+                if (getOption() == 1) 
+                {
+                    try {
+                        AccountLauncher.accountLogin();
+                    } catch (IllegalAccountType e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                else if (getOption() == 2) 
+                {
+                    continue;
+                }
+                else 
+                {
+                    System.out.println("Invalid option!");
+                }
             }
             // Bank Option
             else if(getOption() == 2) {
                 // TODO: Complete Bank option
-                BankLauncher.bankInit();
+                showMenuHeader("Bank Login Menu");
+                showMenu(3, 1);
+                setOption();
+                if (getOption() == 1) 
+                {
+                    BankLauncher.bankLogin();
+                }
+                else if (getOption() == 2) 
+                {
+                    break;
+                }
+                else 
+                {
+                    System.out.println("Invalid option!");
+                }
             }
             // Create New Bank
             else if(getOption() == 3) {
