@@ -6,6 +6,7 @@ import Account.Account;
 import Bank.Credit.CreditAccount;
 import Main.Field;
 import Main.FieldValidator;
+import Main.Main;
 import Bank.Savings.SavingsAccount;
     
 public class Bank {
@@ -88,6 +89,7 @@ public class Bank {
      * @return         		void
      */
     public <T> void showAccounts(Class<T> accountType) {
+        Main.showMenuHeader("Bank Accounts");
         if (accountType == Account.class) {
             for (Account account : getBANKACCOUNTS()) {
                 System.out.println(account);
@@ -124,7 +126,7 @@ public class Bank {
      * @throws IllegalArgumentException    if the input violates a condition
      * @return                            an ArrayList of Field objects representing the user's input
      */
-    public ArrayList<Field<String, ?>> createNewAccount() throws NumberFormatException, IllegalArgumentException {
+    public ArrayList<Field<String, ?>> createNewAccount() throws IllegalArgumentException {
         FieldValidator<String, String> validateString = new Field.StringFieldValidator();
         ArrayList<Field<String, ?>> createNew = new ArrayList<>();
         
@@ -136,15 +138,13 @@ public class Bank {
                 firstNameField.setFieldValue("Enter first name: ");
                 firstName = firstNameField.getFieldValue();
                 if (firstName.length() >= 3) {
-                    Field<String, String> firstNameFieldFinal = new Field<>("First Name", String.class, firstName, validateString);
-                    createNew.add(firstNameFieldFinal);
+                    createNew.add(firstNameField);
                     break;
                 }
             } catch (IllegalArgumentException exc) {
                 System.out.println("Invalid input! Please input a valid name.");
             }
         }
-        
         // Prompt for last name
         String lastName;
         while (true) {
@@ -153,8 +153,7 @@ public class Bank {
                 lastNameField.setFieldValue("Enter last name: ");
                 lastName = lastNameField.getFieldValue();
                 if (lastName.length() >= 3) {
-                    Field<String, String> lastNameFieldFinal = new Field<>("Last Name", String.class, lastName, validateString);
-                    createNew.add(lastNameFieldFinal);
+                    createNew.add(lastNameField);
                     break;
                 }
             } catch (IllegalArgumentException exc) {
@@ -170,8 +169,7 @@ public class Bank {
                 emailField.setFieldValue("Enter email: ");
                 email = emailField.getFieldValue();
                 if (email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:gmail|yahoo|\\w+\\.)+[a-zA-Z]{2,}$")) {
-                    Field<String, String> emailFieldFinal = new Field<>("Email", String.class, email, new Field.StringFieldValidator());
-                    createNew.add(emailFieldFinal);
+                    createNew.add(emailField);
                     break;
                 }
             } catch (IllegalArgumentException exc) {
@@ -188,8 +186,7 @@ public class Bank {
                 int num = Integer.parseInt(accountNumField.getFieldValue());
                 accountNum = String.format("%d", num);
                 if (accountNum.length() >= 4) {
-                    Field<String, String> accountNumFieldFinal = new Field<>("Account Number", String.class, accountNum, validateString);
-                    createNew.add(accountNumFieldFinal);
+                    createNew.add(accountNumField);
                     break;
                 }
             } catch (IllegalArgumentException exc) {
@@ -201,17 +198,19 @@ public class Bank {
         String pin;
         while (true) {
             try {
-                Field<String, String> pinField = new Field<>("Enter pin: ", String.class, "4", validateString);
+                Field<String, String> pinField = new Field<>("Enter pin: ", String.class, "", validateString);
                 pinField.setFieldValue("Enter pin: ");
-                int pinNum = Integer.parseInt(pinField.getFieldValue());
-                pin = String.format("%d", pinNum);
-                if (pin.length() >= 4) {
-                    Field<String, String> pinFieldFinal = new Field<>("Pin", String.class, pin, validateString);
-                    createNew.add(pinFieldFinal);
+                pin = pinField.getFieldValue();
+                String pinTemp = pin;
+                if (pinTemp.length() >= 4) {
+                    createNew.add(pinField);
+                    pin = pinTemp;
                     break;
+                } else {
+                    System.out.println("Invalid input! Please input a valid pin (at least 4 digits).");
                 }
             } catch (IllegalArgumentException exc) {
-                System.out.println("Invalid input! Please input a valid pin.");
+                System.out.println("Invalid input! Please input a valid pin (at least 4 digits).");
             }
         }    
         return createNew;
@@ -258,12 +257,12 @@ public class Bank {
         //Create a new Bank instance using account information
         Bank bank = new Bank(getID(), getName(), getPasscode());
         SavingsAccount savings;
-    
+        
         String firstName = (String) fields.get(0).getFieldValue();
         String lastName = (String) fields.get(1).getFieldValue();
         String email = (String) fields.get(2).getFieldValue();
-        String pin = (String) fields.get(3).getFieldValue();
-        String accountNum = (String) fields.get(4).getFieldValue();
+        String accountNum = (String) fields.get(3).getFieldValue();
+        String pin = (String) fields.get(4).getFieldValue();
 
         while (true) {
             Field<Double, Double> initialBalanceField = new Field<>("InitialBalance", Double.class, 0.0, new Field.DoubleFieldValidator());
@@ -350,7 +349,14 @@ public class Bank {
         return res;
     }
 
-    private static class BankComparator implements Comparator<Bank> {
+    public static class BankComparator implements Comparator<Bank> {
+        /**
+         * Compares two Bank objects based on their ID, name, and passcode.
+         *
+         * @param  b1  the first Bank object to compare
+         * @param  b2  the second Bank object to compare
+         * @return     returns 0 if the two Bank objects are equal, -1 otherwise
+         */
         @Override
         public int compare(Bank b1, Bank b2) {
             return (b1.getID() == b2.getID() &&
@@ -360,7 +366,7 @@ public class Bank {
     }
 
     // Inner class for BankIdComparator
-    private static class BankIdComparator implements Comparator<Bank> {
+    public static class BankIdComparator implements Comparator<Bank> {
         @Override
         public int compare(Bank b1, Bank b2) {
             return Integer.compare(b1.getID(), b2.getID());
@@ -368,7 +374,7 @@ public class Bank {
     }
 
     // Inner class for BankCredentialsComparator
-    private static class BankCredentialsComparator implements Comparator<Bank> {
+    public static class BankCredentialsComparator implements Comparator<Bank> {
         @Override
         public int compare(Bank b1, Bank b2) {
             String b1Pass = b1.getPasscode();
@@ -387,4 +393,5 @@ public class Bank {
             return 0;
         }
     }
+
 }

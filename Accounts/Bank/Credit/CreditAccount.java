@@ -71,8 +71,15 @@ public class CreditAccount extends Account implements Payment, Recompense {
      */
     @Override
     public String toString() {
-        return "CreditAccount{" +
-                "bank = " + getBank() + ", loan = " + loan + ", accountNumber = '" + getAccountNumber() + "'" + ", owner = '" + getOwnerFullName() + "'" + ", email = '" + getOWNEREMAIL() + "'" + '}';
+        String format = String.format("%.2f", loan); 
+
+        String account_statement = "Account Balance Statement:\n" +
+                                   "Account Number: " + getAccountNumber() + "\n" +
+                                   "Owner: " + getOwnerFullName() + "\n" +
+                                   "Email: " + getOWNEREMAIL() + "\n" +
+                                   "Balance: " + format + "\n";
+            
+        return account_statement;
     }
 
     /**

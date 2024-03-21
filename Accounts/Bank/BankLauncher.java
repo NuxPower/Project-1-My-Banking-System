@@ -2,19 +2,22 @@ package Bank;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-
-import Accounts.Account;
-import Accounts.CreditAccount;
+import Account.Account;
+import Bank.Credit.CreditAccount;
+import Bank.Savings.SavingsAccount;
+import Main.Menu;
+import Main.Main;
 
 public class BankLauncher {
     private static ArrayList<Bank> BANKS = new ArrayList<>();
-    private static Bank loggedBank = null;
+    private static Bank loggedBank;
 
     public static boolean isLogged() {
         return loggedBank != null;
     }
 
     public static void bankInit() {
+        bankLogin();
         if (isLogged()) {
             boolean menuContinue = true;
 
@@ -50,43 +53,38 @@ public class BankLauncher {
     }
 
     public static void showAccounts() {
-        Main.showMenuHeader("Show Accounts");
-        Main.showMenu(32);
+        Main.showMenuHeader("Bank Accounts");
+        Main.showMenu(32,1);
         Main.setOption();
-
         switch (Main.getOption()) {
             case 1:
                 getLoggedBank().showAccounts(CreditAccount.class);
                 break;
-            case 2:
+            case 2: 
                 getLoggedBank().showAccounts(SavingsAccount.class);
                 break;
             case 3:
                 getLoggedBank().showAccounts(Account.class);
                 break;
-            case 4:
-                break;
             default:
-                System.out.println("Invalid input");
-                break;
+                System.out.println("Invalid option! Please try again.");
         }
     }
+
     public static void bankLogin() {
-        System.out.println("Bank Login:");
-        String accountNumber = Main.prompt("Enter bank account number: ", true);
+        Main.showMenuHeader("Bank Login");
+        String bankName = Main.prompt("Enter bank name: ", true);
         String pin = Main.prompt("Enter PIN: ", true);
         
         for (Bank bank : BANKS) {
-            for (Account account : bank.getBANKACCOUNTS()) {
-                if (account.getAccountNumber().equals(accountNumber) && account.getPin().equals(pin)) {
-                    loggedBank = bank;
-                    System.out.println("Login successful!");
-                    return;
-                }
+            if (bank.getName().equals(bankName) && bank.getPasscode().equals(pin)) {
+                setLogSession(bank);
+                break;
             }
         }
-        
-        System.out.println("Invalid account number or PIN. Please try again."); 
+        if (loggedBank == null) {
+            System.out.println("Invalid bank name or PIN. Please try again.");
+        }        
     }
 
     /**
@@ -122,8 +120,8 @@ public class BankLauncher {
             System.out.println("Another bank account is currently logged in");
             return;
         }
-
         setLoggedBank(b);
+        System.out.println("Bank account logged in successfully");
     }
 
     // Janos and Mia here
@@ -132,53 +130,54 @@ public class BankLauncher {
         System.out.println("Logout successful. Session destroyed.");
     }
     
-    /**
-     * Creates a new bank record. Utilized separately from the rest of the methods of this class.
-     * 
-     * @throws NumberFormatException – May happen when inputting deposit, withdraw, and credit limit,
-     *                                 and processing fee.
-     */
+
     public static void createNewBank() {
-        public static void createNewBank() throws NumberFormatException {
-        Field<Integer,Integer> idField = new Field<>("ID", Integer.class, -1, new Field.IntegerFieldValidator());
-        Field<String,String> nameField = new Field<>("Name", String.class, "", new Field.StringFieldValidator());
-        Field<String,Integer> passcodeField = new Field<>("Passcode", String.class, 5, new Field.StringFieldLengthValidator());
-        Field<Double,Double> depositLimitField = new Field<>("Deposit Limit", Double.class, 0.0, new Field.DoubleFieldValidator());
-        Field<Double,Double> withdrawLimitField = new Field<>("Witdraw Limit", Double.class, 0.0, new Field.DoubleFieldValidator());
-        Field<Double,Double> creditLimitField = new Field<>("Credit Limit", Double.class, 0.0, new Field.DoubleFieldValidator());
-        Field<Double,Double> processingFeeField = new Field<>("Processing Fee", Double.class, 0.0, new Field.DoubleFieldValidator());
+        Main.showMenuHeader("Create New Bank");
 
-        try {
-            idField.setFieldValue("Bank ID: ");
-            nameField.setFieldValue("Bank Name: ");
-            passcodeField.setFieldValue("Bank Passcode: ");
-            depositLimitField.setFieldValue("Deposit Limit: ");
-            withdrawLimitField.setFieldValue("Withdraw Limit: ");
-            creditLimitField.setFieldValue("Credit Limit: ");
-            processingFeeField.setFieldValue("Processing Fee: ");
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input format! Please enter a valid number.");
-            return; 
+        String name = "";
+        while (name.isEmpty()) {
+            try {
+                name = Main.prompt("Enter bank name: ", true);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Bank name cannot be empty.");
+                continue;
+            }
+            if (name.isEmpty()) {
+                System.out.println("Bank name cannot be empty.");
+            }
         }
 
-        int id = idField.getFieldValue();
-        String name = nameField.getFieldValue();
-        String passcode = passcodeField.getFieldValue();
-        double depositLimit = depositLimitField.getFieldValue();
-        double withdrawLimit = withdrawLimitField.getFieldValue();
-        double creditLimit = creditLimitField.getFieldValue();
-        double processingFee = processingFeeField.getFieldValue();
-    
+        String bankPassword;
+        do {
+            try {
+                bankPassword = Main.prompt("Enter bank password: ", true);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Bank password cannot be empty.");
+                continue;
+            }
+            if (bankPassword.isEmpty()) {
+                System.out.println("Bank password cannot be empty.");
+            } else {
+                break;
+            }
+        } while (true);
+        
+
+        int id = 1;
+        for (Bank bank : BANKS) {
+            if (bank.getID() >= id) {
+                id = bank.getID() + 1;
+            }
+        }
+
         Bank newBank;
-        if (depositLimit == 0.0 && withdrawLimit == 0.0 && creditLimit == 0.0 && processingFee == 0.0) {
-            newBank = new Bank(id, name, passcode);
-        } else {
-            newBank = new Bank(id, name, passcode, depositLimit, withdrawLimit, creditLimit, processingFee);
-        }
 
+        // Add new bank 
+        System.out.println("New bank created with ID " + id + ": " + name);
+        newBank = new Bank(id, name, bankPassword);
+        // Add bank to bank list
         addBank(newBank);
-    }
-    }
+    } 
 
      // Janos and Mia here
     public static void showBanksMenu() {
@@ -221,7 +220,7 @@ public class BankLauncher {
      */
     public static Account findAccount(String accountNum) {
         for (Bank bank : getBANKS()) {
-            if (Bank.accountExist(bank, accountNum) == true){
+            if (Bank.accountExists(bank, accountNum) == true){
                 return bank.getBankAccount(bank, accountNum);
             }
         }
@@ -234,11 +233,13 @@ public class BankLauncher {
     }
 
     public static ArrayList<Bank> getBANKS() {
+        if (BANKS == null) {
+            BANKS = new ArrayList<>();
+            return BANKS;
+        } else if (BANKS.isEmpty()) {
+            return BANKS;   
+        }
         return BANKS;
-    }
-
-    public static void setBANKS(ArrayList<Bank> bANKS) {
-        BANKS = bANKS;
     }
 
     public static Bank getLoggedBank() {

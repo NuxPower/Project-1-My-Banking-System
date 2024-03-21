@@ -1,9 +1,12 @@
 package Account;
+import Accounts.IllegalAccountType;
 import Bank.Bank;
 import Bank.BankLauncher;
 import Bank.Credit.CreditAccount;
+import Bank.Credit.CreditAccountLauncher;
+import Bank.Savings.SavingsAccount;
+import Bank.Savings.SavingsAccountLauncher;
 import Main.Main;
-import java.time.LocalDateTime;
 
 public class AccountLauncher {
     private static Account loggedAccount;
@@ -28,9 +31,11 @@ public class AccountLauncher {
     
     /**
      * A function to handle account login.
+     * @throws IllegalAccountType 
      * 
      */
-    public static void accountLogin() {
+    public static void accountLogin() throws IllegalAccountType {
+        Main.showMenuHeader("Account Login");
         assocBank = selectBank();
         if (assocBank == null) {
             System.out.println("Invalid bank selection.");
@@ -45,10 +50,15 @@ public class AccountLauncher {
         if (loggedAccount != null) {
             System.out.println("Successfully logged in!");
             setLogSession(loggedAccount);
-        } else {
-            System.out.println("Invalid account number or PIN! Please try again.");
         }
-        
+
+        if (loggedAccount instanceof CreditAccount) {
+            CreditAccountLauncher.creditAccountInit();
+            destroyLogSession();
+        } else if (loggedAccount instanceof SavingsAccount) {
+            SavingsAccountLauncher.savingsAccountInit();
+            destroyLogSession();
+        }
     }
     
     /**
@@ -58,6 +68,8 @@ public class AccountLauncher {
     * @return Bank object based on selected ID
     */
     private static Bank selectBank() {
+        Main.showMenuHeader("Bank Selection");
+        BankLauncher.showBanksMenu();
         int bankID = Integer.parseInt(Main.prompt("Enter bank ID: ", true));
         String bankName = Main.prompt("Enter bank name: ", true);
         Bank selbank = null;
@@ -82,8 +94,7 @@ public class AccountLauncher {
      * @param  account   the account for which the log session is being set
      */
     private static void setLogSession(Account account) {
-        LocalDateTime loginTime = LocalDateTime.now();
-        System.out.println("Session created for account number  " + loggedAccount.getAccountNumber() + " at " + loginTime);
+        System.out.println("Session created for account number  " + loggedAccount.getAccountNumber());
     }
 
     /**
@@ -120,12 +131,11 @@ public class AccountLauncher {
         if (selAccount != null && selAccount.getAccountNumber().equals(accountNum) && selAccount.getPin().equals(pin)) {
             return selAccount;
         } else {
-            System.out.println("Invalid account number or PIN.");
+            System.out.println("Invalid account number or PIN for account " + accountNum + ".");
             return null;
         }
     }
     
-
     protected static Account getLoggedAccount() {
         return loggedAccount;
     }

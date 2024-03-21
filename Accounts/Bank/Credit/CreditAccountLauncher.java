@@ -8,6 +8,13 @@ import Main.Main;
 
 public class CreditAccountLauncher extends AccountLauncher {
     public static void creditAccountInit() throws IllegalAccountType {
+        CreditAccount creditAccount = getLoggedAccount();
+        if (creditAccount != null) {
+            creditAccount.getLoanStatement();
+        } else {
+            System.out.println("No credit account logged in.");
+            return;
+        }
         Main.showMenuHeader("Credit Account Menu");
         Main.showMenu(41);
         Main.setOption();

@@ -2,6 +2,10 @@ package Main;
 
 import java.util.Scanner;
 
+import Account.AccountLauncher;
+import Accounts.IllegalAccountType;
+import Bank.BankLauncher;
+
 public class Main {
 
     private static final Scanner input = new Scanner(System.in);
@@ -16,7 +20,7 @@ public class Main {
     public static Field<Integer, Integer> option = new Field<Integer, Integer>("Option", Integer.class,
             -1, new Field.IntegerFieldValidator());
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalAccountType {
         while(true) {
             showMenuHeader("Main Menu");
             showMenu(1);
@@ -28,16 +32,18 @@ public class Main {
                 showMenuHeader("Account Login Menu");
                 showMenu(2, 1);
                 setOption();
-                showMenu(getOption(), 1);
                 // TODO: Complete this portion
+                AccountLauncher.accountLogin();
             }
             // Bank Option
             else if(getOption() == 2) {
                 // TODO: Complete Bank option
+                BankLauncher.bankInit();
             }
             // Create New Bank
             else if(getOption() == 3) {
                 // TODO: Complete this portion...
+                BankLauncher.createNewBank();
             }
             else if(getOption() == 4) {
                 System.out.println("Exiting. Thank you for banking!");
