@@ -226,7 +226,7 @@ public class Bank {
      */
     public CreditAccount createNewCreditAccount() {
         ArrayList<Field<String, ?>> fields = createNewAccount();    
-        Bank bank = new Bank(getID(), getName(), getPasscode());
+        Bank bank = BankLauncher.getLoggedBank();
         CreditAccount credit;
 
         String firstName = (String) fields.get(0).getFieldValue();
@@ -250,7 +250,7 @@ public class Bank {
         ArrayList<Field<String, ?>> fields = createNewAccount();
         
         //Create a new Bank instance using account information
-        Bank bank = new Bank(getID(), getName(), getPasscode());
+        Bank bank = BankLauncher.getLoggedBank();
         SavingsAccount savings;
         
         String firstName = (String) fields.get(0).getFieldValue();
