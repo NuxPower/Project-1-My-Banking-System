@@ -120,18 +120,14 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
      * @throws IllegalAccountType if the account type is invalid
      */
     @Override
-    public boolean transfer(Account account, double amount) throws IllegalAccountType {
-        if (!(account instanceof SavingsAccount)) {
-            throw new IllegalAccountType("Invalid account type. Saving account can only transfer to another saving account.");
+    public boolean transfer(Bank bank, Account account, double amount) throws IllegalAccountType {
+        if (account instanceof SavingsAccount) {
+            withdrawal(amount + bank.getProcessingFee());
+            ((SavingsAccount) bank.getBankAccount(bank, account.getACCOUNTNUMBER())).cashDeposit(amount);
+            return true;
+        } else {
+            throw new IllegalAccountType("Attempted transfer from illegal account type.");
         }
-        if (!hasEnoughBalance(amount)) {
-            insufficientBalance();
-            return false;
-        }
-        this.balance -= amount;
-        ((SavingsAccount) account).adjustAccountBalance(amount);
-        System.out.println("Transfer successful");
-        return true;
     }
 
     /**
