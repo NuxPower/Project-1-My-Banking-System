@@ -104,7 +104,7 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
             insufficientBalance();
             return false;
         }
-        this.balance -= amount;
+        this.balance -= amount + bank.getProcessingFee();
         ((SavingsAccount) account).adjustAccountBalance(amount);
         System.out.println("Transfer successful");
         return true;
