@@ -8,7 +8,7 @@ import Main.Main;
 
 public class SavingsAccountLauncher extends AccountLauncher {
     
-     // Janos and Mia here
+     
     /**
      * Initializes the savings account functionality for the currently logged-in user.
      * Prints the account balance statement if a savings account is logged in.
@@ -83,7 +83,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
         }
     }
 
-   //  Janos and Mia here
+   
     /**
      * Initiates the withdrawal process for the logged-in savings account.
      * Prompts the user to enter the withdrawal amount and performs the withdrawal if the amount is valid and sufficient.
