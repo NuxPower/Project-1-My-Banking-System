@@ -1,6 +1,6 @@
 package Bank.Credit;
 
-// Janos and Mia
+
 import Account.Account;
 import Account.AccountLauncher;
 import Accounts.IllegalAccountType;
@@ -82,7 +82,7 @@ public class CreditAccountLauncher extends AccountLauncher {
         }
     }
 
-   // Janos and Mia here
+   
     /**
      * Retrieves the currently logged-in CreditAccount, if available.
      * This method delegates to AccountLauncher.getLoggedAccount() to obtain the logged account,
