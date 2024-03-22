@@ -54,22 +54,29 @@ public class BankLauncher {
     }
 
     public static void showAccounts() {
-        Main.showMenuHeader("Bank Accounts");
-        Main.showMenu(32,1);
-        Main.setOption();
-        int newChoice = Main.getOption();
-        switch (newChoice) {
-            case 1:
-                getLoggedBank().showAccounts(CreditAccount.class);
-                break;
-            case 2: 
-                getLoggedBank().showAccounts(SavingsAccount.class);
-                break;
-            case 3:
-                getLoggedBank().showAccounts(Account.class);
-                break;
-            default:
-                System.out.println("Invalid option! Please try again.");
+        while (true) {
+            Main.showMenuHeader("Show Accounts");
+            Main.showMenu(32);
+            Main.setOption();
+
+            switch (Main.getOption()) {
+                case 1:
+                    Main.showMenuHeader("Credit Accounts");
+                    getLoggedBank().showAccounts(CreditAccount.class);
+                    continue;
+                case 2:
+                    Main.showMenuHeader("Savings Accounts");
+                    getLoggedBank().showAccounts(SavingsAccount.class);
+                    continue;
+                case 3:
+                    Main.showMenuHeader("Accounts");
+                    getLoggedBank().showAccounts(Account.class);
+                    continue;
+                case 4:
+                    return;
+                default:
+                    System.out.println("Invalid input");
+            }
         }
     }
 
