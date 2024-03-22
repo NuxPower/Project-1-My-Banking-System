@@ -27,7 +27,7 @@ public class Bank {
         this.BANKACCOUNTS = new ArrayList<>();
     }
 
-    public Bank(int ID, String name, String passcode, double DEPOSITLIMIT, double WITHDRAWLIMIT, double CREDITLIMIT) {
+    public Bank(int ID, String name, String passcode, double DEPOSITLIMIT, double WITHDRAWLIMIT, double CREDITLIMIT, double processingFee) {
         this.ID = ID;
         this.name = name;
         this.passcode = passcode;
