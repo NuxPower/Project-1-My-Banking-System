@@ -134,18 +134,13 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
      */ 
     @Override
     public boolean cashDeposit(double amount) {
-        if (hasEnoughBalance(amount) && amount < this.getBank().getDEPOSITLIMIT()) {
-            adjustAccountBalance(amount);
-            System.out.println("Deposit successful");
-            return true;
-        } else {
-            if (amount > this.getBank().getDEPOSITLIMIT()) {
-                System.out.println("Cannot exceed the bank's deposit limit.");
-            } else {
-                insufficientBalance();
-            }
+        if (amount > getBank().getDepositLimit()) {
+            System.out.println("Deposit amount exceeds the deposit limit.");
             return false;
         }
+
+        adjustAccountBalance(amount);
+        return true;
     }
 
 
