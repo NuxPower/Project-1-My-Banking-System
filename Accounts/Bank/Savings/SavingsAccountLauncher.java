@@ -164,7 +164,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
                 }
                 break;
             default:
-                break;
+                System.out.println("Invalid option!");
         }
     }
 
