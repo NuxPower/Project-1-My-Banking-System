@@ -231,17 +231,8 @@ public class Bank {
         String email = (String) fields.get(2).getFieldValue();
         String accountNum = (String) fields.get(3).getFieldValue();
         String pin = (String) fields.get(4).getFieldValue();
-
-        Field<Double, Double> creditField = new Field<Double,Double>("Credit", Double.class, 0.0, new Field.DoubleFieldValidator());
-        creditField.setFieldValue("Enter credit (credit limit 100000.0): ", true);
-        if (creditField.getFieldValue() <= this.CREDITLIMIT) {
-                double creditLimit = creditField.getFieldValue();
-                credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, creditLimit);
-        } else {
-            System.out.println("Credit limit defaulted to 100000.0");
-            credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, this.CREDITLIMIT);
-        }
-
+        
+        credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin);
         return credit;
     }
 
