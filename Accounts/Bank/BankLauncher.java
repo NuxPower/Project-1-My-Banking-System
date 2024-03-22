@@ -146,49 +146,42 @@ public class BankLauncher {
  */
     public static void createNewBank() {
         Main.showMenuHeader("Create New Bank");
-        // Prompting the user to enter the bank name
-        String name = "";
-        while (name.isEmpty()) {
-            try {
-                name = Main.prompt("Enter bank name: ", true);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Bank name cannot be empty.");
-                continue;
-            }
-            if (name.isEmpty()) {
-                System.out.println("Bank name cannot be empty.");
-            }
+        Field<Integer,Integer> idField = new Field<>("ID", Integer.class, -1, new Field.IntegerFieldValidator());
+        Field<String,String> nameField = new Field<>("Name", String.class, "", new Field.StringFieldValidator());
+        Field<String,Integer> passcodeField = new Field<>("Passcode", String.class, 5, new Field.StringFieldLengthValidator());
+        Field<Double,Double> depositLimitField = new Field<>("Deposit Limit", Double.class, 0.0, new Field.DoubleFieldValidator());
+        Field<Double,Double> withdrawLimitField = new Field<>("Witdraw Limit", Double.class, 0.0, new Field.DoubleFieldValidator());
+        Field<Double,Double> creditLimitField = new Field<>("Credit Limit", Double.class, 0.0, new Field.DoubleFieldValidator());
+        Field<Double,Double> processingFeeField = new Field<>("Processing Fee", Double.class, 0.0, new Field.DoubleFieldValidator());
+
+        try {
+            idField.setFieldValue("Bank ID: ");
+            nameField.setFieldValue("Bank Name: ");
+            passcodeField.setFieldValue("Bank Passcode: ");
+            depositLimitField.setFieldValue("Deposit Limit(0 for default): ");
+            withdrawLimitField.setFieldValue("Withdraw Limit(0 for default): ");
+            creditLimitField.setFieldValue("Credit Limit(0 for default): ");
+            processingFeeField.setFieldValue("Processing Fee(0 for default): ");
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input format! Please enter a valid number.");
+            return; 
         }
 
-        String bankPassword;
-        do {
-            try {
-                bankPassword = Main.prompt("Enter bank password: ", true);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Bank password cannot be empty.");
-                continue;
-            }
-            if (bankPassword.isEmpty()) {
-                System.out.println("Bank password cannot be empty.");
-            } else {
-                break;
-            }
-        } while (true);
-        
-
-        int id = 1;
-        for (Bank bank : BANKS) {
-            if (bank.getID() >= id) {
-                id = bank.getID() + 1;
-            }
-        }
-
+        int id = idField.getFieldValue();
+        String name = nameField.getFieldValue();
+        String passcode = passcodeField.getFieldValue();
+        double depositLimit = depositLimitField.getFieldValue();
+        double withdrawLimit = withdrawLimitField.getFieldValue();
+        double creditLimit = creditLimitField.getFieldValue();
+        double processingFee = processingFeeField.getFieldValue();
+    
         Bank newBank;
+        if (depositLimit == 0.0 && withdrawLimit == 0.0 && creditLimit == 0.0 && processingFee == 0.0) {
+            newBank = new Bank(id, name, passcode);
+        } else {
+            newBank = new Bank(id, name, passcode, depositLimit, withdrawLimit, creditLimit, processingFee);
+        }
 
-        // Add new bank 
-        System.out.println("New bank created with ID " + id + ": " + name);
-        newBank = new Bank(id, name, bankPassword);
-        // Add bank to bank list
         addBank(newBank);
     } 
 
