@@ -67,13 +67,12 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
       */
       private void adjustAccountBalance(double amount) {
         if (!hasEnoughBalance(amount)) {
+            amount = 0.0;
             insufficientBalance();
             return;
         }
+    
         this.balance += amount;
-        if (this.balance < 0.0) {
-            this.balance = 0.0;
-        }
     }
 
 
@@ -152,13 +151,12 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
      */
     @Override
     public boolean withdrawal(double amount) {
-        if (hasEnoughBalance(amount)) {
-            this.balance -= amount;
-            System.out.println("Withdrawal successful");
-            return true;
-        } else {
-            insufficientBalance();
+        if (amount > getBank().getWithdrawLimit()) {
+            System.out.println("Withdrawal amount exceeds the withdraw limit.");
             return false;
-        } 
+        }
+    
+        adjustAccountBalance(-amount);
+        return true;
     }
 }
