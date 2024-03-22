@@ -1,19 +1,19 @@
 package Bank;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import Account.Account;
 import Bank.Credit.CreditAccount;
 import Main.Field;
 import Main.FieldValidator;
 import Main.Main;
 import Bank.Savings.SavingsAccount;
+import Interfaces.Comparator;
     
 public class Bank {
     private int ID;
     private String name, passcode;
     private final double DEPOSITLIMIT, WITHDRAWLIMIT, CREDITLIMIT;
-    private double processingFee;
+    private double PROCESSINGFEE;
     private final ArrayList<Account> BANKACCOUNTS;
     
     public Bank(int ID, String name, String passcode) {
@@ -23,18 +23,18 @@ public class Bank {
         this.DEPOSITLIMIT = 50000.0;
         this.WITHDRAWLIMIT = 50000.0;
         this.CREDITLIMIT = 100000.0;
-        this.processingFee = 10.0;
+        this.PROCESSINGFEE = 10.0;
         this.BANKACCOUNTS = new ArrayList<>();
     }
 
-    public Bank(int ID, String name, String passcode, double DEPOSITLIMIT, double WITHDRAWLIMIT, double CREDITLIMIT, double processingFee) {
+    public Bank(int ID, String name, String passcode, double DEPOSITLIMIT, double WITHDRAWLIMIT, double CREDITLIMIT, double PROCESSINGFEE) {
         this.ID = ID;
         this.name = name;
         this.passcode = passcode;
         this.DEPOSITLIMIT = DEPOSITLIMIT;
         this.WITHDRAWLIMIT = WITHDRAWLIMIT;
         this.CREDITLIMIT = CREDITLIMIT;
-        this.processingFee = processingFee;
+        this.PROCESSINGFEE = PROCESSINGFEE;
         this.BANKACCOUNTS = new ArrayList<>();
     }
 
@@ -74,8 +74,8 @@ public class Bank {
         return CREDITLIMIT;
     }
 
-    public double getProcessingFee() {
-        return processingFee;
+    public double getPROCESSINGFEE() {
+        return PROCESSINGFEE;
     }
 
     public ArrayList<Account> getBANKACCOUNTS() {
@@ -171,6 +171,8 @@ public class Bank {
                 if (email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:gmail|yahoo|\\w+\\.)+[a-zA-Z]{2,}$")) {
                     createNew.add(emailField);
                     break;
+                } else {
+                    System.out.println("Invalid email! Please input a valid email.");
                 }
             } catch (IllegalArgumentException exc) {
                 System.out.println("Invalid input! Please input a valid email address.");
@@ -213,6 +215,8 @@ public class Bank {
                 System.out.println("Invalid input! Please input a valid pin (at least 4 digits).");
             }
         }    
+
+        System.out.println("Account created successfully!");
         return createNew;
     }
             
@@ -340,7 +344,7 @@ public class Bank {
         return res;
     }
 
-    public static class BankComparator implements Comparator<Bank> {
+    public static class BankComparator implements Comparator {
         /**
          * Compares two Bank objects based on their ID, name, and passcode.
          *
@@ -357,7 +361,7 @@ public class Bank {
     }
 
     // Inner class for BankIdComparator
-    public static class BankIdComparator implements Comparator<Bank> {
+    public static class BankIdComparator implements Comparator {
         @Override
         public int compare(Bank b1, Bank b2) {
             return Integer.compare(b1.getID(), b2.getID());
@@ -365,7 +369,7 @@ public class Bank {
     }
 
     // Inner class for BankCredentialsComparator
-    public static class BankCredentialsComparator implements Comparator<Bank> {
+    public static class BankCredentialsComparator implements Comparator {
         @Override
         public int compare(Bank b1, Bank b2) {
             String b1Pass = b1.getPasscode();
