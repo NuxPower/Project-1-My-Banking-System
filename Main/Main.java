@@ -55,21 +55,7 @@ public class Main {
             // Bank Option
             else if(option == 2) {
                 // TODO: Complete Bank option
-                showMenuHeader("Bank Login Menu");
-                showMenu(3, 1);
-                setOption();
-                if (getOption() == 1) 
-                {
-                    BankLauncher.bankLogin();
-                }
-                else if (getOption() == 2) 
-                {
-                    break;
-                }
-                else 
-                {
-                    System.out.println("Invalid option!");
-                }
+                BankLauncher.bankInit();
             }
             // Create New Bank
             else if(option == 3) {
