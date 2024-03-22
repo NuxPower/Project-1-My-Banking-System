@@ -140,7 +140,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
         
                 SavingsAccount internalAccount = (SavingsAccount) loggedAccount.getBank().getBankAccount(loggedAccount.getBank(), internalAccNum);
                 if (loggedAccount.transfer(internalAccount, internalAmount)) {
-                    getLoggedAccount().addNewTransaction(getLoggedAccount().getAccountNumber(), Transactions.FundTransfer, "A successful fund transfer.");
+                    getLoggedAccount().addNewTransaction(getLoggedAccount().getACCOUNTNUMBER(), Transactions.FundTransfer, "A successful fund transfer.");
                 } else {
                     System.out.println("Transfer unsuccessful!");
                 }
@@ -155,7 +155,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
                     if (bank.getID() == externalBankID) {
                         Account externalAccount = bank.getBankAccount(bank, externalAccNum);
                         if (loggedAccount.transfer(bank, externalAccount, externalAmount)) {
-                            getLoggedAccount().addNewTransaction(getLoggedAccount().getAccountNumber(), Transactions.FundTransfer, "A successful fund transfer.");
+                            getLoggedAccount().addNewTransaction(getLoggedAccount().getACCOUNTNUMBER(), Transactions.FundTransfer, "A successful fund transfer.");
                         } else {
                             System.out.println("Transfer unsuccessful!");
                         }
