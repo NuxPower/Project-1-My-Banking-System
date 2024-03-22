@@ -34,7 +34,7 @@ public class Bank {
         this.DEPOSITLIMIT = DEPOSITLIMIT;
         this.WITHDRAWLIMIT = WITHDRAWLIMIT;
         this.CREDITLIMIT = CREDITLIMIT;
-        this.processingFee = 10.0;
+        this.processingFee = processingFee;
         this.BANKACCOUNTS = new ArrayList<>();
     }
 
