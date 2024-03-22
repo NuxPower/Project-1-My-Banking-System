@@ -216,7 +216,6 @@ public class Bank {
             }
         }    
 
-        System.out.println("Account created successfully!");
         return createNew;
     }
             
@@ -237,6 +236,7 @@ public class Bank {
         String pin = (String) fields.get(4).getFieldValue();
         
         credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, CREDITLIMIT);
+        System.out.println("Account created successfully!");
         return credit;
     }
 
@@ -268,6 +268,7 @@ public class Bank {
             //Validate and create the SavingsAccount if initial balance is non-negative
             if (initialBalance >= 0) {
                 savings = new SavingsAccount(bank, accountNum, firstName, lastName, email, pin, initialBalance);
+                System.out.println("Account created successfully!");
                 return savings;
             } else {
                 System.out.println("Initial balance must be non-negative");
@@ -388,4 +389,5 @@ public class Bank {
             return 0;
         }
     }
+
 }

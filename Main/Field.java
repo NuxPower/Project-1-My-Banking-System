@@ -54,6 +54,7 @@ public class Field<T, E> {
      */
     public void setFieldValue(String phrase, boolean inlineInput)
     throws ClassCastException, NumberFormatException {
+        fieldValue = null;
         String tempval = null;
         while(true) {
             try {

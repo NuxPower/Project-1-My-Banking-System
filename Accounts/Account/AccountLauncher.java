@@ -79,12 +79,10 @@ public class AccountLauncher {
         for (Bank bank : BankLauncher.getBANKS()) {
             if (bank.getID() == bankID.getFieldValue() && bank.getName().equals(bankName.getFieldValue())) {
                 System.out.println("Bank selected: " + bankName.getFieldValue());
-                return bank;
+                return assocBank;
             }
         }
-
-        System.out.println("Bank does not exist.");
-        return null;  
+        return assocBank;
     }
     
     /**

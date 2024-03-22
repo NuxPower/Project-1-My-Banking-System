@@ -110,7 +110,6 @@ public class SavingsAccountLauncher extends AccountLauncher {
             
             if (loggedAccount.getBalance() >= amount) {
                 if (loggedAccount.withdrawal(amount)) { 
-                    System.out.println("Withdrawal successful");
                     getLoggedAccount().addNewTransaction(getLoggedAccount().getAccountNumber(), Transactions.Withdraw, "A successful withdraw.");
                 } else {
                     System.out.println("Withdrawal failed");
