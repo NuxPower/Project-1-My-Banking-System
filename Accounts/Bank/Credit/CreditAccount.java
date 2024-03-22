@@ -47,7 +47,12 @@ public class CreditAccount extends Account implements Payment, Recompense {
         return newLoan <= creditLimit;
     }
 
-    private void adjustAmount(double amountAdjustment) {
+    /**
+     * Adjusts the loan amount by the specified amount if it doesn't exceed the credit limit.
+     *
+     * @param  amountAdjustment    the amount to adjust the loan by
+     */
+    private void adjustLoanAmount(double amountAdjustment) {
         if (!canCredit(amountAdjustment)) {
             System.out.println("Cannot process: Exceeds credit limit");
             return;
@@ -83,13 +88,12 @@ public class CreditAccount extends Account implements Payment, Recompense {
      */
     @Override
     public boolean recompense(double amount) {
-        if (canCredit(amount)) {
-            double newBalance = getLoan() + amount;
-            setLoan(newBalance);
-            return true;
-        } else {
+        if (amount <= 0 || amount > this.loan) {
             return false;
         }
+    
+        adjustLoanAmount(-amount);
+        return true;
     }
 
     
@@ -112,7 +116,7 @@ public class CreditAccount extends Account implements Payment, Recompense {
         }
 
         if (getBank() != account.getBank()) {
-            adjustLoanAmount(amount + getBank().getProcessingFee());
+            adjustLoanAmount(amount + getBank().getPROCESSINGFEE());
             ((SavingsAccount) account).cashDeposit(amount);
             return true;
         } else {

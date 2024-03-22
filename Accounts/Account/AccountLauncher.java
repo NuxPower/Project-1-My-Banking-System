@@ -40,7 +40,7 @@ public class AccountLauncher {
         if (isLoggedIn()) {
             destroyLogSession();
         }
-
+        
         while (assocBank == null) {
             System.out.println("Select a bank first");
             assocBank = selectBank();
@@ -49,11 +49,18 @@ public class AccountLauncher {
             }
         }
 
-        Main.showMenuHeader("Account Login");
-        String accountNum = Main.prompt("Enter account number: ", true);
-        String pin = Main.prompt("Enter  PIN: ", true);
-
-        loggedAccount = checkCredentials(accountNum, pin);
+        String accountNum;
+        String pin;
+        do {
+            Main.showMenuHeader("Account Login");
+            accountNum = Main.prompt("Enter account number: ", true);
+            pin = Main.prompt("Enter PIN: ", true);
+            loggedAccount = checkCredentials(accountNum, pin);
+            if (loggedAccount == null) {
+                System.out.println("Invalid account number or PIN. Please try again.");
+            }
+        } while (loggedAccount == null);
+        
         if (loggedAccount != null) {
             System.out.println("Login successful.");
             setLogSession(loggedAccount);
@@ -77,16 +84,18 @@ public class AccountLauncher {
         BankLauncher.showBanksMenu();
         Field<Integer, Integer> bankID = new Field<Integer,Integer>("ID", Integer.class, -1, new Field.IntegerFieldValidator());
         Field<String, String> bankName = new Field<String,String>("Name", String.class, "", new Field.StringFieldValidator());
+        Field<String, String> bankPass = new Field<String,String>("Passcode", String.class, "", new Field.StringFieldValidator());
         bankID.setFieldValue("Enter bank id: ");
         bankName.setFieldValue("Enter bank name: ");
+        bankPass.setFieldValue("Enter bank passcode: ");
 
         for (Bank bank : BankLauncher.getBANKS()) {
             if (bank.getID() == bankID.getFieldValue() && bank.getName().equals(bankName.getFieldValue())) {
                 System.out.println("Bank selected: " + bankName.getFieldValue());
-                return assocBank;
+                return bank;
             }
         }
-        return assocBank;
+        return null;
     }
     
     /**
@@ -138,6 +147,11 @@ public class AccountLauncher {
         }
     }
     
+    /**
+     * Retrieves the currently logged in account.
+     *
+     * @return the logged in account
+     */
     protected static Account getLoggedAccount() {
         return loggedAccount;
     }

@@ -46,8 +46,9 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
      * @param amount the amount to be checked against the account balance
      * @return true if the account has enough balance, false otherwise
      */
-     private boolean hasEnoughBalance(double amount) {
-        return (this.balance >= amount); 
+    private boolean hasEnoughBalance(double amount) {
+        double newBalance = this.balance + amount;
+        return newBalance >= 0.0;
     }
 
     
@@ -71,7 +72,6 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
             insufficientBalance();
             return;
         }
-    
         this.balance += amount;
     }
 
@@ -97,8 +97,8 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
     @Override
     public boolean transfer(Bank bank, Account account, double amount) throws IllegalAccountType {
         if (account instanceof SavingsAccount) {
-            withdrawal(amount + bank.getProcessingFee());
-            ((SavingsAccount) bank.getBankAccount(bank, account.getACCOUNTNUMBER())).cashDeposit(amount);
+            withdrawal(amount + bank.getPROCESSINGFEE());
+            ((SavingsAccount) bank.getBankAccount(bank, account.getAccountNumber())).cashDeposit(amount);
             return true;
         } else {
             throw new IllegalAccountType("Attempted transfer from illegal account type.");
@@ -114,7 +114,7 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
      * @return          true if the transfer is successful, false otherwise
      * @throws IllegalAccountType if the account type is invalid
      */
-   @Override
+    @Override
     public boolean transfer(Account account, double amount) throws IllegalAccountType {
         if (account instanceof SavingsAccount) {
             withdrawal(amount);
@@ -133,11 +133,10 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
      */ 
     @Override
     public boolean cashDeposit(double amount) {
-        if (amount > getBank().getDepositLimit()) {
+        if (amount > getBank().getDEPOSITLIMIT()) {
             System.out.println("Deposit amount exceeds the deposit limit.");
             return false;
         }
-
         adjustAccountBalance(amount);
         return true;
     }
@@ -151,12 +150,12 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
      */
     @Override
     public boolean withdrawal(double amount) {
-        if (amount > getBank().getWithdrawLimit()) {
-            System.out.println("Withdrawal amount exceeds the withdraw limit.");
+        if (hasEnoughBalance(amount)) {
+            this.balance -= amount;
+            return true;
+        } else {
+            insufficientBalance();
             return false;
-        }
-    
-        adjustAccountBalance(-amount);
-        return true;
+        } 
     }
 }

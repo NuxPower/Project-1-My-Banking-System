@@ -89,7 +89,6 @@ public class Bank {
      * @return         		void
      */
     public <T> void showAccounts(Class<T> accountType) {
-        Main.showMenuHeader("Bank Accounts");
         if (accountType == Account.class) {
             for (Account account : getBANKACCOUNTS()) {
                 System.out.println(account);
@@ -130,6 +129,7 @@ public class Bank {
         FieldValidator<String, String> validateString = new Field.StringFieldValidator();
         ArrayList<Field<String, ?>> createNew = new ArrayList<>();
         
+        Main.showMenuHeader("Create New Account");
         // Prompt for first name
         String firstName;
         while (true) {
@@ -187,6 +187,10 @@ public class Bank {
                 accountNumField.setFieldValue("Enter account number: ");
                 int num = Integer.parseInt(accountNumField.getFieldValue());
                 accountNum = String.format("%d", num);
+                if (accountExists(this, accountNum)) {
+                    System.out.println("Sorry, this account number already exists. Please input a new one.");
+                    continue;
+                }
                 if (accountNum.length() >= 4) {
                     createNew.add(accountNumField);
                     break;
@@ -246,26 +250,33 @@ public class Bank {
      * @return         	the newly created SavingsAccount
      */
     public SavingsAccount createNewSavingsAccount() {
-        ArrayList<Field<String, ?>> fields = createNewAccount();    
+        //Create a new account using the common account creation method
+        ArrayList<Field<String, ?>> fields = createNewAccount();
+        
+        //Create a new Bank instance using account information
         Bank bank = BankLauncher.getLoggedBank();
         SavingsAccount savings;
-
-        String accountNum = fields.get(0).getFieldValue();
-        String firstName = fields.get(1).getFieldValue();
-        String lastName = fields.get(2).getFieldValue();
-        String email = fields.get(3).getFieldValue();
-        String pin = fields.get(4).getFieldValue();
         
+        String firstName = (String) fields.get(0).getFieldValue();
+        String lastName = (String) fields.get(1).getFieldValue();
+        String email = (String) fields.get(2).getFieldValue();
+        String accountNum = (String) fields.get(3).getFieldValue();
+        String pin = (String) fields.get(4).getFieldValue();
 
         while (true) {
-            Field<Double, Double> balField = new Field<Double,Double>("Credit", Double.class, 500.0, new Field.DoubleFieldValidator());
-            balField.setFieldValue("Enter deposit amount: ", true);
-            if (balField.getFieldValue() <= this.DEPOSITLIMIT) {
-                double balance = balField.getFieldValue();
-                savings = new SavingsAccount(bank, accountNum, firstName, lastName, email, pin, balance);
+            Field<Double, Double> initialBalanceField = new Field<>("InitialBalance", Double.class, 0.0, new Field.DoubleFieldValidator());
+            initialBalanceField.setFieldValue("Enter initial balance: ", true);
+    
+            double initialBalance = initialBalanceField.getFieldValue();
+            
+            //Validate and create the SavingsAccount if initial balance is non-negative
+            if (initialBalance >= 0) {
+                savings = new SavingsAccount(bank, accountNum, firstName, lastName, email, pin, initialBalance);
+                System.out.println("Account created successfully!");
                 return savings;
             } else {
-                System.out.println("Deposit must be less than " + this.DEPOSITLIMIT);
+                System.out.println("Initial balance must be non-negative");
+                continue;
             }
         }
     }

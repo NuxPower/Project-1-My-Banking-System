@@ -8,6 +8,11 @@ import Accounts.Transaction.Transactions;
 import Main.Main;
 
 public class CreditAccountLauncher extends AccountLauncher {
+    /**
+     * Initializes the credit account and handles the account menu options.
+     *
+     * @throws IllegalAccountType if the account type is invalid
+     */
     public static void creditAccountInit() throws IllegalAccountType {
         while (true) {
             try {
@@ -39,23 +44,29 @@ public class CreditAccountLauncher extends AccountLauncher {
             }
         }
     }
+
     /**
-     * Method that is utilized to process the credit payment transaction
-     * 
-     * @throws IllegalAccountType
+     * Processes a credit payment.
+     *
+     * @throws IllegalAccountType if the account type is illegal
      */
     private static void creditPaymentProcess() throws IllegalAccountType {
+        CreditAccount loggedAccount = getLoggedAccount();
         String accNum = Main.prompt("Account number: ", true);
         double amount = Double.parseDouble(Main.prompt("Amount: ", true));
 
         Account account = getAssocBank().getBankAccount(getAssocBank(), accNum);
         if (getLoggedAccount().pay(account, amount)) {
+            System.out.println("Credit: " + loggedAccount.getLoan());
             getLoggedAccount().addNewTransaction(getLoggedAccount().getAccountNumber(), Transactions.Payment, "A successful payment.");
         } else {
             System.out.println("Payment unsuccessful!");
         }
     }
     
+    /**
+     * Process for recompensing credit to a logged account.
+     */
     private static void creditRecompenseProcess() {
         CreditAccount loggedAccount = getLoggedAccount();
         if (loggedAccount == null) {
