@@ -117,9 +117,15 @@ public class CreditAccount extends Account implements Payment, Recompense {
         if (amount <= 0 || amount > this.loan) {
             return false;
         }
-        
-        adjustAmount(amount);
-        ((SavingsAccount) account).cashDeposit(amount);
-        return true;
+
+        if (getBank() != account.getBank()) {
+            adjustLoanAmount(amount + getBank().getProcessingFee());
+            ((SavingsAccount) account).cashDeposit(amount);
+            return true;
+        } else {
+            adjustLoanAmount(amount);
+            ((SavingsAccount) account).cashDeposit(amount);
+            return true;
+        }  
     }
 }
