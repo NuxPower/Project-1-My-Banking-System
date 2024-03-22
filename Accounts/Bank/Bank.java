@@ -344,7 +344,7 @@ public class Bank {
         return res;
     }
 
-    public static class BankComparator implements Comparator {
+    public static class BankComparator implements Comparator<Bank> {
         /**
          * Compares two Bank objects based on their ID, name, and passcode.
          *
@@ -361,7 +361,7 @@ public class Bank {
     }
 
     // Inner class for BankIdComparator
-    public static class BankIdComparator implements Comparator {
+    public static class BankIdComparator implements Comparator<Bank> {
         @Override
         public int compare(Bank b1, Bank b2) {
             return Integer.compare(b1.getID(), b2.getID());
@@ -369,7 +369,7 @@ public class Bank {
     }
 
     // Inner class for BankCredentialsComparator
-    public static class BankCredentialsComparator implements Comparator {
+    public static class BankCredentialsComparator implements Comparator<Bank> {
         @Override
         public int compare(Bank b1, Bank b2) {
             String b1Pass = b1.getPasscode();
@@ -388,5 +388,4 @@ public class Bank {
             return 0;
         }
     }
-
 }

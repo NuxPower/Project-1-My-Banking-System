@@ -2,6 +2,6 @@ package Interfaces;
 
 import Bank.Bank;
 
-public interface Comparator {
+public interface Comparator<Bank> {
     int compare(Bank b1, Bank b2);
 }

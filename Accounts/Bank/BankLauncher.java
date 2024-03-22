@@ -1,12 +1,13 @@
 package Bank;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import Account.Account;
 import Bank.Credit.CreditAccount;
 import Bank.Savings.SavingsAccount;
 import Main.Menu;
 import Main.Main;
+import Main.Field;
+import Interfaces.Comparator;
 
 public class BankLauncher {
     private static ArrayList<Bank> BANKS = new ArrayList<>();
@@ -182,6 +183,7 @@ public class BankLauncher {
             newBank = new Bank(id, name, passcode, depositLimit, withdrawLimit, creditLimit, processingFee);
         }
 
+        System.out.println("Bank created successfully.");
         addBank(newBank);
     } 
 
