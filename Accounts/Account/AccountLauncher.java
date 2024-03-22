@@ -71,18 +71,20 @@ public class AccountLauncher {
     private static Bank selectBank() {
         Main.showMenuHeader("Bank Selection");
         BankLauncher.showBanksMenu();
-        int bankID = Integer.parseInt(Main.prompt("Enter bank ID: ", true));
-        String bankName = Main.prompt("Enter bank name: ", true);
-        
+        Field<Integer, Integer> bankID = new Field<Integer,Integer>("ID", Integer.class, -1, new Field.IntegerFieldValidator());
+        Field<String, String> bankName = new Field<String,String>("Name", String.class, "", new Field.StringFieldValidator());
+        bankID.setFieldValue("Enter bank id: ");
+        bankName.setFieldValue("Enter bank name: ");
+
         for (Bank bank : BankLauncher.getBANKS()) {
-            if (bank.getID() == bankID && bank.getName().equals(bankName)) {
-                System.out.println("Bank selected: " + bankName);
+            if (bank.getID() == bankID.getFieldValue() && bank.getName().equals(bankName.getFieldValue())) {
+                System.out.println("Bank selected: " + bankName.getFieldValue());
                 return bank;
             }
         }
-        
+
         System.out.println("Bank does not exist.");
-        return null;
+        return null;  
     }
     
     /**
