@@ -48,19 +48,12 @@ public class CreditAccount extends Account implements Payment, Recompense {
     }
 
     private void adjustAmount(double amountAdjustment) {
-        if (amountAdjustment >= 0) {
-            loan += amountAdjustment; 
-            System.out.println("Loan amount: " + loan);
-        } else {
-            double newLoan = loan + amountAdjustment; 
-            if (newLoan >= 0) {
-                loan = newLoan;
-                System.out.println("Loan amount: " + loan);
-            } else {
-                loan = 0;
-                System.out.println("Loan amount: 0. Insufficient funds!");
-            }
+        if (!canCredit(amountAdjustment)) {
+            System.out.println("Cannot process: Exceeds credit limit");
+            return;
         }
+    
+        this.loan += amountAdjustment;
     }
 
     /**
@@ -114,7 +107,7 @@ public class CreditAccount extends Account implements Payment, Recompense {
             throw new IllegalAccountType("Credit Accounts cannot pay to other Credit Accounts.");
         }
     
-        if (amount <= 0 || amount > this.loan) {
+        if (amount <= 0) {
             return false;
         }
 
