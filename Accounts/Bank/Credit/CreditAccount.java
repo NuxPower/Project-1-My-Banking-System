@@ -2,8 +2,6 @@ package Bank.Credit;
 import Account.Account;
 import Accounts.IllegalAccountType;
 import Bank.Bank;
-import Accounts.Transaction;
-import Accounts.Transaction.Transactions;
 import Interfaces.Payment;
 import Interfaces.Recompense;
 import Bank.Savings.SavingsAccount;
@@ -18,8 +16,8 @@ public class CreditAccount extends Account implements Payment, Recompense {
         this.loan = loan;
     }
 
-    public CreditAccount(Bank bank,  String accountNumber, String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double loan) {
-        super(bank, accountNumber, OWNERFNAME, OWNERLNAME, OWNEREMAIL, pin); 
+    public CreditAccount(Bank bank,  String ACCOUNTNUMBER, String OWNERFNAME, String OWNERLNAME, String OWNEREMAIL, String pin, double loan) {
+        super(bank, ACCOUNTNUMBER, OWNERFNAME, OWNERLNAME, OWNEREMAIL, pin); 
         this.loan = loan;
     }
 

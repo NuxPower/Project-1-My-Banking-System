@@ -232,7 +232,7 @@ public class Bank {
         String accountNum = (String) fields.get(3).getFieldValue();
         String pin = (String) fields.get(4).getFieldValue();
         
-        credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin);
+        credit = new CreditAccount(bank, accountNum, firstName, lastName, email, pin, CREDITLIMIT);
         return credit;
     }
 

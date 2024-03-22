@@ -64,16 +64,18 @@ public class Field<T, E> {
             }
             // Happens when the field is of type Double, Integer, Number, etc.
             catch(ClassCastException err) {
-                if(this.fieldType == Double.class) {
-                    this.fieldValue = (T) stringToDouble(tempval);
+                try {
+                    if(this.fieldType == Double.class) {
+                        this.fieldValue = (T) stringToDouble(tempval);
+                    }
+                    else if(this.fieldType == Integer.class) {
+                        this.fieldValue = (T) stringToInteger(tempval);
+                    }
                 }
-                else if(this.fieldType == Integer.class) {
-                    this.fieldValue = (T) stringToInteger(tempval);
+                // This is run whenever casting is impossible as input string cannot be cast into Integer or Double
+                catch(NumberFormatException err2) {
+                    //
                 }
-            }
-            // This is run whenever casting is impossible as input string cannot be cast into Integer or Double
-            catch(NumberFormatException err) {
-                //
             }
             finally {
                 // Precautionary measure especially when NumberFormatException happens...
@@ -88,7 +90,7 @@ public class Field<T, E> {
             }
         }
     }
-    
+
     private Double stringToDouble(String value) {
         return Double.parseDouble(value);
     }
@@ -113,7 +115,7 @@ public class Field<T, E> {
     }
 
     /**
-     * A Field Validator class to compare if some double value passes some given threshold.
+     * A Field Validator class to compare if some integer value passes some given threshold.
      * Used for validation purposes.
      */
     public static class IntegerFieldValidator implements FieldValidator<Integer, Integer> {

@@ -2,6 +2,7 @@ package Bank.Savings;
 import Account.Account;
 import Account.AccountLauncher;
 import Accounts.IllegalAccountType;
+import Accounts.Transaction.Transactions;
 import Bank.Bank;
 import Bank.BankLauncher;
 import Main.Main;
@@ -21,8 +22,8 @@ public class SavingsAccountLauncher extends AccountLauncher {
                 Main.showMenuHeader("Savings Account Menu");
                 Main.showMenu(51);
                 Main.setOption();
-
-                switch (Main.getOption()) {
+                int choice = Main.getOption();
+                switch (choice) {
                     case 1:
                         Main.showMenuHeader("Balance Statement");
                         System.out.println(getLoggedAccount().getAccountBalanceStatement());
@@ -80,7 +81,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
         if (depositSuccess) {
             System.out.println("Deposit successful!");
             System.out.println("Balance: " + savingsAccount.getBalance());
-            getLoggedAccount().addNewTransaction(getLoggedAccount().getACCOUNTNUMBER(), Transactions.Deposit, "A successful deposit.");
+            getLoggedAccount().addNewTransaction(getLoggedAccount().getAccountNumber(), Transactions.Deposit, "A successful deposit.");
         } else {
             System.out.println("Deposit failed. Please try again.");
         }
@@ -110,7 +111,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
             if (loggedAccount.getBalance() >= amount) {
                 if (loggedAccount.withdrawal(amount)) { 
                     System.out.println("Withdrawal successful");
-                    getLoggedAccount().addNewTransaction(getLoggedAccount().getACCOUNTNUMBER(), Transactions.Withdraw, "A successful withdraw.");
+                    getLoggedAccount().addNewTransaction(getLoggedAccount().getAccountNumber(), Transactions.Withdraw, "A successful withdraw.");
                 } else {
                     System.out.println("Withdrawal failed");
                 }
@@ -140,7 +141,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
         
                 SavingsAccount internalAccount = (SavingsAccount) loggedAccount.getBank().getBankAccount(loggedAccount.getBank(), internalAccNum);
                 if (loggedAccount.transfer(internalAccount, internalAmount)) {
-                    getLoggedAccount().addNewTransaction(getLoggedAccount().getACCOUNTNUMBER(), Transactions.FundTransfer, "A successful fund transfer.");
+                    getLoggedAccount().addNewTransaction(getLoggedAccount().getAccountNumber(), Transactions.FundTransfer, "A successful fund transfer.");
                 } else {
                     System.out.println("Transfer unsuccessful!");
                 }
@@ -155,7 +156,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
                     if (bank.getID() == externalBankID) {
                         Account externalAccount = bank.getBankAccount(bank, externalAccNum);
                         if (loggedAccount.transfer(bank, externalAccount, externalAmount)) {
-                            getLoggedAccount().addNewTransaction(getLoggedAccount().getACCOUNTNUMBER(), Transactions.FundTransfer, "A successful fund transfer.");
+                            getLoggedAccount().addNewTransaction(getLoggedAccount().getAccountNumber(), Transactions.FundTransfer, "A successful fund transfer.");
                         } else {
                             System.out.println("Transfer unsuccessful!");
                         }

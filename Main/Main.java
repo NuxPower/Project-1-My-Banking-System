@@ -25,15 +25,17 @@ public class Main {
             showMenuHeader("Main Menu");
             showMenu(1);
             setOption();
+            int option = getOption();
             // Account Option
-            if(getOption() == 1) {
+            if(option == 1) {
                 // READ ME: Refer to this code block on how one should properly utilize showMenuHeader(), showMenu(),
                 // setOption(), and getOption() methods...
                 showMenuHeader("Account Login Menu");
                 showMenu(2, 1);
                 setOption();
                 // TODO: Complete this portion
-                if (getOption() == 1) 
+                int opt = getOption();
+                if (opt == 1) 
                 {
                     try {
                         AccountLauncher.accountLogin();
@@ -41,7 +43,7 @@ public class Main {
                         System.out.println(e.getMessage());
                     }
                 }
-                else if (getOption() == 2) 
+                else if (opt == 2) 
                 {
                     continue;
                 }
@@ -51,7 +53,7 @@ public class Main {
                 }
             }
             // Bank Option
-            else if(getOption() == 2) {
+            else if(option == 2) {
                 // TODO: Complete Bank option
                 showMenuHeader("Bank Login Menu");
                 showMenu(3, 1);
@@ -70,11 +72,11 @@ public class Main {
                 }
             }
             // Create New Bank
-            else if(getOption() == 3) {
+            else if(option == 3) {
                 // TODO: Complete this portion...
                 BankLauncher.createNewBank();
             }
-            else if(getOption() == 4) {
+            else if(option == 4) {
                 System.out.println("Exiting. Thank you for banking!");
                 break;
             }

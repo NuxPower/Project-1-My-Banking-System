@@ -56,7 +56,8 @@ public class BankLauncher {
         Main.showMenuHeader("Bank Accounts");
         Main.showMenu(32,1);
         Main.setOption();
-        switch (Main.getOption()) {
+        int newChoice = Main.getOption();
+        switch (newChoice) {
             case 1:
                 getLoggedBank().showAccounts(CreditAccount.class);
                 break;

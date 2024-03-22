@@ -4,6 +4,7 @@ package Bank.Credit;
 import Account.Account;
 import Account.AccountLauncher;
 import Accounts.IllegalAccountType;
+import Accounts.Transaction.Transactions;
 import Main.Main;
 
 public class CreditAccountLauncher extends AccountLauncher {
@@ -13,8 +14,8 @@ public class CreditAccountLauncher extends AccountLauncher {
                 Main.showMenuHeader("Credit Account Menu");
                 Main.showMenu(41);
                 Main.setOption();
-    
-                switch (Main.getOption()) {
+                int opti = Main.getOption();
+                switch (opti) {
                     case 1:
                         Main.showMenuHeader("Loan Statement");
                         System.out.println(getLoggedAccount().getLoanStatement());
@@ -49,7 +50,7 @@ public class CreditAccountLauncher extends AccountLauncher {
 
         Account account = getAssocBank().getBankAccount(getAssocBank(), accNum);
         if (getLoggedAccount().pay(account, amount)) {
-            getLoggedAccount().addNewTransaction(getLoggedAccount().getACCOUNTNUMBER(), Transactions.Payment, "A successful payment.");
+            getLoggedAccount().addNewTransaction(getLoggedAccount().getAccountNumber(), Transactions.Payment, "A successful payment.");
         } else {
             System.out.println("Payment unsuccessful!");
         }
@@ -80,7 +81,7 @@ public class CreditAccountLauncher extends AccountLauncher {
         boolean success = loggedAccount.recompense(amountToRecompense);
         if (success) {
             System.out.println("Recompense successful!");
-            getLoggedAccount().addNewTransaction(getLoggedAccount().getACCOUNTNUMBER(), Transactions.Recompense, "A successful recompense.");
+            getLoggedAccount().addNewTransaction(getLoggedAccount().getAccountNumber(), Transactions.Recompense, "A successful recompense.");
         } else {
             System.out.println("Recompense failed! The entered amount exceeds the credit limit!");
         }
