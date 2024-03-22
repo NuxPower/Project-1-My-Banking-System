@@ -37,28 +37,32 @@ public class AccountLauncher {
      */
     public static void accountLogin() throws IllegalAccountType {
         Main.showMenuHeader("Account Login");
-        assocBank = selectBank();
-        if (assocBank == null) {
-            System.out.println("Invalid bank selection.");
-            return;
-        }
-        
-        String accountNumber = Main.prompt("Please enter your account number: ", true);
-        String pin = Main.prompt("Please enter your PIN: ", true);
-        
-        loggedAccount = checkCredentials(accountNumber, pin);
-        
-        if (loggedAccount != null) {
-            System.out.println("Successfully logged in!");
-            setLogSession(loggedAccount);
+        if (isLoggedIn()) {
+            destroyLogSession();
         }
 
-        if (loggedAccount instanceof CreditAccount) {
-            CreditAccountLauncher.creditAccountInit();
-            destroyLogSession();
-        } else if (loggedAccount instanceof SavingsAccount) {
-            SavingsAccountLauncher.savingsAccountInit();
-            destroyLogSession();
+        while (assocBank == null) {
+            System.out.println("Select a bank first");
+            assocBank = selectBank();
+            if (assocBank == null) {
+                System.out.println("Invalid bank selection. Please try again.");
+            }
+        }
+
+        Main.showMenuHeader("Account Login");
+        String accountNum = Main.prompt("Enter account number: ", true);
+        String pin = Main.prompt("Enter  PIN: ", true);
+
+        loggedAccount = checkCredentials(accountNum, pin);
+        if (loggedAccount != null) {
+            System.out.println("Login successful.");
+            setLogSession(loggedAccount);
+            if (loggedAccount.getClass() == SavingsAccount.class) {
+                SavingsAccountLauncher.savingsAccountInit();
+            }
+            else if (loggedAccount.getClass() == CreditAccount.class) {
+                CreditAccountLauncher.creditAccountInit();
+            }
         }
     }
     
@@ -105,6 +109,7 @@ public class AccountLauncher {
             System.out.println("Destroying log session for account: " + loggedAccount.getAccountNumber());
             // Reset the loggedAccount to null
             loggedAccount = null;
+            assocBank = null;
             // Print a message indicating the successful destruction of the log session
             System.out.println("Log session destroyed.");
         } 
