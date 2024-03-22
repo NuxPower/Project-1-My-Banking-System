@@ -95,7 +95,6 @@ public class CreditAccount extends Account implements Payment, Recompense {
         if (canCredit(amount)) {
             double newBalance = getLoan() + amount;
             setLoan(newBalance);
-            addNewTransaction(getAccountNumber(), Transaction.Transactions.Recompense, "Recompense of $" + amount);
             return true;
         } else {
             return false;
@@ -123,7 +122,6 @@ public class CreditAccount extends Account implements Payment, Recompense {
         
         adjustAmount(amount);
         ((SavingsAccount) account).cashDeposit(amount);
-        this.addNewTransaction(this.getAccountNumber(), Transactions.Payment, "A successful payment.");
         return true;
     }
 }
