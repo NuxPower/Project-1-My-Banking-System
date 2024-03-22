@@ -8,37 +8,36 @@ import Main.Main;
 
 public class CreditAccountLauncher extends AccountLauncher {
     public static void creditAccountInit() throws IllegalAccountType {
-        CreditAccount creditAccount = getLoggedAccount();
-        if (creditAccount != null) {
-            creditAccount.getLoanStatement();
-        } else {
-            System.out.println("No credit account logged in.");
-            return;
-        }
-        Main.showMenuHeader("Credit Account Menu");
-        Main.showMenu(41);
-        Main.setOption();
-
-        switch (Main.getOption()) {
-            case 1:
-                getLoggedAccount().getLoanStatement();
-                break;
-            case 2:
-                creditPaymentProcess();
-                break;
-            case 3:
-                creditRecompenseProcess();
-                break;
-            case 4:
-                getLoggedAccount().getTransactionsInfo();
-            case 5:
-                break;
-            default:
-                System.out.println("Invalid option");
-                break;
+        while (true) {
+            try {
+                Main.showMenuHeader("Credit Account Menu");
+                Main.showMenu(41);
+                Main.setOption();
+    
+                switch (Main.getOption()) {
+                    case 1:
+                        Main.showMenuHeader("Loan Statement");
+                        System.out.println(getLoggedAccount().getLoanStatement());
+                        continue;
+                    case 2:
+                        creditPaymentProcess();
+                        continue;
+                    case 3:
+                        creditRecompenseProcess();
+                        continue;
+                    case 4:
+                        System.out.println(getLoggedAccount().getTransactionsInfo());
+                        continue;
+                    case 5:
+                        return;
+                    default:
+                        System.out.println("Invalid option");
+                }
+            } catch (IllegalAccountType err) {
+                System.out.println(err.getMessage());
+            }
         }
     }
-
     /**
      * Method that is utilized to process the credit payment transaction
      * 
@@ -49,9 +48,13 @@ public class CreditAccountLauncher extends AccountLauncher {
         double amount = Double.parseDouble(Main.prompt("Amount: ", true));
 
         Account account = getAssocBank().getBankAccount(getAssocBank(), accNum);
-        getLoggedAccount().pay(account, amount);
+        if (getLoggedAccount().pay(account, amount)) {
+            getLoggedAccount().addNewTransaction(getLoggedAccount().getACCOUNTNUMBER(), Transactions.Payment, "A successful payment.");
+        } else {
+            System.out.println("Payment unsuccessful!");
+        }
     }
-
+    
     private static void creditRecompenseProcess() {
         CreditAccount loggedAccount = getLoggedAccount();
         if (loggedAccount == null) {
@@ -77,6 +80,7 @@ public class CreditAccountLauncher extends AccountLauncher {
         boolean success = loggedAccount.recompense(amountToRecompense);
         if (success) {
             System.out.println("Recompense successful!");
+            getLoggedAccount().addNewTransaction(getLoggedAccount().getACCOUNTNUMBER(), Transactions.Recompense, "A successful recompense.");
         } else {
             System.out.println("Recompense failed! The entered amount exceeds the credit limit!");
         }
